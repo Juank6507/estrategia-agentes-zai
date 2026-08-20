@@ -1,11 +1,8 @@
 # ENTORNO DE TRABAJO
 
 ## Proyectos: Este archivo corresponde al proyecto APA que consiste en dos aplicaciones (apa y model_broker) y en dependencia del proyecto se toma la rama correspondiente.
-## Agentes de desarrollo: Cada proyecto consta de su agente de desarrollo Z.ai (agente APA y agente MB)
-## Espacios: Cada agente tiene que usar su rama, para el agente APA (desarrollo de apa) y para agente MB (desarrollo de model_broker) los espacios son los siguientes:
-https://github.com/Juank6507/APA/tree/APA/apa/apa
-https://github.com/Juank6507/APA/tree/APA/model_broker/model_broker
 
+## Espacios: 
 
 | Espacio | Ubicación | Plataforma |
 |---|---|---|
@@ -24,10 +21,10 @@ https://github.com/Juank6507/APA/tree/APA/model_broker/model_broker
 
 ## Repositorio del proyecto
 
-- **URL:** `https://github.com/Juank6507/APA.git`
-- **Para el agente APA-Proyecto APA-Rama ** `main`
-- **Clonado en:** `/home/z/my-project/APA_repo/` (o la ruta que indique el Director)
-- Actualizar con `git pull` antes de trabajar si es necesario
+- **Agentes de desarrollo:** Cada proyecto consta de su agente de desarrollo Z.ai (agente APA y agente MB).
+- **Agentes del proyecto APA:** Cada agente tiene primero que identificarse según su worklog que usar su rama, para el agente APA (desarrollo de apa) y para agente MB (desarrollo de model_broker) los espacios son los siguientes:**
+    - https://github.com/Juank6507/APA/tree/APA/apa/apa
+    - https://github.com/Juank6507/APA/tree/APA/model_broker/model_broker
 - **El Director actualiza esta URL y rama al cambiar de proyecto**
 
 ## Reglas de entrega
