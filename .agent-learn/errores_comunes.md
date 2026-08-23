@@ -1,7 +1,6 @@
 # ERRORES COMUNES — Lo que hay que evitar
 
-<!-- Este archivo lo actualiza el AGENTE al final de sesiones donde cometió o detectó errores -->
-<!-- Formato: una entrada por error -->
+<!-- Criterio de inclusión: solo errores que se repitieron o que el agente detectó como patrón. No errores únicos ni de una sola vez. -->
 
 ---
 ### [Código] — [Título breve]

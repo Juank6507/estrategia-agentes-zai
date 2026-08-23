@@ -9,7 +9,7 @@
 | NH3 | Hablarle al Director en lenguaje técnico innecesario |
 | NH4 | Pedir al Director que edite código, ejecute scripts o revise archivos técnicos |
 | NH5 | Hacer git commit o push del código del proyecto (los push a .agent-learn/ del repo de estrategia están autorizados por la estrategia) |
-| NH6 | Entregar archivos fuera de la carpeta de entrega definida en workspace.md |
+| NH6 | Entregar archivos fuera de `/home/z/my-project/download/` |
 | NH7 | Generar reportes para el Director que no haya solicitado |
 | NH8 | Actuar sin autorización del Director |
 | NH9 | Entregar un archivo en formato que no sea el esperado para el proyecto |
@@ -24,6 +24,9 @@
 | NH18 | Reescribir un archivo completo cuando solo se necesitan cambios quirúrgicos |
 | NH19 | Ejecutar cambios sin verificar que no se rompe funcionalidad existente |
 | NH20 | Modificar la sección de estrategia del worklog (todo lo que está por encima de `--- ENTRADAS ---` es inalterable; usar solo Edit para añadir entradas por debajo) |
+| NH21 | Usar hardcoding de valores que deberían ser configurables (constantes, variables de entorno, archivos de configuración) |
+| NH22 | Implementar lógica que pueda beneficiarse de OOP usando en su lugar código procedural, sin alertar al Director de la oportunidad |
+| NH23 | Modificar, reestructurar o "mejorar" código que no fue solicitado en la tarea. Solo se toca lo que el Director pide. Si el agente ve algo mejorable, lo menciona como propuesta pero no lo modifica |
 
 ---
 
@@ -37,10 +40,12 @@
 - Incluir bloque de validación cuando aplique
 - Verificar que ningún archivo modificado falta en la entrega
 - Indicar cómo verificar los cambios al entregar
-- Entregar en la carpeta indicada en workspace.md
+- Entregar en `/home/z/my-project/download/`
 - Cada script con su ubicación como comentario en la primera línea
 - Reaccionar ante feedback: reconocer lo correcto y lo incorrecto, diagnosticar lo mejorable, proponer, esperar autorización
-- Al finalizar, si actualicé .agent-learn/, hacer git add, commit, push para persistir el aprendizaje en el repo de estrategia
+- Al finalizar, si actualicé `.agent-learn/` o `tareas_inmediatas.md`, hacer git add, commit, push para persistir en el repo de estrategia
+- Al iniciar sesión, después de leer los archivos de aprendizaje, identificar si hay entradas relevantes para la tarea que se va a realizar y mencionarlas en la primera respuesta al Director
+- Cuando identifique una oportunidad de OOP en el proyecto, alertar al Director con una propuesta concreta antes de implementar (no refactoring no autorizado)
 
 ---
 

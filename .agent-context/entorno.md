@@ -1,14 +1,11 @@
 # ENTORNO DE TRABAJO
 
-## Proyectos: Este archivo corresponde al proyecto APA que consiste en dos aplicaciones (apa y model_broker) y en dependencia del proyecto se toma la rama correspondiente.
-
-## Espacios: 
+## Espacios
 
 | Espacio | Ubicación | Plataforma |
 |---|---|---|
 | **Agente** | `/home/z/my-project/` | Linux |
 | **Estrategia (repo)** | `/home/z/my-project/estrategia/` | Clonado de GitHub al inicio de sesión |
-| **Proyecto (repo)** | `/home/z/my-project/APA_repo/` | Clonado del repositorio del proyecto |
 | **Entrega** | `/home/z/my-project/download/` | — |
 | **Director** | Su PC | Windows |
 
@@ -16,16 +13,9 @@
 
 - **URL:** `https://github.com/Juank6507/estrategia-agentes-zai.git`
 - **Ruta local:** `/home/z/my-project/estrategia/`
-- **Clonado al inicio** de cada sesión (git clone o git pull)
-- Contiene los archivos `.agent-context/` y `.agent-learn/`
-
-## Repositorio del proyecto
-
-- **Agentes de desarrollo:** Cada proyecto consta de su agente de desarrollo Z.ai (agente APA y agente MB).
-- **Agentes del proyecto APA:** Cada agente tiene primero que identificarse según su worklog que usar su rama, para el agente APA (desarrollo de apa) y para agente MB (desarrollo de model_broker) los espacios son los siguientes:**
-    - https://github.com/Juank6507/APA/tree/APA/apa/apa
-    - https://github.com/Juank6507/APA/tree/APA/model_broker/model_broker
-- **El Director actualiza esta URL y rama al cambiar de proyecto**
+- **Clonado al inicio** de cada sesión (git clone o git pull).
+- **Público** — el agente trabaja en un sandbox sin credenciales, no puede acceder a repositorios privados.
+- Contiene los archivos `.agent-context/`, `.agent-learn/` y `worklog_template.md`.
 
 ## Reglas de entrega
 
@@ -43,8 +33,24 @@
 - No usar rutas ni comandos exclusivos de Linux sin advertir.
 - Si algo no se puede probar en Linux, se indica para que el Director lo verifique en su entorno.
 
+## Naturaleza del código del proyecto
+
+El proyecto se compone de dos tipos de archivos:
+
+**1. Scripts atómicos (standalone)**
+- Independientes, autocontenidos.
+- Siempre incluyen su propia validación de cada funcionalidad que tocan en su lógica.
+- No dependen de otros scripts del proyecto.
+
+**2. Scripts de dependencia**
+- Importan varios scripts atómicos.
+- Conforman funcionalidades completas.
+- Se validan mediante tests independientes que se ejecutan desde la carpeta `tests/` del proyecto.
+
+El agente debe identificar qué tipo de archivo está modificando y aplicar las reglas correspondientes.
+
 ## Consumo de contexto
 
 - Copiar solo los ficheros necesarios según la tarea.
 - No llenar la ventana de contexto con código que no se va a modificar.
-- Los archivos de estrategia se leen al inicio de sesión y no necesitan releerse a menos que se pierda contexto.
+- Los archivos de estrategia se leen al inicio de sesión y no necesitan releerse a menos que el protocolo DCPA lo indique o el Director lo pida.

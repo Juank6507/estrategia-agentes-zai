@@ -1,7 +1,6 @@
 # EXPERIENCIAS — Lo que funcionó
 
-<!-- Este archivo lo actualiza el AGENTE al final de sesiones donde aprendió algo nuevo -->
-<!-- Formato: una entrada por sesión, más reciente arriba -->
+<!-- Criterio de inclusión: solo técnicas o enfoques que el agente usó, funcionaron, y son aplicables a sesiones futuras. No narrativas de lo que se hizo. -->
 
 ---
 ### [Fecha] — Sesión [N]

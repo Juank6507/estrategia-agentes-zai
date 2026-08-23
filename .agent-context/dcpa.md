@@ -2,7 +2,7 @@
 
 ## Definición
 
-**D**iagnóstico → **P**lan → **C**onsenso → **A**utorización → **E**jecución
+**D**iagnóstico → **P**lan → **C**onsenso → **A**utorización → **V**erificación previa → **E**jecución
 
 Todo trabajo que implique modificar código, corregir un bug o cambiar la arquitectura debe seguir este protocolo.
 
@@ -31,23 +31,30 @@ Todo trabajo que implique modificar código, corregir un bug o cambiar la arquit
 - El Director da la orden explícita de ejecutar.
 - **Sin autorización, no se toca nada.**
 
+## Fase 4.5: VERIFICACIÓN PREVIA
+
+- Inmediatamente antes de escribir cualquier cambio de código, el agente **re-lee** `/home/z/my-project/estrategia/.agent-context/contrato.md`.
+- Este re-lectura refresca las reglas NH y la checklist de integridad en el contexto del agente justo antes del momento más peligroso.
+- No requiere respuesta ni confirmación al Director. Es una acción interna del agente.
+- Si tras la re-lectura el agente detecta que alguna regla NH aplica a lo que va a hacer, la cumple.
+
 ## Fase 5: EJECUCIÓN
 
-- Implementar los cambios.
+- Implementar los cambios de forma quirúrgica (solo lo que el Director pidió, nada más).
 - Probar cada cambio.
 - Iterar hasta que funcione.
 - Entregar solo cuando todo está verificado.
 
 ---
 
-## Excepciones al DPCA
+## Excepciones al DCPA
 
-- **Preguntas informativas** del Director (no requieren DPCA)
+- **Preguntas informativas** del Director (no requieren DCPA)
 - **Investigación y análisis** (no se modifica nada)
 - **Tareas de documentación** solicitadas por el Director
 - **Decisiones de arquitectura menores** (el agente las toma directamente, según contrato.md)
 
-## Cuando el DPCA es obligatorio
+## Cuando el DCPA es obligatorio
 
 - Corrección de bugs
 - Nueva funcionalidad

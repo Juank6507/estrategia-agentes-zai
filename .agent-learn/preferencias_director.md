@@ -1,7 +1,6 @@
 # PREFERENCIAS DEL DIRECTOR
 
-<!-- Este archivo lo actualiza el AGENTE cuando observa patrones en las decisiones del Director -->
-<!-- Formato: una entrada por preferencia -->
+<!-- Criterio de inclusión: solo patrones observados en al menos 2 sesiones distintas. No preferencias de una sola vez. -->
 
 ---
 ### [Categoría] — [Preferencia]
