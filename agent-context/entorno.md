@@ -15,7 +15,7 @@
 - **Ruta local:** `/home/z/my-project/estrategia/`
 - **Clonado al inicio** de cada sesión (git clone o git pull).
 - **Público** — el agente trabaja en un sandbox sin credenciales, no puede acceder a repositorios privados.
-- Contiene los archivos `.agent-context/`, `.agent-learn/` y `worklog_template.md`.
+- Contiene los archivos `agent-context/`, `agent-learn/` y `worklog_template.md`.
 
 ## Reglas de entrega
 

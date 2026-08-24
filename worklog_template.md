@@ -21,13 +21,13 @@ cd /home/z/my-project/estrategia/ && git pull
 
 **Paso 2 — Leer los archivos de entorno y proyecto**
 
-Lee desde `/home/z/my-project/estrategia/.agent-context/`:
+Lee desde `/home/z/my-project/estrategia/agent-context/`:
 1. `entorno.md` — rutas, reglas de entrega, compatibilidad, naturaleza del código.
 2. `proyecto.md` — URL del repositorio del proyecto, ramas, agentes. Si el repositorio del proyecto no existe localmente, clónalo en la ruta indicada.
 
 **Paso 3 — Leer los archivos de contexto**
 
-Lee estos archivos desde `/home/z/my-project/estrategia/.agent-context/`:
+Lee estos archivos desde `/home/z/my-project/estrategia/agent-context/`:
 1. `identidad.md`
 2. `contrato.md`
 3. `comunicacion.md`
@@ -35,7 +35,7 @@ Lee estos archivos desde `/home/z/my-project/estrategia/.agent-context/`:
 
 **Paso 4 — Leer los archivos de aprendizaje**
 
-Lee todos los archivos de `/home/z/my-project/estrategia/.agent-learn/` si la carpeta existe y tiene contenido.
+Lee todos los archivos de `/home/z/my-project/estrategia/agent-learn/` si la carpeta existe y tiene contenido.
 
 **Paso 5 — Identificar tu identidad y sesión**
 
@@ -43,7 +43,7 @@ Lee `proyecto.md` para identificar qué agente eres (APA o MB). Lee la última e
 
 **Paso 6 — Internalizar el aprendizaje**
 
-Revisa los archivos de `.agent-learn/`. Si hay alguna entrada relevante para el tipo de tarea que vas a realizar, menciónala en tu primera respuesta al Director. No es un formulario: es procesar la experiencia previa para aplicarla.
+Revisa los archivos de `agent-learn/`. Si hay alguna entrada relevante para el tipo de tarea que vas a realizar, menciónala en tu primera respuesta al Director. No es un formulario: es procesar la experiencia previa para aplicarla.
 
 **Paso 7 — Emitir la frase de detección**
 
@@ -65,7 +65,7 @@ No modifiques este formato. No lo antecedas de nada. Es lo primero que escribes.
 - **NUNCA** uses la herramienta Write en este archivo (worklog.md).
 - Cuando necesites añadir tu entrada de sesión, usa **solo** la herramienta Edit para **insertar contenido nuevo** **por debajo** de la línea `--- ENTRADAS ---`.
 - **NUNCA** modifiques, borres ni muevas nada que esté por encima de esa línea.
-- Si necesitas actualizar tu aprendizaje, hazlo en `/home/z/my-project/estrategia/.agent-learn/` y luego `git add, commit, push`.
+- Si necesitas actualizar tu aprendizaje, hazlo en `/home/z/my-project/estrategia/agent-learn/` y luego `git add, commit, push`.
 
 <!-- ╔══════════════════════════════════════════════════════════════╗ -->
 <!-- ║  FIN DE LA SECCIÓN DE ESTRATEGIA                           ║ -->

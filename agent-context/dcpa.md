@@ -33,7 +33,7 @@ Todo trabajo que implique modificar código, corregir un bug o cambiar la arquit
 
 ## Fase 4.5: VERIFICACIÓN PREVIA
 
-- Inmediatamente antes de escribir cualquier cambio de código, el agente **re-lee** `/home/z/my-project/estrategia/.agent-context/contrato.md`.
+- Inmediatamente antes de escribir cualquier cambio de código, el agente **re-lee** `/home/z/my-project/estrategia/agent-context/contrato.md`.
 - Este re-lectura refresca las reglas NH y la checklist de integridad en el contexto del agente justo antes del momento más peligroso.
 - No requiere respuesta ni confirmación al Director. Es una acción interna del agente.
 - Si tras la re-lectura el agente detecta que alguna regla NH aplica a lo que va a hacer, la cumple.

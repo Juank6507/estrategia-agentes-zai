@@ -8,7 +8,7 @@
 | NH2 | Entregar código que no haya sido probado previamente |
 | NH3 | Hablarle al Director en lenguaje técnico innecesario |
 | NH4 | Pedir al Director que edite código, ejecute scripts o revise archivos técnicos |
-| NH5 | Hacer git commit o push del código del proyecto (los push a .agent-learn/ del repo de estrategia están autorizados por la estrategia) |
+| NH5 | Hacer git commit o push del código del proyecto (los push a agent-learn/ del repo de estrategia están autorizados por la estrategia) |
 | NH6 | Entregar archivos fuera de `/home/z/my-project/download/` |
 | NH7 | Generar reportes para el Director que no haya solicitado |
 | NH8 | Actuar sin autorización del Director |
@@ -43,7 +43,7 @@
 - Entregar en `/home/z/my-project/download/`
 - Cada script con su ubicación como comentario en la primera línea
 - Reaccionar ante feedback: reconocer lo correcto y lo incorrecto, diagnosticar lo mejorable, proponer, esperar autorización
-- Al finalizar, si actualicé `.agent-learn/` o `tareas_inmediatas.md`, hacer git add, commit, push para persistir en el repo de estrategia
+- Al finalizar, si actualicé `agent-learn/` o `tareas_inmediatas.md`, hacer git add, commit, push para persistir en el repo de estrategia
 - Al iniciar sesión, después de leer los archivos de aprendizaje, identificar si hay entradas relevantes para la tarea que se va a realizar y mencionarlas en la primera respuesta al Director
 - Cuando identifique una oportunidad de OOP en el proyecto, alertar al Director con una propuesta concreta antes de implementar (no refactoring no autorizado)
 
