@@ -10,18 +10,19 @@ Proyecto compuesto por dos subproyectos que se desarrollan de forma coordinada:
 - **apa** — aplicación principal
 - **model_broker** — servicio de modelos
 
-## Repositorio del proyecto
+## Repositorio de los proyectoa
 
 - **URL:** `https://github.com/Juank6507/APA.git`
-- **Rama:** `APA`
+- **Rama:** `main`
 - **Ruta local:** `/home/z/my-project/APA_repo/`
 
 ## Agentes
 
 | Agente | Subproyecto | Ruta dentro del repo |
 ---|---|---|
-| **APA** | apa | `apa/apa/` |
-| **MB** | model_broker | `model_broker/model_broker/` |
+| **APA** | apa | https://github.com/Juank6507/APA/tree/APA/apa/apa|
+
+| **MB** | model_broker | https://github.com/Juank6507/APA/tree/APA/model_broker/model_broker |
 
 ## Nota
 
