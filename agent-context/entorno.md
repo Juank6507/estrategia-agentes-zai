@@ -4,7 +4,7 @@
 
 | Espacio | Ubicación | Plataforma |
 |---|---|---|
-| **Agente** | `/home/z/my-project/` | Linux |
+| **Agente** (sandbox Z.ai) | `/home/z/my-project/` | Linux |
 | **Estrategia (repo)** | `/home/z/my-project/estrategia/` | Clonado de GitHub al inicio de sesión |
 | **Entrega** | `/home/z/my-project/download/` | — |
 | **Director** | Su PC | Windows |
@@ -17,38 +17,25 @@
 - **Público** — el agente trabaja en un sandbox sin credenciales, no puede acceder a repositorios privados.
 - Contiene los archivos `agent-context/`, `agent-learn/` y `worklog_template.md`.
 
-## Tarea inicial: configurar el proxy LLM
+## Tarea inicial: verificar el proxy LLM
 
-Al inicio de cada sesión, el agente **debe** ejecutar y comprobar la cadena proxy LLM. Esta es la base sobre la que opera APA.
+El agente está dentro de un sandbox Z.ai que ya tiene un proyecto Next.js corriendo en el puerto 3000. Ese proyecto expone rutas en `/api/zai-proxy/` que actúan como proxy hacia el LLM de Z.ai. APA necesita este proxy para funcionar.
 
 **Pasos:**
 
-1. **Ejecutar `setup-proxy.sh`** para regenerar los 9 archivos del proxy en el sandbox:
+1. **Regenerar los archivos del proxy** (por si algo cambió en la sesión):
    ```
    bash /home/z/my-project/setup-proxy.sh
    ```
-2. **Comprobar que existen** los 9 archivos proxy:
-   - `src/app/api/zai-proxy/_lib.ts`
-   - `src/app/api/zai-proxy/v1/chat/completions/route.ts`
-   - `src/app/api/zai-proxy/v1/chat/completions/stream/route.ts`
-   - `src/app/api/zai-proxy/v1/chat/vision/route.ts`
-   - `src/app/api/zai-proxy/v1/audio/tts/route.ts`
-   - `src/app/api/zai-proxy/v1/audio/asr/route.ts`
-   - `src/app/api/zai-proxy/v1/images/generations/route.ts`
-   - `src/app/api/zai-proxy/v1/async-result/route.ts`
-   - `src/app/api/zai-proxy/v1/functions/invoke/route.ts`
-3. **Ejecutar el test de comprobación** del proxy:
+2. **Comprobar que el proxy responde:**
    ```
    curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/api/zai-proxy/v1/chat/completions
    ```
-   - Si devuelve `405` (Method Not Allowed) → el proxy está levantado y responde.
-   - Si devuelve `000` o timeout → el proxy no está operativo.
-4. **Si el test falla**, leer la documentación de referencia para diagnosticar:
-   - **Ruta:** `/home/z/my-project/estrategia/agent-context/proxy-llm-setup.md`
-   - Revisar los puntos de fallo documentados (`.z-ai-config`, encoding, chatId, rutas estáticas, etc.).
-   - Corregir y re-ejecutar el test.
+   - `405` → correcto (la ruta existe y rechaza GET).
+   - `000` → el servidor no responde; informar al Director.
+3. **Si falla**, diagnosticar con: `/home/z/my-project/estrategia/agent-context/proxy-llm-setup.md`
 
-> **Nota:** Esta tarea es un prerrequisito. No proseguir con otras tareas del Director hasta que el proxy esté operativo.
+> **Nota:** Esta tarea es un prerrequisito. No proseguir hasta que el proxy esté operativo.
 
 ## Reglas de entrega
 
