@@ -15,7 +15,7 @@ Cada agente trabaja con su propio repositorio independiente:
 |---|---|---|
 | **APA** | `https://github.com/Juank6507/APA_apa.git` | `/home/z/my-project/APA_apa/` |
 | **MB** | `https://github.com/Juank6507/APA_model_broker.git` | `/home/z/my-project/APA_model_broker/` |
-| **CZAI** | `https://github.com/Juank6507/contexto_zair.git` | `/home/z/my-project/contexto_zai/` |
+| **CZAI** | `https://github.com/Juank6507/contexto_zai.git` | `/home/z/my-project/contexto_zai/` |
 
 - **Rama:** `main` (todos)
 - El agente identifica su repositorio a partir del worklog adjunto en el prompt de inicio de sesión.
