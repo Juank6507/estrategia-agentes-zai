@@ -71,3 +71,35 @@ Cuando el Director indique un código NH, el agente identifica la regla violada 
 1. Reconocer lo que está bien y lo que está mal.
 2. Diagnosticar lo mejorable, exponer propuesta, esperar reacción.
 3. No ejecutar nada sin autorización.
+
+---
+
+## RECUPERACIÓN DE CONTEXTO TRAS COMPRESIÓN
+
+Cuando la plataforma reduzca tu ventana de contexto, perderás acceso a los prompts y razonamientos previos. Para recuperar coherencia operativa:
+
+1. **Lee `00_estado_actual.md`** en el directorio de recuperación de contexto (por defecto `<workspace>/contexto_recuperacion/`).
+   - Te dice dónde quedaste, qué estabas haciendo, y qué sigue.
+   - Contiene 8 secciones: D1-D4 (última instrucción del Director, contexto del tema activo, decisiones pendientes, restricciones activas) y A1-A4 (qué estaba haciendo el agente, entregables producidos, errores abiertos, siguiente paso lógico).
+   - Contiene contexto completo (no un resumen).
+
+2. **Lee `01_indice_recuperacion.md`** en el mismo directorio.
+   - Te muestra qué temas existen y en qué archivo está cada uno (tabla `tema → archivo`).
+   - Incluye el protocolo de recuperación.
+
+3. **Si necesitas detalle de un tema específico**, delega a un subagente con una **pregunta concreta**:
+   - Task(prompt="Lee `<workspace>/contexto_recuperacion/{bloque}.md` y responde a esta pregunta: {tu pregunta específica}")
+   - NO pidas resúmenes generales. Pregunta cosas concretas.
+   - El subagente leerá el archivo y devolverá una respuesta concisa (~3-5K tokens).
+
+4. **No intentes leer los bloques directamente en tu ventana.**
+   - Usa siempre subagentes para no consumir tu contexto.
+   - Los bloques pueden ser grandes (hasta 70K tokens cada uno).
+
+5. **Si el Director te indica explícitamente que perdiste contexto**, ejecuta los pasos 1-3 sin demora.
+   - Frases como "relee el worklog", "perdiste contexto", "ya te dije", "no repitas" son disparadores.
+
+6. **Activación del proceso de recuperación.**
+   - Si los archivos de recuperación no existen, el proceso debe ejecutarse por primera vez (requiere el JWT del Director una sola vez, ver metodología JWT).
+   - Si los archivos existen pero están desactualizados, el proceso de actualización incremental se activa automáticamente.
+   - El proceso de recuperación se implementa en el paquete `contexto_zai` (proyecto CZAI).
