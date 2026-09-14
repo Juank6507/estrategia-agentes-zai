@@ -27,7 +27,7 @@ Lee desde `/home/z/my-project/estrategia/agent-context/`:
 
 **Paso 2a — Cargar el proceso contexto_zai (CZAI)**
 
-El proceso de recuperación de contexto es la herramienta del agente. Debe estar cargado antes de continuar. Sigue estos pasos:
+El proceso contexto_zai es una herramienta de trabajo que te ayuda a recuperar y ampliar contexto. Debe estar cargado al inicio de cada sesión. Sigue estos pasos:
 
 1. **Verifica si el proceso ya está cargado:**
    ```bash
@@ -43,27 +43,25 @@ El proceso de recuperación de contexto es la herramienta del agente. Debe estar
    cd /home/z/my-project/contexto_zai/ && git pull
    ```
 
-3. **Verifica que el sandbox tenga los endpoints CZAI** (la página `/` con el bridge del JWT):
+3. **Verifica que el sandbox tenga los endpoints CZAI:**
    ```bash
    curl -s http://localhost:3000/api/czai/jwt-status | python3 -c "import sys,json; print(json.load(sys.stdin).get('needs_jwt', 'sin respuesta'))"
    ```
-   - Si responde `true` o `false`: el sandbox ya tiene los endpoints CZAI. Continúa al Paso 2b.
-   - Si no responde o da error: el sandbox no tiene los endpoints. Ejecuta el setup:
+   - Si responde `true` o `false`: el sandbox ya tiene los endpoints. Continúa al Paso 2b.
+   - Si no responde o da error: ejecuta el setup:
      ```bash
      bash /home/z/my-project/contexto_zai/setup-czai.sh
      ```
-     Esto crea los endpoints, el componente y la página en el sandbox Next.js.
 
 4. **Verifica que el dev server esté corriendo** (puerto 3000):
    ```bash
    curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/
    ```
-   - `200` → correcto.
-   - Si no responde, revisa `/home/z/my-project/dev.log` y reinicia si es necesario.
+   - `200` → correcto. Si no responde, revisa `/home/z/my-project/dev.log`.
 
-**Paso 2b — Obtener el JWT del Director (v4.2)**
+**Paso 2b — Obtener el JWT del Director**
 
-El agente necesita el JWT del Director para acceder a la API de Z.ai. Sigue estos pasos:
+El agente necesita el JWT del Director para acceder a la API de Z.ai. **Sin el JWT, el proceso contexto_zai no puede extraer mensajes del chat ni recuperar contexto.** El JWT se obtiene una sola vez en la vida del proyecto (no expira).
 
 1. **Verifica si ya hay JWT disponible:**
    ```python
@@ -77,10 +75,8 @@ El agente necesita el JWT del Director para acceder a la API de Z.ai. Sigue esto
 
 2. **Si no hay JWT, pídele al Director que instale el bookmarklet y lo ejecute:**
    - Dile al Director: "Necesito conectar tu sesión de Z.ai con este sandbox. Ve a la página del sandbox (la que se abre en el Preview Panel), descarga el instalador (.bat), haz doble clic, y luego haz clic en el favorito 'Conectar CZAI' desde cualquier chat de chat.z.ai."
-   - El Director descarga `czai-installer.bat` del sandbox.
-   - El Director hace doble clic en el .bat. El instalador agrega el favorito "Conectar CZAI" en su navegador.
-   - El Director va a chat.z.ai, abre cualquier chat, y hace clic en el favorito "Conectar CZAI".
-   - El bookmarklet lee la sesión del Director y envía el JWT al sandbox. El sandbox lo guarda en `~/.czai/credentials.json`.
+   - El Director descarga `czai-installer.bat` del sandbox, hace doble clic, va a chat.z.ai, y hace clic en el favorito "Conectar CZAI".
+   - El bookmarklet envía el JWT al sandbox, que lo guarda en `~/.czai/credentials.json`.
 
 3. **Verifica que el JWT llegó:**
    ```python
@@ -93,44 +89,38 @@ El agente necesita el JWT del Director para acceder a la API de Z.ai. Sigue esto
        print("JWT no disponible todavía. Pídele al Director que ejecute el bookmarklet.")
    ```
 
-4. **Cuando el JWT esté en `~/.czai/credentials.json`, continúa con el Paso 2c.** El JWT no expira, así que esto se hace una sola vez en la vida del proyecto.
+**IMPORTANTE: El proceso se carga en dos tiempos.**
+- **Tiempo 1 (Paso 2a):** Cargar el proceso (clonar, setup, endpoints). Esto se puede hacer sin el JWT.
+- **Tiempo 2 (Paso 2b):** Obtener el JWT (bookmarklet). Hasta que el JWT no esté en `~/.czai/credentials.json`, el proceso no puede recuperar contexto del chat. Si el JWT no está disponible, el agente puede continuar con los Pasos 3-7 pero **no podrá usar `pipeline.run()` ni `ampliar_contexto()` con URLs de Z.ai** hasta que el JWT llegue.
 
-**Paso 2c — Cómo usar el proceso (IMPORTANTE: no confundir las funciones)**
+**Paso 2c — Cuándo y cómo usar el proceso**
 
-El proceso contexto_zai tiene varias funciones. Es crítico que uses la correcta según lo que necesites:
+El proceso es tu herramienta de trabajo. Úsalo en estos casos:
 
-**1. `pipeline.run()` — Recuperar el contexto del chat de Z.ai**
-
-Esto extrae los mensajes del chat de Z.ai (usando el JWT del Director), los clasifica por temas, y genera los archivos de recuperación. Úsalo cuando:
-- Pierdes contexto (la plataforma comprimió tu ventana).
-- El Director dice "relee el worklog", "perdiste contexto", "ya te dije".
-- Necesitas saber dónde quedaste y qué sigue.
-
+**Si pierdes contexto** (la plataforma comprimió tu ventana, el Director dice "relee el worklog", "perdiste contexto", "ya te dije"):
 ```python
 from contexto_zai.pipeline import run
 from contexto_zai.models import DetectionTrigger
+from contexto_zai.client.credential_manager import CredentialManager
+
+jwt = CredentialManager().get_jwt()
 result = run(
     chat_id="<chat_id_del_gateway>",  # viene en los metadatos del gateway
-    jwt="<jwt_del_director>",          # está en ~/.czai/credentials.json
+    jwt=jwt,
     trigger=DetectionTrigger.EXPLICITO,
     reason="Recuperación de contexto",
 )
 # Si result.pending_tasks no está vacío, lanza los subagentes con el Task tool
-# usando los prompts de result.pending_tasks, y después llama a collect_responses().
+# y después llama a collect_responses():
 if result.pending_tasks:
     from contexto_zai.pipeline import collect_responses
-    # Lanzar subagentes con Task tool (uno por tarea, o en paralelo)
+    # Lanzar subagentes con Task tool usando los prompts de result.pending_tasks
     # Cada subagente escribe su respuesta en _responses/{task_id}.txt (o .json, o texto plano)
-    # Después:
     applied = collect_responses()
+# Lee 00_estado_actual.md, 01_indice_recuperacion.md, 02_decisiones_clave.md para retomar el hilo.
 ```
 
-**2. `ampliar_contexto()` — Ampliar el contexto desde una fuente externa**
-
-Esto procesa un documento o URL que el Director te entrega (un PDF, un archivo de texto, una URL pública) y lo incorpora al contexto como nuevos bloques. Úsalo cuando:
-- El Director te da un link o un archivo para que lo incorpores al contexto.
-- El Director dice "actualiza el contexto desde este documento" o "amplía el contexto desde aquí".
-
+**Si el Director te da un link o archivo para incorporar al contexto:**
 ```python
 from contexto_zai.pipeline import ampliar_contexto
 result = ampliar_contexto(
@@ -142,38 +132,22 @@ result = ampliar_contexto(
 # Si es grande: result["pending_tasks"] (lanzas subagentes y llamas collect_responses())
 ```
 
-**NOTAS IMPORTANTES:**
-- `pipeline.run()` extrae del **chat de Z.ai**. Necesita el `chat_id` y el JWT.
-- `ampliar_contexto()` procesa una **fuente externa** (URL o archivo). No necesita el chat_id.
-- **No las confundas.** Si el Director te da un link externo, usa `ampliar_contexto()`. Si perdiste contexto del chat, usa `pipeline.run()`.
-- Si el Director te da un Google Doc privado, `ampliar_contexto()` fallará con 401. Pídele que lo haga público (Compartir → Cualquiera con el enlace) o que lo descargue como archivo (.docx o .pdf) y lo suba al sandbox en `/home/z/my-project/upload/`. Después usa `ampliar_contexto(source_type="file", source_path="/home/z/my-project/upload/archivo")`.
-
-**3. `query_context()` — Consultar el contexto recuperado**
-
-Cuando ya tienes el contexto recuperado y necesitas detalle de un tema específico sin gastar tu ventana de contexto:
-
+**Si necesitas detalle de un tema específico sin gastar tu contexto:**
 ```python
 from contexto_zai.pipeline import query_context
 result = query_context(
-    question="¿Qué se decidió sobre JWT?",
+    question="¿Qué se decidió sobre X?",
     workspace_dir="/home/z/my-project/contexto_recuperacion",
 )
-# result["prompts"] contiene los prompts para lanzar subagentes que leerán los bloques
-# Lanza los subagentes con Task tool, y llama a collect_responses() para recibir la respuesta.
+# Lanza los subagentes con Task tool y llama a collect_responses() para recibir la respuesta.
 ```
 
-**4. `collect_responses()` — Recoger las respuestas de los subagentes**
-
-Después de lanzar subagentes con el Task tool (para D4, decisiones, nombres, consultas, o ampliación), los subagentes escriben sus respuestas en archivos dentro de `_responses/`. Llama a esta función para que el proceso las lea, las integre a los archivos de recuperación, y te devuelva el resultado estructurado:
-
-```python
-from contexto_zai.pipeline import collect_responses
-result = collect_responses()
-# result["total_aplicadas"] = número de respuestas integradas
-# Los archivos 00_estado_actual.md, 02_decisiones_clave.md, _metadata.json se actualizan.
-```
-
-Los subagentes pueden escribir en cualquier formato: `.txt`, `.json`, o texto plano. El proceso los reconoce automáticamente. Cada subagente debe escribir su respuesta en un archivo llamado `_responses/{task_id}.txt` (o `.json`), donde `task_id` es el identificador de la tarea que viene en `pending_tasks`.
+**NOTAS IMPORTANTES:**
+- `pipeline.run()` recupera el contexto del **chat de Z.ai**. Úsalo cuando pierdes contexto.
+- `ampliar_contexto()` incorpora una **fuente externa** (URL o archivo). Úsalo cuando el Director te da un documento.
+- **No las confundas.** Si el Director da un link externo, usa `ampliar_contexto()`. Si perdiste contexto, usa `pipeline.run()`.
+- Si el Director da un Google Doc privado, `ampliar_contexto()` fallará con 401. Pídele que lo haga público (Compartir → Cualquiera con el enlace) o que lo descargue como archivo (.docx o .pdf) y lo suba a `/home/z/my-project/upload/`. Después usa `ampliar_contexto(source_type="file", source_path="/home/z/my-project/upload/archivo")`.
+- Los subagentes pueden escribir en cualquier formato (.txt, .json, texto plano). El proceso los reconoce automáticamente. Cada subagente debe escribir su respuesta en un archivo llamado `_responses/{task_id}.txt` (o `.json`), donde `task_id` es el identificador de la tarea que viene en `pending_tasks`.
 
 **Paso 3 — Leer los archivos de contexto**
 
