@@ -1,38 +1,124 @@
-# REGLAS DE COMUNICACIÓN
+# Comunicación de Agentes Z.ai
 
-## Estilo
+## Propósito
+Define los protocolos de comunicación entre agentes y entre agente-Director.
 
-- **Lenguaje natural y accesible.** El Director piensa en funcionalidades, resultados y decisiones de negocio. Toda respuesta debe estar formulada en esos términos. Si la respuesta incluye nombres de funciones, clases, patrones de diseño o explicación de implementación interna, es un tecnicismo y no debe ir dirigida al Director.
-- **Brevedad sin vaciedad.** Di lo que hiciste, qué cambió, y qué debe hacer el Director (descargar y probar). Nada más.
+---
 
-## Decisiones de arquitectura
+## Formato estándar de comunicación
 
-- **Decisiones menores** (nombres de variables, organización interna de funciones, patrones locales): las toma el agente.
-- **Decisiones relevantes** (cambio de paradigma, eliminación de módulos, nueva dependencia, reestructuración de flujo): se consensúan entre Director, Asesor y agente.
+### Estructura de mensaje:
+```
+[FASE: X | Estrategia: activa]
+<Tipo>: <Destino>
 
-## Destinatarios
+<Contenido>
 
-| Destinatario | Cuándo | Formato |
-|---|---|---|
-| **Director** | Siempre, en cada respuesta | Lenguaje natural en el chat |
-| **Asesor** | Solo cuando el Director lo solicite o haya una decisión de arquitectura relevante | Informe en formato solicitado |
-| **Agente homólogo** (handoff) | Al hacer entrega final o cambio de agente | Worklog: las últimas entradas de sesión sirven como handoff implícito |
+<Evidencia/Referencia>
+```
 
-## Lo que NO se hace
+### Tipos de mensaje:
+- **INFO**: Información sin acción requerida
+- **TASK**: Tarea a realizar
+- **DECISION**: Decisión que requiere validación del Director
+- **BLOCKER**: Impedimento que requiere intervención
+- **STATUS**: Reporte de progreso
+- **ALERT**: Condición que requiere atención inmediata
 
-- No generar reportes ni documentos para el Director que no haya solicitado.
-- No incluir información técnica innecesaria al Director.
-- No pedir al Director que edite código, ejecute scripts o revise archivos técnicos.
+---
 
-## Canal
+## Protocolos
 
-La comunicación es **exclusivamente por este chat**. No se generan documentos externos salvo solicitud explícita.
+### P1 — Solicitud de tarea
+1. Director describe necesidad
+2. Agente ejecuta DIAGNÓSTICO (DCEPI Fase 1)
+3. Agente presenta diagnóstico al Director
+4. Director confirma o corrige
+5. Agente procede con DCEPI
 
-## Recuperación de contexto
+### P2 — Reporte de progreso
+1. Al completar cada paso del plan → STATUS al Director
+2. Al encontrar blocker → BLOCKER al Director inmediatamente
+3. Al alcanzar checkpoint → DECISION al Director
 
-Cuando el Director diga "relee el worklog", el agente debe:
-1. Leer el archivo `/home/z/my-project/worklog.md`.
-2. Cumplir las instrucciones de su sección de estrategia (clonar/actualizar repo, leer archivos de contexto).
-3. Reemitir la frase de detección para confirmar la recuperación.
+### P3 — Solicitud de decisión
+1. Agente identifica decisión necesaria
+2. Agente presenta opciones con trade-offs
+3. Agente recomienda una opción (con justificación)
+4. Director decide
+5. Agente registra decisión en worklog
 
-Esta instrucción es explícita para funcionar incluso si el agente perdió parte de su contexto por compresión. El Director no necesita explicar nada más: "relee el worklog" es suficiente.
+### P4 — Handoff entre agentes
+1. Agente A completa su parte
+2. Agente A documenta estado en worklog
+3. Agente A notifica al Director
+4. Director asigna a Agente B
+5. Agente B lee worklog y continúa
+
+---
+
+## Protocolo de Recuperación de Contexto
+
+Cuando el Director detecta que un agente ha perdido cumplimiento de la estrategia (identificado por: ausencia de sentencia de control, comportamiento inconsistente con la estrategia, respuestas que ignoran invariantes, o cualquier otra indicación), se activa el siguiente protocolo:
+
+### Paso 1: Leer worklog
+- Revisar `/agent-ctx/worklog.md` completo
+- **Significado**: Reconstruir la memoria de lo que se estaba haciendo — qué tarea, qué fase DCEPI, qué pasos completados, qué pendiente
+
+### Paso 2: Leer archivos de estrategia
+- Leer todos los archivos del repo operativo: `contrato.md`, `dcepi.md`, `comunicacion.md`, `identidad.md`, `proyecto.md`, `entorno.md`
+- **Significado**: Restaurar el marco de referencia completo — reglas, metodología, protocolos, identidad
+
+### Paso 3: Re-internalizar invariantes
+- Reafirmar I1–I7 como reglas activas y obligatorias
+- Declarar cada invariante como vigente
+- **Significado**: Restaurar las reglas no negociables que gobiernan todo comportamiento del agente
+
+### Paso 4: Re-internalizar sentencia de control
+- Reafirmar que toda respuesta debe iniciar con `[FASE: X | Estrategia: activa]`
+- Comprender que su ausencia señala pérdida de contexto
+- **Significado**: Restaurar el mecanismo de detección que permite al Director verificar cumplimiento de estrategia en tiempo real
+
+### Paso 5: Emitir confirmación de recuperación
+- Declarar explícitamente: "Protocolo de recuperación completado. Estrategia re-activada. Sentencia de control restaurada."
+- **Significado**: Dar al Director confirmación verificable de que el protocolo se completó exitosamente y el agente vuelve a operar bajo estrategia
+
+### Paso 6: Continuar con sentencia de control
+- Retomar el trabajo actual (desde donde lo dejó, según worklog)
+- Emitir `[FASE: X | Estrategia: activa]` al inicio de toda respuesta subsiguiente
+- **Significado**: Volver a operación normal bajo estrategia con el mecanismo de detección activo
+
+### Fallback
+Si el protocolo de recuperación no logra restaurar contexto coherente (el agente no puede reconstruir su estado a partir del worklog y los archivos de estrategia), el Director **reinicia la sesión** usando `prompt_inicio_sesion.txt`.
+
+**Nota importante**: No se requiere una frase mágica o comando específico para activar este protocolo. Cualquier indicación del Director — una observación, una corrección, una pregunta sobre comportamiento, un "te perdiste" — activa el protocolo. El agente debe reconocer la señal y ejecutar los 6 pasos.
+
+---
+
+## Canales de comunicación
+
+| Canal | Uso | Participantes |
+|-------|-----|---------------|
+| Directo | Instrucción y respuesta | Director ↔ Agente |
+| Worklog | Registro de progreso | Agente → Todos |
+| Estrategia repo | Referencia de reglas | Todos (lectura) |
+
+---
+
+## Formato de sentencia de control
+
+**Obligatorio al inicio de CADA respuesta del agente:**
+
+```
+[FASE: X | Estrategia: activa]
+```
+
+Donde `X` es la fase DCEPI actual: D, C, E, P, o I.
+
+**Si la sentencia no aparece**: El Director asume pérdida de contexto y activa el protocolo de recuperación.
+
+---
+
+## Fuente
+Este protocolo es parte del sistema de estrategia Z.ai v1.1.
+Repo operativo: `estrategia-agentes-zai`

@@ -1,34 +1,66 @@
-# PROYECTOS EN DESARROLLO
+# Proyecto Z.ai — Mapa de Proyectos
 
-## Nombres
+## Propósito
+Define los proyectos activos del ecosistema Z.ai y su relación con los repositorios de estrategia.
 
-- **apa** — agente de programación autónoma
-- **model_broker** — servicio de modelos
-- **contexto_zai** — proceso de recuperación de context del agente Z.ai 
+---
 
+## Proyectos Activos
 
-## Repositorios por agente
+| Proyecto | Agente | Repo Código | Repo Estrategia | Descripción |
+|----------|--------|-------------|-----------------|-------------|
+| APA | APA_apa | APA_apa | operativo (`estrategia-agentes-zai`) | Aplicación principal APA |
+| Manuel Belgrano | ManuelBelgrano | ManuelBelgrano | operativo (`estrategia-agentes-zai`) | Proyecto Manuel Belgrano |
+| CZAI | CZAI_zai | CZAI_zai | operativo (`estrategia-agentes-zai`) | Proyecto CZAI |
+| Estrategia | Estrategia | estrategia | completo (`estrategia`) | Meta-proyecto de estrategia |
 
-Cada agente trabaja con su propio repositorio independiente:
+---
 
-| Agente | Repositorio | Ruta local |
-|---|---|---|
-| **APA** | `https://github.com/Juank6507/APA_apa.git` | `/home/z/my-project/APA_apa/` |
-| **MB** | `https://github.com/Juank6507/APA_model_broker.git` | `/home/z/my-project/APA_model_broker/` |
-| **CZAI** | `https://github.com/Juank6507/contexto_zai.git` | `/home/z/my-project/contexto_zai/` |
+## Repositorios de Estrategia
 
-- **Rama:** `main` (todos)
-- El agente identifica su repositorio a partir del worklog adjunto en el prompt de inicio de sesión.
+### Repo Operativo: `estrategia-agentes-zai`
+- **Visibilidad**: Público
+- **Contenido**: Solo lo que los agentes de proyecto necesitan
+  - `agent-context/` (6 archivos de reglas y protocolos)
+  - `agent-learn/` (3 archivos de aprendizaje)
+  - `worklog_template.md`
+- **Consumidores**: Agentes APA, MB, CZAI
+- **GitHub**: `https://github.com/Juank6507/estrategia-agentes-zai`
 
-## Agentes
+### Repo Completo: `estrategia`
+- **Visibilidad**: Privado (local en PC del Director)
+- **Contenido**: Todo el operativo + meta/
+  - Todo lo del repo operativo
+  - `meta/director-only/` (prompts, templates, informe)
+  - `meta/spec_estrategia_vX.Y.md`
+  - `meta/plan_estrategia_vX.Y.md`
+  - `meta/historial_versiones.md`
+  - `meta/tareas_inmediatas.md`
+- **Consumidores**: Agente Estrategia, Director
+- **GitHub**: No (repo local, se gestiona por .zip)
 
-| Agente | Proyecto | Repositorio |
----|---|---|
-| **APA** | apa | https://github.com/Juank6507/APA_apa.git |
-| **MB** | model_broker | https://github.com/Juank6507/APA_model_broker.git |
-| **CZAI** |contexto_zai | https://github.com/Juank6507/contexto_zair.git` 
+---
 
+## Flujo de Actualización
 
-## Nota
+1. Desarrollo de nueva versión → todos los archivos en carpeta local `C:\Python\Proyectos\estrategia`
+2. Empaquetado → `.zip` con todos los archivos
+3. Despliegue → `update_estrategia.ps1` reemplaza archivos locales y pushea al repo operativo
+4. Agentes → clonan/pullan del repo operativo para obtener reglas actualizadas
 
-Este archivo es el único que cambia al cambiar de proyecto. El Director actualiza la URL, rama y agentes según corresponda. Los demás archivos de `agent-context/` son genéricos y no se modifican.
+---
+
+## Relación Agente ↔ Repo Estrategia
+
+| Agente | Lee | Escribe | Repo |
+|--------|-----|---------|------|
+| APA | agent-context/, agent-learn/ | worklog, proyecto | operativo |
+| MB | agent-context/, agent-learn/ | worklog, proyecto | operativo |
+| CZAI | agent-context/, agent-learn/ | worklog, proyecto | operativo |
+| Estrategia | Todo (incluido meta/) | Todo | completo |
+| Director | Todo | Todo | completo (local) |
+
+---
+
+## Fuente
+Este mapa es parte del sistema de estrategia Z.ai v1.1.
