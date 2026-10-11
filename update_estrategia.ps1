@@ -250,19 +250,29 @@ function Do-GitPush {
             git remote set-url origin $REPO_URL
         }
 
-        # Add, commit, push
+        # Add, commit, pull --rebase, push
         Write-Host "  Ejecutando git add..." -ForegroundColor White
         git add -A
 
         Write-Host "  Ejecutando git commit..." -ForegroundColor White
         git commit -m $CommitMsg
 
+        Write-Host "  Ejecutando git pull --rebase..." -ForegroundColor White
+        git pull --rebase origin main 2>&1
+
         Write-Host "  Ejecutando git push..." -ForegroundColor White
         $branch = git branch --show-current 2>$null
         if (-not $branch) { $branch = "main" }
-        git push -u origin $branch
+        $pushResult = git push -u origin $branch 2>&1
+        $pushExit = $LASTEXITCODE
 
-        Write-Host "  Push completado." -ForegroundColor Green
+        if ($pushExit -eq 0) {
+            Write-Host "  Push completado correctamente." -ForegroundColor Green
+        } else {
+            Write-Host "  ERROR: Push fallo." -ForegroundColor Red
+            Write-Host "  Salida: $pushResult" -ForegroundColor Red
+            Write-Host "  Intenta manualmente: git pull --rebase origin main && git push" -ForegroundColor Yellow
+        }
     }
     catch {
         Write-Host "  ERROR en git: $($_.Exception.Message)" -ForegroundColor Red
