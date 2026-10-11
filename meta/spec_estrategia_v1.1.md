@@ -1,108 +1,94 @@
 # Spec Estrategia Z.ai v1.1
 
-## Identificación
-- **Versión**: 1.1
-- **Fecha**: 2025
-- **Basada en**: v1.0
-- **Tipo**: Minor (mejoras, no breaking changes)
+## Version
 
----
+- **Version:** 1.1
+- **Fecha:** 2025-10-11
+- **Estado:** Implementacion completa
 
-## Objetivo
+## Requisitos (R1-R11)
 
-Evolutionar el sistema de estrategia Z.ai desde v1.0 para resolver dos problemas operativos críticos y una necesidad estructural:
+### R1 -- Identidad del agente
+El agente tiene identidad definida en `identidad.md`: nombre, rol, reporta a, objeto.
 
-1. **Detección de pérdida silenciosa de contexto** — Cuando un agente pierde contexto por compresión, lo hace sin avisar. El Director no se entera hasta que el comportamiento diverge significativamente.
+### R2 -- Contexto de actuacion
+6 archivos en `agent-context/` definen como actua el agente: identidad, contrato, comunicacion, dcpa, entorno, proyecto.
 
-2. **Recuperación de cumplimiento de estrategia** — No existía un procedimiento formal para que un agente que perdió contexto retome la estrategia. La única opción era reiniciar la sesión.
+### R3 -- Aprendizaje persistente
+3+ archivos en `agent-learn/` acumulan experiencia entre sesiones: errores_comunes, preferencias_director, experiencias, lecciones_aprendidas, patrones_recurrentes, anti_patrones.
 
-3. **Estructura de repos** — Se necesita un repo público compacto (para agentes de proyecto) y un repo local completo (para el agente Estrategia y el Director), sin duplicación de archivos.
+### R4 -- Worklog
+`worklog_template.md` estructura el registro de sesiones y contiene el protocolo de arranque.
 
----
+### R5 -- Repositorio operativo
+Repo publico en GitHub (`estrategia-agentes-zai`) con los archivos de contexto y aprendizaje. El agente clona/pull al inicio de cada sesion.
 
-## Requisitos
+### R6 -- 2-repo structure
+- **operativo** (GitHub, publico): agent-context/, agent-learn/, worklog_template.md, prompt_arranque.md, tareas_inmediatas.md
+- **completo** (local, con meta/): todo lo anterior + meta/ (spec, plan, historial, director-only/)
 
-### R1: Sentencia de control
-- **Descripción**: Marcador obligatorio al inicio de cada respuesta del agente
-- **Formato**: `[FASE: X | Estrategia: activa]` donde X ∈ {D, C, E, P, I}
-- **Función**: Su presencia confirma estrategia activa. Su ausencia señala pérdida de contexto.
-- **Obligación**: En CADA respuesta, sin excepción
-- **Archivos afectados**: contrato.md, dcepi.md, comunicacion.md, identidad.md, worklog_template.md
+### R7 -- Compatibilidad cruzada
+El entorno del agente es Linux, el del Director es Windows. Los cambios sensibles a plataforma requieren advertencia explicita.
 
-### R2: Protocolo de recuperación de estrategia
-- **Descripción**: Procedimiento de 6 pasos para restaurar cumplimiento de estrategia
-- **Activación**: Cualquier indicación del Director (no frase mágica)
-- **Pasos**:
-  1. Leer worklog → Reconstruir memoria de trabajo
-  2. Leer archivos de estrategia → Restaurar marco de referencia
-  3. Re-internalizar invariantes → Restaurar reglas I1–I7
-  4. Re-internalizar sentencia de control → Restaurar mecanismo de detección
-  5. Emitir confirmación → Verificar recuperación exitosa
-  6. Continuar con sentencia de control → Volver a operación normal
-- **Fallback**: Reiniciar sesión con prompt_inicio_sesion.txt
-- **Archivos afectados**: contrato.md, dcepi.md, comunicacion.md
+### R8 -- Protocolo de Arranque (v1.1)
+Obligatorio al inicio de cada sesion. Secuencia: LEER (9 archivos) -> DECLARAR -> ACTUAR.
+Los 9 archivos obligatorios:
+1. agent-context/identidad.md
+2. agent-context/contrato.md
+3. agent-context/comunicacion.md
+4. agent-context/dcpa.md
+5. agent-context/entorno.md
+6. agent-context/proyecto.md
+7. agent-learn/lecciones_aprendidas.md
+8. agent-learn/patrones_recurrentes.md
+9. agent-learn/anti_patrones.md
 
-### R3: DIAGNÓSTICO-first explícito
-- **Descripción**: Fortificar R1 como obligación explícita en contrato
-- **Regla**: "Ante cualquier pedido, SIEMPRE comenzar por DIAGNÓSTICO. No proponer solución sin diagnosticar."
-- **Archivos afectados**: contrato.md, worklog_template.md
+### R9 -- Agente EP (v1.1)
+Reglas EP-1 a EP-6:
+- EP-1: Solo accede al repo operativo (GitHub), no al completo
+- EP-2: Puede leer meta/ del repo completo para contexto adicional
+- EP-3: Persiste cambios en agent-learn/ via git add/commit/push
+- EP-4: Distribuye cambios via .zip en /download/ (nunca /upload/)
+- EP-5: Sincroniza con repo operativo al inicio y fin de sesion
+- EP-6: Versiona cambios con mensajes descriptivos
 
-### R4: Estructura de repos dual
-- **Descripción**: Repo operativo (público, compacto) + repo completo (local, con meta/)
-- **Sin duplicación**: Una sola carpeta en PC local
-- **Repo operativo**: estrategia-agentes-zai (GitHub, público)
-- **Repo completo**: estrategia (local en C:\Python\Proyectos\estrategia)
-- **Archivos afectados**: proyecto.md, entorno.md, worklog_template.md
+### R10 -- REGLA ABSOLUTA DE ENTREGA (v1.1)
+Toda entrega de cambios de estrategia se realiza EXCLUSIVAMENTE via `/download/`. Nunca se usa `/upload/` para recibir archivos de estrategia. El `.zip` de entrega incluye `update_estrategia.ps1` para que el Director actualice su repo local.
 
-### R5: Script de actualización automatizada
-- **Descripción**: PowerShell script interactivo para actualizar desde .zip
-- **Rutas predeterminadas**:
-  - Local: C:\Python\Proyectos\estrategia
-  - ZIP: C:\Users\juanc\Downloads\estrategia.zip
-  - Repo: https://github.com/Juank6507/estrategia-agentes-zai.git
-  - Temp: C:\Python\Proyectos\tmp_operativo
-- **Operaciones**: zip (reemplazo + push), push (solo push), sync (clonar + copiar)
-- **Archivo nuevo**: update_estrategia.ps1
+### R11 -- prompt_arranque.md (v1.1)
+Unico punto de entrada y fallback para el arranque del agente. Contiene el Protocolo de Arranque simplificado. Si el worklog no esta disponible, el agente lee prompt_arranque.md.
 
-### R6: Actualización de director-only
-- **Descripción**: Actualizar prompts, templates e informe a v1.1
-- **Archivos afectados**: prompt_inicio_sesion.txt, prompt_templates.md, informe_estrategia_v1.1.md
+## Brechas CZAI corregidas (B1-B6)
 
-### R7: Actualización de meta
-- **Descripción**: Crear spec y plan v1.1, actualizar historial y tareas
-- **Archivos nuevos**: spec_estrategia_v1.1.md, plan_estrategia_v1.1.md
-- **Archivos actualizados**: historial_versiones.md, tareas_inmediatas.md
+| Brecha | Descripcion | Correccion |
+|---|---|---|
+| B1 | Repo desactualizado entre sesiones | Clon/pull obligatorio al inicio de sesion |
+| B2 | Entrega de archivos sin mecanismo estandar | /download/ exclusivo + update_estrategia.ps1 en .zip |
+| B3 | Agente sin acceso a meta/ | EP-2: lectura permitida, escritura solo via EP-4 |
+| B4 | Sin protocolo de arranque | R8: Protocolo de Arranque obligatorio (9 archivos) |
+| B5 | Sin versionado de cambios | EP-6: mensajes descriptivos + historial_versiones.md |
+| B6 | Sin registro de brechas | B1-B6 documentados y verificados |
 
----
+## Criterios de aceptacion (21)
 
-## Criterios de aceptación
-
-1. Todo agente emite `[FASE: X | Estrategia: activa]` al inicio de cada respuesta
-2. La ausencia de la sentencia es detectable por el Director
-3. El protocolo de recuperación tiene 6 pasos explícitos con significado
-4. El protocolo no depende de frase mágica
-5. El fallback (reiniciar sesión) está documentado
-6. DIAGNÓSTICO-first es obligación explícita en contrato
-7. Repo operativo contiene solo archivos operatives (agent-context/, agent-learn/, worklog_template.md)
-8. Repo completo contiene todo + meta/
-9. No hay duplicación de archivos (una carpeta local)
-10. update_estrategia.ps1 automatiza delete + unzip + push
-11. Todos los archivos v1.0 actualizados a v1.1
-12. historial_versiones.md registra v1.1
-13. .zip entregado con todos los archivos
-
----
-
-## Restricciones
-
-- No se modifican los invariantes I1–I7 (se agregan mecanismos, no reglas)
-- No se agrega carpeta proyectos/ (cada proyecto tiene lo suyo en su propio repo)
-- director-only/ va dentro de meta/ en el repo completo
-- proxy-llm-setup.md se mueve a APA_apa/docs/ (fuera de estrategia)
-- No se usan symlinks (rompen al clonar)
-- No se usan branches (merge trae todo, más complejo)
-
----
-
-## Fuente
-Esta spec es parte del sistema de estrategia Z.ai v1.1.
+1. Los 6 archivos de agent-context/ existen y estan actualizados
+2. Los 3+ archivos de agent-learn/ existen y estan actualizados
+3. worklog_template.md existe y contiene el protocolo de arranque
+4. prompt_arranque.md existe y es el punto de entrada
+5. El repo operativo tiene todos los archivos requeridos
+6. meta/ existe con spec, plan, historial, director-only/
+7. El Protocolo de Arranque lista exactamente 9 archivos
+8. EP-1 a EP-6 estan documentados en contrato.md
+9. La REGLA ABSOLUTA DE ENTREGA esta en entorno.md
+10. /download/ es la unica ruta de entrega
+11. Nunca se usa /upload/ para archivos de estrategia
+12. update_estrategia.ps1 esta en el .zip de entrega
+13. El script usa solo caracteres ASCII (sin em-dash, sin smart quotes)
+14. El script auto-detecta el .zip en Downloads/Escritorio
+15. El script pide la ruta manualmente si no encuentra el .zip
+16. El flujo documentado coincide con el procedimiento real
+17. B1-B6 estan documentados y verificados
+18. historial_versiones.md registra la entrada v1.1
+19. El mensaje de commit es descriptivo
+20. Todos los archivos tienen encoding UTF-8 sin BOM
+21. El .zip se regenera con el script corregido

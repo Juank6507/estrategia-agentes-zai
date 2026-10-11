@@ -1,51 +1,57 @@
-# Patrones Recurrentes — Z.ai
+# PATRONES RECURRENTES
 
-## Propósito
-Documenta patrones que se repiten en el desarrollo de proyectos Z.ai. Reconocerlos permite actuar proactivamente.
-
----
-
-## Patrones de Comportamiento
-
-### P1 — Salto de fases DCEPI
-**Síntoma**: El agente propone solución sin diagnóstico o especificación sin conciliación.  
-**Causa**: Presión por entregar rápido o contexto insuficiente.  
-**Prevención**: Checklist de fases antes de avanzar.  
-**Detección**: Respuesta sin sentencia de control o sin fase declarada.
-
-### P2 — Solapamiento de responsabilidades
-**Síntoma**: Un agente hace trabajo de otro agente.  
-**Causa**: Ambigüedad en roles o límites mal definidos.  
-**Prevención**: Identidad clara por agente (ver `identidad.md`).  
-**Detección**: Worklog muestra trabajo fuera de rol.
-
-### P3 — Worklog incompleto
-**Síntoma**: Pasos sin registrar, decisiones sin documentar.  
-**Causa**: El agente no sigue I2 (worklog obligatorio).  
-**Prevención**: Registro como paso explícito en cada fase.  
-**Detección**: Gap temporal en worklog.
-
-### P4 — Supuestos implícitos
-**Síntoma**: El trabajo depende de algo que nunca se declaró.  
-**Causa**: No se sigue R3 (explicitar supuestos).  
-**Prevención**: Cada supuesto se marca `[SUPUESTO: ...]`.  
-**Detección**: Error por supuesto incorrecto.
+<!-- Criterio de inclusion: patrones que se repiten en al menos 2 sesiones. -->
 
 ---
-
-## Patrones Técnicos
-
-### P5 — Actualización de estrategia por .zip
-**Contexto**: El meta-proyecto es pequeño, las actualizaciones suelen ser completas.  
-**Patrón**: Entregar .zip con todos los archivos → script automatizado reemplaza → push a GitHub.  
-**Ventaja**: Simple, predecible, no requiere merge.
-
-### P6 — Dos repos, una carpeta local
-**Contexto**: Necesidad de repo público compacto + repo local completo.  
-**Patrón**: Repo operativo (público, para agentes) + repo completo (local, con meta/). Misma carpeta en PC.  
-**Ventaja**: Sin duplicación, agentes descargan solo lo necesario.
+### P1 -- Comunicacion en lenguaje natural
+- **Patron:** El Director prefiere explicaciones en terminos de funcionalidades y resultados, no tecnicismos
+- **Frecuencia:** Cada sesion
+- **Regla:** Contrato NH3 + comunicacion.md estilo
 
 ---
+### P2 -- Cambios quirurgicos
+- **Patron:** Modificar solo lo pedido, nothing else
+- **Frecuencia:** Cada sesion
+- **Regla:** Contrato NH18 + NH23
 
-## Fuente
-Este registro es parte del sistema de estrategia Z.ai v1.1.
+---
+### P3 -- Entrega en /download/ con tabla
+- **Patron:** Cada archivo entregado va en /download/ con su ubicacion documentada
+- **Frecuencia:** Cada entrega
+- **Regla:** Entorno.md reglas de entrega + contrato NH6 + NH12
+
+---
+### P4 -- Verificacion antes de entregar
+- **Patron:** Probar cada cambio antes de entregarlo
+- **Frecuencia:** Cada entrega
+- **Regla:** Contrato NH2 + checklist de integridad
+
+---
+### P5 -- DCPA para cambios relevantes
+- **Patron:** Seguir Diagnostico -> Plan -> Consenso -> Autorizacion -> Ejecucion
+- **Frecuencia:** Cambios de codigo, bugs, arquitectura
+- **Regla:** dcpa.md
+
+---
+### P6 -- Compatibilidad cruzada
+- **Patron:** Advertir cuando algo solo funciona en Linux
+- **Frecuencia:** Cuando se crean scripts o rutas
+- **Regla:** Entorno.md compatibilidad + contrato NH17
+
+---
+### P7 -- Protocolo de Arranque al inicio
+- **Patron:** Leer 9 archivos de estrategia al inicio de cada sesion
+- **Frecuencia:** Cada sesion
+- **Regla:** R8 Protocolo de Arranque
+
+---
+### P8 -- Entrega de estrategia via /download/ + .zip
+- **Patron:** Empaquetar cambios de estrategia en .zip con update_estrategia.ps1
+- **Frecuencia:** Actualizaciones de estrategia
+- **Regla:** R10 REGLA ABSOLUTA DE ENTREGA + EP-4
+
+---
+### P9 -- Repo desactualizado al inicio
+- **Patron:** El repo puede tener version stale; siempre hacer git pull
+- **Frecuencia:** Cada sesion
+- **Regla:** B1 + EP-5

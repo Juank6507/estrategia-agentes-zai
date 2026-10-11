@@ -1,44 +1,38 @@
-# Lecciones Aprendidas — Z.ai
+# LECCIONES APRENDIDAS
 
-## Propósito
-Registro de lecciones aprendidas durante el desarrollo de proyectos Z.ai. Cada entrada es una observación verificable extraída de experiencia real.
-
----
-
-## Formato de entrada
-
-```
-### [FECHA] — [TÍTULO]
-**Contexto**: [proyecto/situación]
-**Lección**: [qué se aprendió]
-**Aplicación**: [cómo se aplica en el futuro]
-```
+<!-- Criterio de inclusion: solo lecciones que el agente aprendio y que son aplicables a sesiones futuras. -->
 
 ---
-
-## Lecciones
-
-### [2024] — Pérdida silenciosa de contexto
-**Contexto**: Agentes Z.ai en sesiones largas
-**Lección**: La compresión de contexto es silenciosa — el agente no avisa que perdió contexto, simplemente deja de seguir la estrategia.
-**Aplicación**: Se implementó la sentencia de control `[FASE: X | Estrategia: activa]` como mecanismo de detección. Si desaparece, el Director activa el protocolo de recuperación.
-
-### [2024] — Diagnóstico antes de solución
-**Contexto**: Múltiples proyectos
-**Lección**: Saltar el diagnóstico lleva a resolver el problema equivocado. El 80% del valor está en entender el problema real.
-**Aplicación**: Regla R1 fortificada como primer paso obligatorio de toda interacción.
-
-### [2024] — Duplicación de archivos genera inconsistencia
-**Contexto**: Estructura de repos de estrategia
-**Lección**: Mantener la misma información en dos lugares genera divergencia. Los archivos se actualizan en un lugar y no en el otro.
-**Aplicación**: Una sola carpeta local, repo operativo como subconjunto del completo, sin duplicación.
-
-### [2024] — Especificaciones ambiguas producen rework
-**Contexto**: Procesos de desarrollo
-**Lección**: Sin especificación clara, cada iteración redefine el objetivo. El tiempo ahorrado en E se paga multiplicado en I.
-**Aplicación**: Fase E de DCEPI es obligatoria y requiere validación del Director.
+### L001 -- Repo de estrategia puede estar desactualizado
+- **Sesion:** Multiple
+- **Contexto:** Al iniciar sesion, el repo puede tener archivos de versiones anteriores
+- **Leccion:** Siempre hacer git pull al inicio. Verificar que los archivos corresponden a la version actual (check de version en spec)
+- **Aplica cuando:** Inicio de sesion
 
 ---
+### L002 -- Entrega de archivos siempre por /download/
+- **Sesion:** Multiple
+- **Contexto:** Se intento usar otras rutas o metodos de entrega
+- **Leccion:** /download/ es la UNICA ruta de entrega. REGLA ABSOLUTA. No usar /upload/ ni ninguna otra ruta
+- **Aplica cuando:** Cualquier entrega de archivos al Director
 
-## Fuente
-Este registro es parte del sistema de estrategia Z.ai v1.1.
+---
+### L003 -- EP trabaja en sandbox sin acceso a repo privado
+- **Sesion:** Multiple
+- **Contexto:** El agente intento acceder a repositorios privados o con credenciales
+- **Leccion:** El repo operativo es publico (GitHub). Los archivos sensibles van en meta/ del repo completo (local del Director). EP-1: solo repo operativo
+- **Aplica cuando:** Acceso a repositorios o distribucion de cambios
+
+---
+### L004 -- Protocolo de Arranque previene sesiones desactualizadas
+- **Sesion:** v1.1
+- **Contexto:** Agente comenzo a trabajar sin leer los archivos de estrategia
+- **Leccion:** LEER los 9 archivos al inicio es obligatorio. Previene trabajar con contexto stale y violar reglas desconocidas
+- **Aplica cuando:** Inicio de cada sesion, sin excepciones
+
+---
+### L005 -- Scripts PowerShell requieren ASCII puro en Windows
+- **Sesion:** v1.1
+- **Contexto:** update_estrategia.ps1 tenia em-dash y smart quotes que causaron errores de parsing en Windows PowerShell
+- **Leccion:** Para scripts .ps1 que se ejecutan en Windows: solo ASCII. Reemplazar em-dash (--) con doble guion (--), evitar comillas tipograficas, usar UTF-8 sin BOM
+- **Aplica cuando:** Crear o modificar scripts .ps1 para el Director

@@ -1,97 +1,125 @@
 # Plan Estrategia Z.ai v1.1
 
-## Identificación
-- **Versión**: 1.1
-- **Basada en**: spec_estrategia_v1.1.md
-- **Metodología**: DCEPI (este plan es resultado de las fases D, C, E)
-- **Estado**: Listo para Implementación (fase I)
+## Version
 
----
+- **Version:** 1.1
+- **Fecha:** 2025-10-11
+- **Estado:** Completado
 
-## Fases del Plan
+## Fases de implementacion
 
-### Fase 1: Sentencia de control + DIAGNÓSTICO-first (R1, R3)
+### Fase 1: Contexto base (R1-R4)
+- [x] Crear/actualizar 6 archivos de agent-context/
+- [x] Crear/actualizar 3+ archivos de agent-learn/
+- [x] Crear worklog_template.md con protocolo de arranque
+- [x] Verificar contenido y formato de cada archivo
 
-| Paso | Archivo | Acción |
-|------|---------|--------|
-| 1.1 | contrato.md | Agregar sentencia de control a "Siempre, en toda interacción": `[FASE: X \| Estrategia: activa]` al inicio de cada respuesta |
-| 1.2 | contrato.md | Agregar regla "DIAGNÓSTICO primero" como obligación explícita |
-| 1.3 | contrato.md | Agregar referencia al protocolo de recuperación |
-| 1.4 | dcepi.md | Fase 1 Paso 6: frase de detección incluye sentencia de control |
-| 1.5 | dcepi.md | Agregar sección "Sentencia de Control" después de Fase 1 |
-| 1.6 | identidad.md | Fases declarables: `[FASE: X]` → `[FASE: X \| Estrategia: activa]` |
+### Fase 2: Repo operativo (R5-R6)
+- [x] Configurar repo GitHub (estrategia-agentes-zai)
+- [x] Definir estructura 2-repo (operativo + completo)
+- [x] Documentar que va en cada repo
 
-### Fase 2: Protocolo de recuperación (R2)
+### Fase 3: Compatibilidad (R7)
+- [x] Documentar reglas de compatibilidad cruzada
+- [x] Advertir sobre rutas/encoding/comandos especificos de plataforma
 
-| Paso | Archivo | Acción |
-|------|---------|--------|
-| 2.1 | dcepi.md | Agregar sección "Protocolo de Recuperación de Estrategia" con 6 pasos + fallback |
-| 2.2 | comunicacion.md | Reemplazar "Recuperación de contexto" con protocolo completo (6 pasos con significado) |
-| 2.3 | contrato.md | Agregar sección "Protocolo de recuperación de estrategia" con referencia a dcepi.md y comunicacion.md |
+### Fase 4: Spec y plan (R1-R7)
+- [x] Escribir spec_estrategia_v1.1.md con R1-R7
+- [x] Escribir plan_estrategia_v1.1.md con fases 1-5
+- [x] Verificar consistencia entre spec y plan
 
-### Fase 3: Estructura de repos + worklog (R4)
+### Fase 5: Historial
+- [x] Crear historial_versiones.md
+- [x] Registrar entrada v1.0
+- [x] Registrar entrada v1.1
 
-| Paso | Archivo | Acción |
-|------|---------|--------|
-| 3.1 | proyecto.md | Agregar columna "Repo de estrategia": operativo/completo por agente |
-| 3.2 | proyecto.md | Agregar sección "Repositorios de Estrategia" con descripción de ambos repos |
-| 3.3 | proyecto.md | Agregar sección "Flujo de actualización" |
-| 3.4 | entorno.md | Agregar tabla de 2 repos + descripción de estructura |
-| 3.5 | entorno.md | Agregar sección "Flujo de Actualización por .zip" |
-| 3.6 | worklog_template.md | Paso 1: especificar repo según agente (operativo vs completo) |
-| 3.7 | worklog_template.md | Paso 7: emitir sentencia de control |
+### Fase 6: Protocolo de Arranque (R8)
+- [x] Definir secuencia LEER (9 archivos) -> DECLARAR -> ACTUAR
+- [x] Listar los 9 archivos obligatorios
+- [x] Documentar en worklog_template.md y prompt_arranque.md
+- [x] Agregar a spec como R8
 
-### Fase 4: Director-only + Script (R5, R6)
+### Fase 7: Agente EP (R9)
+- [x] Definir EP-1 a EP-6
+- [x] Documentar en contrato.md
+- [x] Agregar a spec como R9
 
-| Paso | Archivo | Acción |
-|------|---------|--------|
-| 4.1 | prompt_inicio_sesion.txt | Actualizar con 4 proyectos, repos específicos, sentencia de control |
-| 4.2 | prompt_templates.md | Actualizar templates con repos y sentencia de control |
-| 4.3 | informe_estrategia_v1.1.md | Crear con novedades v1.1, estructura, compatibilidad |
-| 4.4 | update_estrategia.ps1 | Crear script interactivo con rutas predeterminadas y 3 operaciones |
+### Fase 8: REGLA ABSOLUTA DE ENTREGA (R10)
+- [x] Definir /download/ exclusivo
+- [x] Prohibir /upload/ para archivos de estrategia
+- [x] Documentar en entorno.md
+- [x] Agregar a spec como R10
 
-### Fase 5: Spec, Plan, Historial, Tareas (R7)
+### Fase 9: prompt_arranque.md (R11)
+- [x] Crear prompt_arranque.md como punto de entrada unico
+- [x] Incluir Protocolo de Arranque simplificado
+- [x] Agregar a spec como R11
 
-| Paso | Archivo | Acción |
-|------|---------|--------|
-| 5.1 | spec_estrategia_v1.1.md | Crear con requisitos R1–R7, criterios de aceptación, restricciones |
-| 5.2 | plan_estrategia_v1.1.md | Crear con fases 1–5, pasos 5.1–5.7, validación |
-| 5.3 | historial_versiones.md | Crear/actualizar con entrada v1.1 |
-| 5.4 | tareas_inmediatas.md | Crear/actualizar con tareas pendientes post-implementación |
+### Fase 10: Brechas CZAI (B1-B6)
+- [x] Identificar 6 brechas operativas
+- [x] Documentar correcciones
+- [x] Agregar a spec como B1-B6
+- [x] Registrar en historial_versiones.md
 
----
+## Checklist de validacion (40+ items)
 
-## Validación
+### Archivos base
+- [x] agent-context/identidad.md existe y define identidad
+- [x] agent-context/contrato.md existe y tiene NH + SIEMPRE + EP
+- [x] agent-context/comunicacion.md existe y define estilo + P5
+- [x] agent-context/dcpa.md existe y define protocolo
+- [x] agent-context/entorno.md existe y define espacios + flujo
+- [x] agent-context/proyecto.md existe y define repos
+- [x] agent-learn/lecciones_aprendidas.md existe
+- [x] agent-learn/patrones_recurrentes.md existe
+- [x] agent-learn/anti_patrones.md existe
+- [x] agent-learn/errores_comunes.md existe
+- [x] agent-learn/preferencias_director.md existe
+- [x] agent-learn/experiencias.md existe
 
-### Checklist post-implementación:
-- [ ] contrato.md tiene sentencia de control en "Siempre, en toda interacción"
-- [ ] contrato.md tiene DIAGNÓSTICO-first explícito
-- [ ] contrato.md tiene referencia al protocolo de recuperación
-- [ ] dcepi.md tiene sección "Sentencia de Control"
-- [ ] dcepi.md tiene sección "Protocolo de Recuperación de Estrategia" con 6 pasos
-- [ ] dcepi.md Fase 1 Paso 6 emite sentencia de control
-- [ ] comunicacion.md tiene protocolo de recuperación con 6 pasos y significado
-- [ ] identidad.md usa `[FASE: X | Estrategia: activa]`
-- [ ] proyecto.md tiene columna "Repo de estrategia"
-- [ ] entorno.md tiene tabla de repos y flujo de actualización
-- [ ] worklog_template.md especifica repo por agente y sentencia de control en Paso 7
-- [ ] prompt_inicio_sesion.txt actualizado a v1.1
-- [ ] prompt_templates.md actualizado con protocolo de recuperación
-- [ ] informe_estrategia_v1.1.md creado
-- [ ] update_estrategia.ps1 creado con 3 operaciones y rutas predeterminadas
-- [ ] spec_estrategia_v1.1.md creado
-- [ ] plan_estrategia_v1.1.md creado
-- [ ] historial_versiones.md tiene entrada v1.1
-- [ ] tareas_inmediatas.md actualizado
+### Meta
+- [x] meta/spec_estrategia_v1.1.md existe con R1-R11 + B1-B6
+- [x] meta/plan_estrategia_v1.1.md existe con fases 1-10
+- [x] meta/historial_versiones.md existe con entrada v1.1
+- [x] meta/tareas_inmediatas.md existe
+- [x] meta/director-only/informe_estrategia_v1.1.md existe
+- [x] meta/director-only/prompt_inicio_sesion.txt existe
+- [x] meta/director-only/prompt_templates.md existe
 
----
+### Protocolo de Arranque
+- [x] prompt_arranque.md existe como punto de entrada
+- [x] Lista exactamente 9 archivos obligatorios
+- [x] Secuencia LEER -> DECLARAR -> ACTUAR documentada
+- [x] worklog_template.md referencia el protocolo
 
-## Entregables
+### Agente EP
+- [x] EP-1 a EP-6 definidos en contrato.md
+- [x] EP-4 distribucion via /download/ + .zip
+- [x] EP-6 versionado con mensajes descriptivos
 
-1. **Archivo .zip** con todos los archivos de la estructura v1.1
-2. **Instrucciones** para actualizar los repos de GitHub
+### Entrega
+- [x] REGLA ABSOLUTA DE ENTREGA en entorno.md
+- [x] /download/ es la unica ruta de entrega
+- [x] /upload/ prohibido para estrategia
+- [x] update_estrategia.ps1 en .zip
 
----
+### Script
+- [x] update_estrategia.ps1 usa solo ASCII
+- [x] Auto-detecta .zip en Downloads/Escritorio
+- [x] Pide ruta manual si no encuentra .zip
+- [x] 3 modos de operacion: zip, push, sync
+- [x] Manejo de errores robusto
 
-## Fuente
-Este plan es parte del sistema de estrategia Z.ai v1.1.
+### Brechas
+- [x] B1: Repo desactualizado -- clon/pull obligatorio
+- [x] B2: Entrega sin mecanismo -- /download/ + script
+- [x] B3: Sin acceso meta/ -- EP-2
+- [x] B4: Sin protocolo arranque -- R8
+- [x] B5: Sin versionado -- EP-6
+- [x] B6: Sin registro brechas -- B1-B6 documentados
+
+### Flujo documentado
+- [x] entorno.md tiene flujo de actualizacion
+- [x] comunicacion.md tiene P5
+- [x] contrato.md referencia el script
+- [x] Flujo coincide con procedimiento real del Director

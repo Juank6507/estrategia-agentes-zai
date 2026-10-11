@@ -1,113 +1,64 @@
-# Entorno Z.ai
+# ENTORNO DE TRABAJO
 
-## Propósito
-Describe el entorno técnico y los recursos disponibles para los agentes Z.ai.
+## Espacios
 
----
+| Espacio | Ubicación | Plataforma |
+|---|---|---|
+| **Agente** | `/home/z/my-project/` | Linux |
+| **Estrategia (repo)** | `/home/z/my-project/estrategia/` | Clonado de GitHub al inicio de sesión |
+| **Entrega** | `/home/z/my-project/download/` | — |
+| **Director** | Su PC | Windows |
 
-## Estructura de Repositorios de Estrategia
+## Repositorio de estrategia
 
-### Dos repositorios, una carpeta local
+- **URL:** `https://github.com/Juank6507/estrategia-agentes-zai.git`
+- **Ruta local:** `/home/z/my-project/estrategia/`
+- **Clonado al inicio** de cada sesión (git clone o git pull).
+- **Público** -- el agente trabaja en un sandbox sin credenciales, no puede acceder a repositorios privados.
+- Contiene los archivos `agent-context/`, `agent-learn/`, `meta/`, `prompt_arranque.md` y `worklog_template.md`.
 
-| Aspecto | Repo Operativo | Repo Completo |
-|---------|---------------|---------------|
-| **Nombre GitHub** | `estrategia-agentes-zai` | `estrategia` |
-| **Visibilidad** | Público | Privado (local) |
-| **Ubicación local** | `C:\Python\Proyectos\estrategia` | `C:\Python\Proyectos\estrategia` (misma carpeta) |
-| **Contenido** | Solo archivos operatives | Todo operativo + `meta/` |
-| **Consumidores** | Agentes APA, MB, CZAI | Agente Estrategia, Director |
-| **URL GitHub** | `https://github.com/Juank6507/estrategia-agentes-zai` | N/A (local) |
+## Flujo de actualizacion (Director en Windows)
 
-### Estructura del repo operativo (público):
-```
-estrategia-agentes-zai/
-├── agent-context/
-│   ├── contrato.md
-│   ├── dcepi.md
-│   ├── comunicacion.md
-│   ├── identidad.md
-│   ├── proyecto.md
-│   └── entorno.md
-├── agent-learn/
-│   ├── lecciones_aprendidas.md
-│   ├── patrones_recurrentes.md
-│   └── anti_patrones.md
-└── worklog_template.md
-```
+Cuando el agente entrega un `.zip` con la estrategia actualizada, el Director ejecuta:
+1. Extraer `update_estrategia.ps1` del `.zip` a la carpeta del proyecto (`C:\Python\Proyectos\estrategia\`)
+2. Ejecutar desde PowerShell: `powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1`
+3. El script pregunta el tipo de operacion, mensaje de commit, y **busca el .zip automaticamente** en Downloads/Escritorio. Si no lo encuentra, pide la ruta manualmente.
+4. El script extrae los archivos del `.zip`, los copia al repo local, y hace push a GitHub.
 
-### Estructura del repo completo (local):
-```
-estrategia/
-├── [todo lo del operativo]
-├── meta/
-│   ├── director-only/
-│   │   ├── prompt_inicio_sesion.txt
-│   │   ├── prompt_templates.md
-│   │   └── informe_estrategia_v1.1.md
-│   ├── spec_estrategia_v1.1.md
-│   ├── plan_estrategia_v1.1.md
-│   ├── historial_versiones.md
-│   └── tareas_inmediatas.md
-└── update_estrategia.ps1
-```
+## Reglas de entrega
 
-### Principio: Sin duplicación
-- Una sola carpeta en PC local: `C:\Python\Proyectos\estrategia`
-- El repo operativo es un subconjunto del repo completo
-- No hay archivos duplicados — el .git del operativo maneja su propio tracking
+- Los archivos de entrega **siempre** van en `/home/z/my-project/download/`.
+- Si no es posible, se explica al Director el motivo y la solución alternativa.
+- Cada archivo entregable incluye en la primera línea un comentario con su ubicación y nombre de destino.
+- Al entregar, incluir tabla que mapee cada archivo entregado a su ubicación en el proyecto.
 
----
+## Compatibilidad cruzada
 
-## Flujo de Actualización por .zip
+- El entorno del agente es **Linux**.
+- El entorno del Director es **Windows**.
+- Los cambios sensibles a la plataforma (gestión de archivos, rutas, encoding, subprocess) requieren advertencia explícita al entregar.
+- Usar `os.path`, `pathlib`, `tempfile` para compatibilidad cruzada.
+- No usar rutas ni comandos exclusivos de Linux sin advertir.
+- Si algo no se puede probar en Linux, se indica para que el Director lo verifique en su entorno.
 
-Cuando se entrega una nueva versión de la estrategia como `.zip`:
+## Naturaleza del código del proyecto
 
-1. **Script automatizado** (`update_estrategia.ps1`) ejecuta:
-   - Elimina archivos previos (preservando `.git`):  
-     `Get-ChildItem -Path . -Exclude .git | Remove-Item -Recurse -Force`
-   - Desempaqueta `.zip` en la ubicación del proyecto:  
-     `Expand-Archive -Path '<ruta_zip>' -DestinationPath '.' -Force`
-2. **Commit y push** al repo operativo (`estrategia-agentes-zai`)
-3. **Agentes** pullan del repo operativo para obtener la versión actualizada
+El proyecto se compone de dos tipos de archivos:
 
-### Rutas predeterminadas:
-- **Carpeta local del proyecto**: `C:\Python\Proyectos\estrategia`
-- **Ruta del .zip**: `C:\Users\juanc\Downloads\estrategia.zip`
-- **Repo operativo GitHub**: `https://github.com/Juank6507/estrategia-agentes-zai.git`
-- **Carpeta temporal operativo**: `C:\Python\Proyectos\tmp_operativo`
+**1. Scripts atómicos (standalone)**
+- Independientes, autocontenidos.
+- Siempre incluyen su propia validación de cada funcionalidad que tocan en su lógica.
+- No dependen de otros scripts del proyecto.
 
----
+**2. Scripts de dependencia**
+- Importan varios scripts atómicos.
+- Conforman funcionalidades completas.
+- Se validan mediante tests independientes que se ejecutan desde la carpeta `tests/` del proyecto.
 
-## Entorno Técnico
+El agente debe identificar qué tipo de archivo está modificando y aplicar las reglas correspondientes.
 
-### Plataforma de agentes
-- **Sistema**: Z.ai (plataforma de agentes con contexto)
-- **Lenguaje**: Natural (español) con marcado estructurado
-- **Metodología**: DCEPI (5 fases, 19+ pasos)
-- **Control de versión**: Git/GitHub
+## Consumo de contexto
 
-### Herramientas del Director
-- **OS**: Windows (PowerShell)
-- **Editor**: A elección del Director
-- **PDF**: Generación del libro de estrategia
-- **Script**: `update_estrategia.ps1` para actualización automatizada
-
----
-
-## Convenciones
-
-### Formato de archivos
-- Markdown (.md) para toda documentación
-- UTF-8 encoding
-- Líneas: LF (Unix) o CRLF (Windows)
-
-### Nomencatura
-- Archivos: `snake_case.md`
-- Directorios: `snake_case/`
-- Versiones: `vX.Y` (major.minor)
-
----
-
-## Fuente
-Este entorno es parte del sistema de estrategia Z.ai v1.1.
-Repo operativo: `estrategia-agentes-zai`
+- Copiar solo los ficheros necesarios según la tarea.
+- No llenar la ventana de contexto con código que no se va a modificar.
+- Los archivos de estrategia se leen al inicio de sesión y no necesitan releerse a menos que el protocolo DCPA lo indique o el Director lo pida.

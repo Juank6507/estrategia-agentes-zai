@@ -1,65 +1,69 @@
-# Antipatrones — Z.ai
+# ANTI-PATRONES
 
-## Propósito
-Documenta antipatrones (errores recurrentes que deben evitarse). Cada entrada describe qué NO hacer y por qué.
-
----
-
-## Antipatrones de Proceso
-
-### AP1 — Solucionar sin diagnosticar
-**Descripción**: Proponer o implementar solución sin Fase D de DCEPI.  
-**Consecuencia**: Resolver el problema equivocado. Rework garantizado.  
-**Alternativa**: SIEMPRE Diagnosticar primero (R1).  
-**Detección**: Propuesta de solución sin sentencia `[FASE: D | Estrategia: activa]` previa.
-
-### AP2 — Asumir consenso
-**Descripción**: Avanzar sin confirmación explícita del Director.  
-**Consecuencia**: Trabajar en dirección no validada.  
-**Alternativa**: Conciliación explícita con declaración de consenso.  
-**Detección**: Fase C saltada o sin "Conciliación alcanzada".
-
-### AP3 — Improvisar formato
-**Descripción**: Usar formato ad-hoc en lugar de los protocolos definidos.  
-**Consecuencia**: Comunicación inconsistente, pérdida de información.  
-**Alternativa**: Seguir `comunicacion.md`.  
-**Detección**: Mensajes sin estructura estándar.
-
-### AP4 — Silenciar errores
-**Descripción**: No reportar errores o blockers.  
-**Consecuencia**: Problemas se acumulan y explotan después.  
-**Alternativa**: Fail-fast (R10), BLOCKER inmediato al Director.  
-**Detección**: Worklog sin mención de error cuando debería haberla.
-
-### AP5 — Contexto implícito
-**Descripción**: Asumir que el Director o otro agente "sabe" algo sin explicitarlo.  
-**Consecuencia**: Malentendidos, trabajo en direcciones opuestas.  
-**Alternativa**: I5 — Contexto explícito siempre.  
-**Detección**: Decisiones basadas en información no declarada.
+<!-- Criterio de inclusion: comportamientos que causaron problemas y que hay que evitar. -->
 
 ---
-
-## Antipatrones de Estrategia
-
-### AP6 — Ignorar sentencia de control
-**Descripción**: No emitir `[FASE: X | Estrategia: activa]` al inicio de respuestas.  
-**Consecuencia**: El Director no puede detectar pérdida de contexto. El agente opera sin estrategia sin que nadie lo note.  
-**Alternativa**: Emitir sentencia de control en CADA respuesta.  
-**Detección**: Ausencia de la sentencia en cualquier respuesta del agente.
-
-### AP7 — Phrase mágica para recuperación
-**Descripción**: Requerir que el Director use una frase exacta para activar el protocolo de recuperación.  
-**Consecuencia**: El Director puede no recordar la frase exacta, o el agente puede no reconocerla si perdió contexto.  
-**Alternativa**: Cualquier indicación del Director activa el protocolo.  
-**Detección**: Protocolo que depende de string matching exacto.
-
-### AP8 — Duplicar archivos entre repos
-**Descripción**: Mantener copias independientes del mismo archivo en repo operativo y completo.  
-**Consecuencia**: Divergencia — se actualiza un lado y no el otro.  
-**Alternativa**: Una sola carpeta local, repo operativo como subconjunto.  
-**Detección**: Diferencias entre archivos con el mismo nombre en diferentes ubicaciones.
+### AP1 -- Explicar implementacion tecnica al Director
+- **El problema:** El Director no necesita saber como se implemento, solo que se hizo y que cambio
+- **La solucion:** Comunicar en lenguaje natural: que se hizo, que cambio, que debe verificar el Director
+- **Referencia:** NH3, comunicacion.md estilo
 
 ---
+### AP2 -- Reescribir archivos completos
+- **El problema:** Reescribir todo el archivo cuando solo se necesitan cambios parciales. Riesgo de perder funcionalidad existente
+- **La solucion:** Cambios quirurgicos (Edit/diff). Solo reescribir si el Director lo pide explicitamente
+- **Referencia:** NH18
 
-## Fuente
-Este registro es parte del sistema de estrategia Z.ai v1.1.
+---
+### AP3 -- Entregar sin probar
+- **El problema:** Entregar codigo que no se ha verificado
+- **La solucion:** Probar cada cambio antes de entregarlo. Incluir bloque de validacion
+- **Referencia:** NH2
+
+---
+### AP4 -- Olvidar archivos en la entrega
+- **El problema:** Modificar 5 archivos pero solo entregar 3
+- **La solucion:** Checklist: verificar que todos los archivos modificados estan en la entrega
+- **Referencia:** NH12
+
+---
+### AP5 -- Usar rutas Linux sin advertir
+- **El problema:** Crear rutas o comandos que solo funcionan en Linux
+- **La solucion:** Usar os.path/pathlib. Advertir incompatibilidad con Windows
+- **Referencia:** NH17
+
+---
+### AP6 -- Actuar sin autorizacion
+- **El problema:** Ejecutar cambios sin que el Director los autorice
+- **La solucion:** Seguir DCPA. Sin autorizacion, no se toca nada
+- **Referencia:** NH8, dcpa.md Fase 4
+
+---
+### AP7 -- Hardcoding de valores
+- **El problema:** Valores fijos que deberian ser configurables
+- **La solucion:** Usar constantes, variables de entorno o archivos de configuracion
+- **Referencia:** NH21
+
+---
+### AP8 -- Refactoring no autorizado
+- **El problema:** Mejorar codigo que no fue pedido
+- **La solucion:** Solo tocar lo que el Director pide. Si se ve algo mejorable, proponerlo pero no modificarlo
+- **Referencia:** NH23
+
+---
+### AP9 -- Actuar sin Protocolo de Arranque
+- **El problema:** Empezar a trabajar sin leer los 9 archivos de estrategia al inicio
+- **La solucion:** Siempre LEER -> DECLARAR -> ACTUAR. Sin excepciones
+- **Referencia:** R8
+
+---
+### AP10 -- Entrega fuera de /download/
+- **El problema:** Intentar entregar archivos de estrategia por /upload/ u otra ruta
+- **La solucion:** /download/ es EXCLUSIVO. REGLA ABSOLUTA DE ENTREGA
+- **Referencia:** R10
+
+---
+### AP11 -- Trabajar con repo desactualizado
+- **El problema:** El repo local tiene archivos de una version anterior
+- **La solucion:** Siempre git pull al inicio. Verificar version en spec
+- **Referencia:** B1, EP-5

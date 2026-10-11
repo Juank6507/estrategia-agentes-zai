@@ -1,132 +1,83 @@
-# Informe de Estrategia Z.ai — v1.1
+# Informe Estrategia Z.ai v1.1
 
-## Resumen Ejecutivo
+## Resumen ejecutivo
 
-La versión 1.1 del sistema de estrategia Z.ai introduce tres mejoras fundamentales sobre v1.0:
-
-1. **Sentencia de control** — Mecanismo de detección de pérdida silenciosa de contexto
-2. **Protocolo de recuperación de estrategia** — Procedimiento de 6 pasos para restaurar cumplimiento
-3. **Estructura de repos dual** — Repo operativo (público, compacto) + repo completo (local, con meta/)
-
----
+La estrategia Z.ai evoluciona de v1.0 a v1.1 con 4 nuevos requisitos (R8-R11), 6 brechas CZAI corregidas (B1-B6), y mejoras en el script de actualizacion.
 
 ## Novedades v1.1
 
-### 1. Sentencia de Control
+1. **R8: Protocolo de Arranque** -- Obligatorio al inicio de cada sesion. Secuencia: LEER (9 archivos) -> DECLARAR -> ACTUAR. Los 9 archivos: 6 de agent-context/ + 3 de agent-learn/ (lecciones, patrones, anti-patrones).
 
-**Formato**: `[FASE: X | Estrategia: activa]`
+2. **R9: Agente EP** -- Reglas EP-1 a EP-6 que definen como el agente accede, persiste y distribuye cambios de estrategia. EP-4 establece distribucion via .zip en /download/.
 
-**Problema resuelto**: En v1.0, cuando un agente perdía contexto por compresión, lo hacía silenciosamente. Ni el agente ni el Director se enteraban hasta que el comportamiento divergía significativamente.
+3. **R10: REGLA ABSOLUTA DE ENTREGA** -- Toda entrega de cambios de estrategia va EXCLUSIVAMENTE por /download/. Nunca /upload/. El .zip incluye update_estrategia.ps1.
 
-**Solución**: La sentencia de control es un marcador obligatorio al inicio de cada respuesta del agente. Su presencia confirma que la estrategia está activa. Su ausencia es señal inequívoca de pérdida de contexto.
+4. **R11: prompt_arranque.md** -- Punto de entrada unico y fallback. Si el worklog no esta disponible, el agente lee prompt_arranque.md.
 
-**Archivos afectados**: contrato.md, dcepi.md, comunicacion.md, identidad.md, worklog_template.md
+5. **B1-B6: Brechas CZAI corregidas** -- 6 problemas operativos identificados y corregidos (repo desactualizado, entrega sin mecanismo, sin acceso meta/, sin protocolo arranque, sin versionado, sin registro brechas).
 
-### 2. Protocolo de Recuperación de Estrategia
+6. **3 nuevos archivos de aprendizaje** -- lecciones_aprendidas.md, patrones_recurrentes.md, anti_patrones.md.
 
-**6 pasos explícitos**:
-1. Leer worklog → Reconstruir memoria
-2. Leer archivos de estrategia → Restaurar marco de referencia
-3. Re-internalizar invariantes → Restaurar reglas no negociables
-4. Re-internalizar sentencia de control → Restaurar mecanismo de detección
-5. Emitir confirmación → Verificar recuperación exitosa
-6. Continuar con sentencia de control → Volver a operación normal
+7. **meta/ completo** -- spec, plan, historial, director-only/ con informe, prompt_inicio_sesion, prompt_templates.
 
-**Fallback**: Si la recuperación falla, el Director reinicia la sesión con `prompt_inicio_sesion.txt`.
+8. **update_estrategia.ps1 corregido** -- ASCII-only (sin em-dash, sin smart quotes), auto-deteccion de .zip en Downloads/Escritorio, pide ruta manual si no encuentra, 3 modos de operacion (zip, push, sync).
 
-**Principio de diseño**: No depende de una frase mágica. Cualquier indicación del Director activa el protocolo.
+9. **Flujo de actualizacion documentado** -- 9 archivos actualizados con el procedimiento real: extraer script del .zip -> ejecutar con ExecutionPolicy Bypass.
 
-**Archivos afectados**: contrato.md, dcepi.md, comunicacion.md
+## Brechas CZAI corregidas
 
-### 3. Estructura de Repos Dual
+| Brecha | Descripcion | Correccion |
+|---|---|---|
+| B1 | Repo desactualizado entre sesiones | Clon/pull obligatorio al inicio |
+| B2 | Entrega sin mecanismo estandar | /download/ + script en .zip |
+| B3 | Agente sin acceso a meta/ | EP-2: lectura permitida |
+| B4 | Sin protocolo de arranque | R8: obligatorio, 9 archivos |
+| B5 | Sin versionado | EP-6 + historial_versiones.md |
+| B6 | Sin registro de brechas | B1-B6 documentados |
 
-| Aspecto | Repo Operativo | Repo Completo |
-|---------|---------------|---------------|
-| Nombre | `estrategia-agentes-zai` | `estrategia` |
-| Visibilidad | Público | Privado (local) |
-| Contenido | Solo archivos operatives | Todo + meta/ |
-| Consumidores | Agentes APA, MB, CZAI | Agente Estrategia, Director |
+## Estructura de archivos (23 archivos)
 
-**Principio**: Sin duplicación. Una sola carpeta en PC local (`C:\Python\Proyectos\estrategia`). El repo operativo es un subconjunto del completo.
-
-**Archivos afectados**: proyecto.md, entorno.md, worklog_template.md
-
-### 4. Script de Actualización Automatizada
-
-**Archivo**: `update_estrategia.ps1`
-
-**Función**: Script PowerShell interactivo que automatiza el flujo completo de actualización:
-- Reemplazo de archivos desde .zip (preservando .git)
-- Commit y push al repo operativo
-- Sincronización del repo completo
-
-### 5. DIAGNÓSTICO-first como regla explícita
-
-**Regla R1 fortificada**: "Ante cualquier pedido, SIEMPRE comenzar por DIAGNÓSTICO. No proponer solución sin diagnosticar."
-
-Esta regla existía en v1.0 como R1 pero ahora se fortifica como obligación explícita en contrato.md y se refuerza en worklog_template.md.
-
----
-
-## Invariantes (sin cambios desde v1.0)
-
-I1–I7 permanecen inalterados. La sentencia de control y el protocolo de recuperación son mecanismos que aseguran el cumplimiento de los invariantes, no nuevos invariantes en sí mismos.
-
----
-
-## Compatibilidad v1.0 → v1.1
-
-Todos los archivos de v1.0 se actualizan en v1.1. No hay archivos eliminados. Los archivos nuevos son:
-- `update_estrategia.ps1`
-- `meta/spec_estrategia_v1.1.md`
-- `meta/plan_estrategia_v1.1.md`
-
-Los archivos de `agent-learn/` se actualizan con nuevas lecciones y antipatrones relacionados con v1.1.
-
----
-
-## Estructura de archivos v1.1
-
-### Repo operativo (público):
-```
-estrategia-agentes-zai/
-├── agent-context/
-│   ├── contrato.md
-│   ├── dcepi.md
-│   ├── comunicacion.md
-│   ├── identidad.md
-│   ├── proyecto.md
-│   └── entorno.md
-├── agent-learn/
-│   ├── lecciones_aprendidas.md
-│   ├── patrones_recurrentes.md
-│   └── anti_patrones.md
-└── worklog_template.md
-```
-
-### Repo completo (local):
 ```
 estrategia/
-├── [todo lo del operativo]
-├── meta/
-│   ├── director-only/
-│   │   ├── prompt_inicio_sesion.txt
-│   │   ├── prompt_templates.md
-│   │   └── informe_estrategia_v1.1.md
-│   ├── spec_estrategia_v1.1.md
-│   ├── plan_estrategia_v1.1.md
-│   ├── historial_versiones.md
-│   └── tareas_inmediatas.md
-└── update_estrategia.ps1
+  agent-context/
+    contrato.md
+    entorno.md
+    comunicacion.md
+    identidad.md
+    dcpa.md
+    proyecto.md
+  agent-learn/
+    lecciones_aprendidas.md
+    patrones_recurrentes.md
+    anti_patrones.md
+    errores_comunes.md
+    preferencias_director.md
+    experiencias.md
+  meta/
+    spec_estrategia_v1.1.md
+    plan_estrategia_v1.1.md
+    historial_versiones.md
+    tareas_inmediatas.md
+    director-only/
+      informe_estrategia_v1.1.md
+      prompt_inicio_sesion.txt
+      prompt_templates.md
+  prompt_arranque.md
+  worklog_template.md
+  tareas_inmediatas.md
+  update_estrategia.ps1
 ```
 
----
+## Script de actualizacion
 
-## Fecha de versión
-v1.1 — 2025
+`update_estrategia.ps1` esta dentro del .zip de entrega. Flujo:
+1. Extraer el script del .zip a `C:\Python\Proyectos\estrategia\`
+2. Ejecutar: `powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1`
+3. El script auto-detecta el .zip; si no lo encuentra, pide la ruta
+4. 3 modos: zip (extraer + push), push (solo push), sync (solo clonar)
 
----
+## Commit sugerido
 
-## Fuente
-Este informe es parte del sistema de estrategia Z.ai v1.1.
-Repo completo: `estrategia` (local)
+```
+v1.1: Arranque+EP+Entrega exclusiva+6 brechas CZAI+spec/plan R1-R11
+```

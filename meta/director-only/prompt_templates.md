@@ -1,106 +1,40 @@
-# Prompt Templates — Z.ai v1.1
+# Prompt Templates -- Director
 
-## Propósito
-Templates reutilizables para interacciones con agentes Z.ai.
+## Template: Protocolo de Arranque
 
----
+Al inicio de cada sesion, el agente EP debe:
 
-## Template: Inicio de Sesión
+1. **LEER** los 9 archivos de estrategia (6 agent-context/ + 3 agent-learn/)
+2. **DECLARAR** la frase de deteccion al inicio de su primera respuesta
+3. **ACTUAR** segun lo aprendido (identificar lecciones, patrones y anti-patrones relevantes)
 
-```
-Lee los archivos de estrategia del repo [OPERATIVO|COMPLETO]:
-- agent-context/contrato.md
-- agent-context/dcepi.md
-- agent-context/comunicacion.md
-- agent-context/identidad.md
-- agent-context/proyecto.md
-- agent-context/entorno.md
+## Template: EP Entrega Cambios
 
-Internaliza invariantes, reglas, DCEPI, protocolos y sentencia de control.
-Lee el worklog del proyecto.
-Emite: [FASE: D | Estrategia: activa]
-Comienza con DIAGNÓSTICO.
-```
+Cuando el agente EP entrega cambios de estrategia:
 
-**Repo operativo** (APA, MB, CZAI): `https://github.com/Juank6507/estrategia-agentes-zai`
-**Repo completo** (Estrategia): `C:\Python\Proyectos\estrategia`
+1. Empaquetar todos los archivos modificados + `update_estrategia.ps1` en un `.zip`
+2. Colocar el `.zip` en `/home/z/my-project/download/`
+3. Informar al Director con tabla de archivos y ubicaciones
+4. Instrucciones para el Director:
+   - Extraer `update_estrategia.ps1` del .zip a la carpeta del proyecto
+   - Ejecutar: `powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1`
+   - El script auto-detecta el .zip; si no lo encuentra, pide la ruta
 
----
+## Template: Informe de Sesion
 
-## Template: Nueva Tarea
+Al finalizar la sesion:
 
-```
-[FASE: D | Estrategia: activa]
+1. Resumen de lo realizado
+2. Archivos modificados (con ubicaciones)
+3. Lecciones aprendidas (agregar a agent-learn/lecciones_aprendidas.md)
+4. Patrones detectados (agregar a agent-learn/patrones_recurrentes.md)
+5. Anti-patrones detectados (agregar a agent-learn/anti_patrones.md)
+6. Pendientes (actualizar tareas_inmediatas.md)
 
-Nueva tarea: [DESCRIPCIÓN]
+## Instrucciones para el Director
 
-DIAGNÓSTICO:
-- Qué se pide: [ ]
-- Contexto del proyecto: [ ]
-- Estado actual: [ ]
-- Comprensión declarada: [ ]
-```
-
----
-
-## Template: Reporte de Progreso
-
-```
-[FASE: X | Estrategia: activa]
-STATUS — [Agente] → [Director]
-
-Progreso: [resumen de avance]
-Próximo paso: [qué sigue]
-Blockers: [ninguno | descripción]
-```
-
----
-
-## Template: Solicitud de Decisión
-
-```
-[FASE: X | Estrategia: activa]
-DECISION — [Agente] → [Director]
-
-Decisión necesaria: [descripción]
-Opciones:
-  A) [opción A] — [trade-offs]
-  B) [opción B] — [trade-offs]
-Recomendación: [A|B] — [justificación]
-```
-
----
-
-## Template: Activación de Protocolo de Recuperación
-
-```
-[Director indica pérdida de contexto]
-
-Ejecutando Protocolo de Recuperación de Estrategia:
-1. ✓ Leído worklog
-2. ✓ Leídos archivos de estrategia
-3. ✓ Re-internalizados invariantes I1–I7
-4. ✓ Re-internalizada sentencia de control
-5. ✓ Confirmación: Protocolo de recuperación completado. Estrategia re-activada. Sentencia de control restaurada.
-6. Continuando con sentencia de control...
-
-[FASE: X | Estrategia: activa]
-```
-
----
-
-## Template: Cierre de Tarea
-
-```
-[FASE: I | Estrategia: activa]
-
-Tarea completada: [descripción]
-Artifacts producidos: [lista]
-Validación del Director: [pendiente|aprobada]
-Worklog actualizado: ✓
-```
-
----
-
-## Fuente
-Estos templates son parte del sistema de estrategia Z.ai v1.1.
+- Para actualizar la estrategia: descargar el .zip, extraer `update_estrategia.ps1`, ejecutarlo
+- Para revisar el spec: leer `meta/spec_estrategia_v1.1.md`
+- Para revisar el plan: leer `meta/plan_estrategia_v1.1.md`
+- Para revisar el historial: leer `meta/historial_versiones.md`
+- Para personalizar el prompt de inicio: editar `meta/director-only/prompt_inicio_sesion.txt`

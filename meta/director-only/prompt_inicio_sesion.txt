@@ -1,67 +1,35 @@
-PROMPT DE INICIO DE SESIÓN — Z.ai v1.1
-========================================
+PROMPT DE INICIO DE SESION -- Estrategia Z.ai v1.1
+====================================================
 
-Este prompt se usa al iniciar una nueva sesión con un agente Z.ai o al reiniciar tras pérdida de contexto.
+INSTRUCCIONES PARA EL AGENTE EP:
 
----
-
-INSTRUCCIONES PARA EL AGENTE:
-
-1. Lee los archivos de estrategia de tu repo correspondiente:
-   - Agentes APA, MB, CZAI → Repo operativo: https://github.com/Juank6507/estrategia-agentes-zai
-   - Agente Estrategia → Repo completo local: C:\Python\Proyectos\estrategia
-
-2. Archivos obligatorios a leer:
-   - agent-context/contrato.md
-   - agent-context/dcepi.md
-   - agent-context/comunicacion.md
+1. PROTOCOLO DE ARRANQUE (obligatorio):
+   LEER los 9 archivos de estrategia:
    - agent-context/identidad.md
-   - agent-context/proyecto.md
+   - agent-context/contrato.md
+   - agent-context/comunicacion.md
+   - agent-context/dcpa.md
    - agent-context/entorno.md
+   - agent-context/proyecto.md
+   - agent-learn/lecciones_aprendidas.md
+   - agent-learn/patrones_recurrentes.md
+   - agent-learn/anti_patrones.md
 
-3. Internaliza las reglas:
-   - 7 Invariantes absolutos (I1–I7)
-   - 16 Reglas Preferidas (R1–R16)
-   - Metodología DCEPI (5 fases)
-   - Protocolos de comunicación
-   - Sentencia de control: [FASE: X | Estrategia: activa]
+   DECLARAR la frase de deteccion al inicio de la respuesta.
 
-4. Lee el worklog del proyecto correspondiente para reconstruir contexto.
+   ACTUAR segun lo aprendido.
 
-5. Emite tu primera respuesta con sentencia de control:
-   [FASE: D | Estrategia: activa]
+2. REGLAS EP (EP-1 a EP-6):
+   - EP-1: Solo acceder al repo operativo (GitHub)
+   - EP-2: Puede leer meta/ del repo completo
+   - EP-3: Persiste cambios en agent-learn/ via git
+   - EP-4: Distribuye cambios via .zip en /download/
+   - EP-5: Sincroniza con repo operativo al inicio y fin
+   - EP-6: Versiona con mensajes descriptivos
 
-6. Comienza con DIAGNÓSTICO de la tarea actual.
+3. REGLA ABSOLUTA DE ENTREGA:
+   - /download/ EXCLUSIVO
+   - NUNCA /upload/ para archivos de estrategia
+   - .zip incluye update_estrategia.ps1
 
----
-
-PROYECTOS ACTIVOS:
-- APA (agente: APA_apa, repo código: APA_apa, repo estrategia: operativo)
-- Manuel Belgrano (agente: ManuelBelgrano, repo código: ManuelBelgrano, repo estrategia: operativo)
-- CZAI (agente: CZAI_zai, repo código: CZAI_zai, repo estrategia: operativo)
-- Estrategia (agente: Estrategia, repo código: estrategia, repo estrategia: completo)
-
----
-
-REPOS DE ESTRATEGIA:
-- Operativo (público): https://github.com/Juank6507/estrategia-agentes-zai
-- Completo (local): C:\Python\Proyectos\estrategia
-
----
-
-SENTENCIA DE CONTROL:
-Toda respuesta DEBE iniciar con: [FASE: X | Estrategia: activa]
-Si no la emites, el Director asume pérdida de contexto.
-
----
-
-PROTOCOLO DE RECUPERACIÓN:
-Si el Director indica que perdiste contexto:
-1. Leer worklog
-2. Leer archivos de estrategia
-3. Re-internalizar invariantes
-4. Re-internalizar sentencia de control
-5. Emitir confirmación de recuperación
-6. Continuar con sentencia de control
-
-Fallback: El Director reinicia la sesión con este prompt.
+4. Si el worklog no esta disponible, leer prompt_arranque.md como fallback.

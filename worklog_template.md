@@ -1,83 +1,88 @@
-# Worklog Template — Z.ai
+# WORKLOG
 
-## Propósito
-Template para el worklog de cada proyecto. Todo agente DEBE usar este formato para registrar su trabajo.
+<!-- ╔══════════════════════════════════════════════════════════════╗ -->
+<!-- ║  SECCIÓN DE ESTRATEGIA — PROHIBIDO MODIFICAR             ║ -->
+<!-- ║  Todo lo que está por encima de "--- ENTRADAS ---" es de    ║ -->
+<!-- ║  solo lectura. Los agentes NO deben tocar esta sección.    ║ -->
+<!-- ╚══════════════════════════════════════════════════════════════╝ -->
 
----
+Al iniciar sesión, Z.ai te indicó que leyeras este archivo. Eso ya lo has hecho. Ahora sigue estas instrucciones:
 
-## Formato
+**Paso 1 — Obtener los archivos de estrategia**
 
-```markdown
-# Worklog — [NOMBRE PROYECTO]
-
----
-Task ID: [ID]
-Agent: [nombre agente]
-Task: [descripción de la tarea]
-
-Work Log:
-- [paso 1: qué se hizo, qué se decidió]
-- [paso 2: qué se hizo, qué se decidió]
-- ...
-
-Stage Summary:
-- [resultado clave]
-- [decisión importante]
-- [artefacto producido]
+Si `/home/z/my-project/estrategia/` no existe, clona el repositorio:
+```
+git clone https://github.com/Juank6507/estrategia-agentes-zai.git /home/z/my-project/estrategia/
+```
+Si ya existe, actualízalo:
+```
+cd /home/z/my-project/estrategia/ && git pull
 ```
 
----
+**Paso 2 — Leer los archivos de entorno y proyecto**
 
-## Instrucciones de uso
+Lee desde `/home/z/my-project/estrategia/agent-context/`:
+1. `entorno.md` — rutas, reglas de entrega, compatibilidad, naturaleza del código.
+2. `proyecto.md` — URL del repositorio del proyecto, ramas, agentes. Si el repositorio del proyecto no existe localmente, clónalo en la ruta indicada.
 
-### Paso 1: Inicio de sesión
-1. Leer este worklog template
-2. Clonar/pullar el repo de estrategia correspondiente:
-   - Agentes APA, MB, CZAI → `git clone https://github.com/Juank6507/estrategia-agentes-zai.git`
-   - Agente Estrategia → trabajar en `C:\Python\Proyectos\estrategia` (repo completo local)
-3. Leer los archivos de estrategia: `contrato.md`, `dcepi.md`, `comunicacion.md`, `identidad.md`
-4. Emitir sentencia de control: `[FASE: D | Estrategia: activa]`
+**Paso 3 — Leer los archivos de contexto**
 
-### Paso 2: Cada tarea
-1. Crear entrada de worklog con Task ID único
-2. Documentar cada paso en "Work Log"
-3. Al completar, llenar "Stage Summary"
+Lee estos archivos desde `/home/z/my-project/estrategia/agent-context/`:
+1. `identidad.md`
+2. `contrato.md`
+3. `comunicacion.md`
+4. `dcpa.md`
 
-### Paso 3: Diagnóstico (obligatorio)
-1. SIEMPRE comenzar por DIAGNÓSTICO (Fase D de DCEPI)
-2. No proponer solución sin diagnosticar
-3. Documentar diagnóstico en worklog
+**Paso 4 -- Leer los archivos de aprendizaje**
 
-### Paso 4: Avance por DCEPI
-1. Seguir fases D → C → E → P → I sin saltar
-2. En cada fase, emitir sentencia de control
-3. Documentar transiciones de fase
+Lee estos archivos desde `/home/z/my-project/estrategia/agent-learn/`:
+1. `lecciones_aprendidas.md` -- Lecciones de sesiones anteriores
+2. `patrones_recurrentes.md` -- Patrones que se repiten
+3. `anti_patrones.md` -- Lo que hay que evitar
+4. Lee tambien `errores_comunes.md`, `preferencias_director.md` y `experiencias.md` si existen.
 
-### Paso 5: Checkpoints
-1. Al alcanzar checkpoint, solicitar validación del Director
-2. Registrar validación en worklog
+**Paso 5 — Identificar tu identidad y sesión**
 
-### Paso 6: Blockers
-1. Al encontrar impedimento, reportar BLOCKER inmediatamente
-2. No continuar hasta resolver
-3. Registrar resolución en worklog
+Lee `proyecto.md` para identificar qué agente eres (APA o MB). Lee la última entrada de sesión en este worklog (debajo de `--- ENTRADAS ---`) para obtener el número de sesión anterior. Tu sesión es esa + 1.
 
-### Paso 7: Cierre
-1. Completar Stage Summary
-2. Emitir sentencia de control final: `[FASE: I | Estrategia: activa]`
-3. Solicitar validación de cierre del Director
+**Paso 6 — Internalizar el aprendizaje**
 
----
+Revisa los archivos de `agent-learn/`. Si hay alguna entrada relevante para el tipo de tarea que vas a realizar, menciónala en tu primera respuesta al Director. No es un formulario: es procesar la experiencia previa para aplicarla.
 
-## Detección de pérdida de contexto
+**Paso 7 — Emitir la frase de detección**
 
-Si el agente nota que no puede producir worklog coherente o no recuerda la tarea actual, DEBE:
-1. Revisar este worklog para reconstruir contexto
-2. Si no puede reconstruir, reportar al Director
-3. El Director activa el Protocolo de recuperación de estrategia
+Al inicio de tu primera respuesta, escribe exactamente este bloque:
 
----
+> Configuración cargada.
+> - Estrategia: clonada y leída
+> - Contexto: identidad, contrato, comunicación, dcpa, entorno, proyecto
+> - Aprendizaje: errores, experiencias, preferencias
+> - Proyecto: clonado en [ruta del proyecto]
+> - Sesión: [número]
+> - Agente: [APA o MB]
+> - Modo de comunicación: lenguaje natural sin tecnicismos
 
-## Fuente
-Este template es parte del sistema de estrategia Z.ai v1.1.
-Repo operativo: `estrategia-agentes-zai`
+No modifiques este formato. No lo antecedas de nada. Es lo primero que escribes.
+
+**Paso 8 — Protección de este archivo**
+
+- **NUNCA** uses la herramienta Write en este archivo (worklog.md).
+- Cuando necesites añadir tu entrada de sesión, usa **solo** la herramienta Edit para **insertar contenido nuevo** **por debajo** de la línea `--- ENTRADAS ---`.
+- **NUNCA** modifiques, borres ni muevas nada que esté por encima de esa línea.
+- Si necesitas actualizar tu aprendizaje, hazlo en `/home/z/my-project/estrategia/agent-learn/` y luego `git add, commit, push`.
+
+<!-- ╔══════════════════════════════════════════════════════════════╗ -->
+<!-- ║  FIN DE LA SECCIÓN DE ESTRATEGIA                           ║ -->
+<!-- ╚══════════════════════════════════════════════════════════════╝ -->
+
+--- ENTRADAS ---
+
+(Cada entrada de sesión usa este formato:
+### [YYYY-MM-DD] — Sesión N — [Agente]
+- **Tarea:** lo que se pidió
+- **Qué se hizo:** resumen ejecutivo
+- **Archivos modificados:** lista
+- **Pendiente:** lo que quedó abierto (si hay)
+
+Al final de cada entrada, incluir siempre: `<!-- sesión: N -->`)
+<!-- sesión: 0 -->
