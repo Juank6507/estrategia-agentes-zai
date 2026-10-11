@@ -232,54 +232,64 @@ function Copy-FromZip {
 function Do-GitPush {
     param([string]$CommitMsg)
 
-    try {
-        Push-Location $REPO_DIR
+    Push-Location $REPO_DIR
 
+    # Desactivar ErrorActionPreference para git (git escribe progreso por stderr)
+    $prevEAP = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+
+    try {
         # Verificar que es un repo git
         $isGitRepo = Test-Path ".git"
         if (-not $isGitRepo) {
             Write-Host "  Inicializando repo git..." -ForegroundColor White
-            git init
-            git remote add origin $REPO_URL
+            git init 2>&1 | Out-Null
+            git remote add origin $REPO_URL 2>&1 | Out-Null
         }
 
         # Verificar remote
-        $remoteUrl = git remote get-url origin 2>$null
+        $remoteUrl = (git remote get-url origin 2>$null)
         if ($remoteUrl -ne $REPO_URL) {
             Write-Host "  Configurando remote origin..." -ForegroundColor White
-            git remote set-url origin $REPO_URL
+            git remote set-url origin $REPO_URL 2>&1 | Out-Null
         }
 
-        # Add, commit, pull --rebase, push
+        # Add
         Write-Host "  Ejecutando git add..." -ForegroundColor White
-        git add -A
+        git add -A 2>&1 | Out-Null
 
+        # Commit
         Write-Host "  Ejecutando git commit..." -ForegroundColor White
-        git commit -m $CommitMsg
+        git commit -m $CommitMsg 2>&1 | Out-Null
 
+        # Pull --rebase (sincronizar con remoto antes de push)
         Write-Host "  Ejecutando git pull --rebase..." -ForegroundColor White
-        git pull --rebase origin main 2>&1
+        git pull --rebase origin main 2>&1 | Out-Null
+        $pullExit = $LASTEXITCODE
+        if ($pullExit -ne 0) {
+            Write-Host "  Aviso: pull --rebase tuvo conflictos (exit $pullExit), continuando..." -ForegroundColor Yellow
+        }
 
+        # Push
         Write-Host "  Ejecutando git push..." -ForegroundColor White
-        $branch = git branch --show-current 2>$null
+        $branch = (git branch --show-current 2>$null)
         if (-not $branch) { $branch = "main" }
-        $pushResult = git push -u origin $branch 2>&1
+        $pushOutput = (git push -u origin $branch 2>&1)
         $pushExit = $LASTEXITCODE
 
         if ($pushExit -eq 0) {
             Write-Host "  Push completado correctamente." -ForegroundColor Green
         } else {
-            Write-Host "  ERROR: Push fallo." -ForegroundColor Red
-            Write-Host "  Salida: $pushResult" -ForegroundColor Red
-            Write-Host "  Intenta manualmente: git pull --rebase origin main && git push" -ForegroundColor Yellow
+            Write-Host "  ERROR: Push fallo (exit $pushExit)." -ForegroundColor Red
+            Write-Host "  Salida: $pushOutput" -ForegroundColor Red
+            Write-Host "  Intenta manualmente:" -ForegroundColor Yellow
+            Write-Host "    cd $REPO_DIR" -ForegroundColor Yellow
+            Write-Host "    git pull --rebase origin main" -ForegroundColor Yellow
+            Write-Host "    git push -u origin main" -ForegroundColor Yellow
         }
     }
-    catch {
-        Write-Host "  ERROR en git: $($_.Exception.Message)" -ForegroundColor Red
-        Write-Host "  Puede que necesites configurar credenciales de GitHub." -ForegroundColor Yellow
-        Write-Host "  Intenta: git config credential.helper manager" -ForegroundColor Yellow
-    }
     finally {
+        $ErrorActionPreference = $prevEAP
         Pop-Location
     }
 }
