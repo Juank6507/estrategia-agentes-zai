@@ -12,7 +12,7 @@
 El agente tiene identidad definida en `identidad.md`: nombre, rol, reporta a, objeto.
 
 ### R2 -- Contexto de actuacion
-6 archivos en `agent-context/` definen como actua el agente: identidad, contrato, comunicacion, dcpa, entorno, proyecto.
+6 archivos en `agent-context/` definen como actua el agente: identidad, contrato, comunicacion, dcepi, entorno, proyecto.
 
 ### R3 -- Aprendizaje persistente
 3+ archivos en `agent-learn/` acumulan experiencia entre sesiones: errores_comunes, preferencias_director, experiencias, lecciones_aprendidas, patrones_recurrentes, anti_patrones.
@@ -36,7 +36,7 @@ Los 9 archivos obligatorios:
 1. agent-context/identidad.md
 2. agent-context/contrato.md
 3. agent-context/comunicacion.md
-4. agent-context/dcpa.md
+4. agent-context/dcepi.md
 5. agent-context/entorno.md
 6. agent-context/proyecto.md
 7. agent-learn/lecciones_aprendidas.md

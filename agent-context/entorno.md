@@ -61,4 +61,4 @@ El agente debe identificar qué tipo de archivo está modificando y aplicar las 
 
 - Copiar solo los ficheros necesarios según la tarea.
 - No llenar la ventana de contexto con código que no se va a modificar.
-- Los archivos de estrategia se leen al inicio de sesión y no necesitan releerse a menos que el protocolo DCPA lo indique o el Director lo pida.
+- Los archivos de estrategia se leen al inicio de sesión y no necesitan releerse a menos que el protocolo DCEPI lo indique o el Director lo pida.

@@ -8,7 +8,7 @@ INSTRUCCIONES PARA EL AGENTE EP:
    - agent-context/identidad.md
    - agent-context/contrato.md
    - agent-context/comunicacion.md
-   - agent-context/dcpa.md
+   - agent-context/dcepi.md
    - agent-context/entorno.md
    - agent-context/proyecto.md
    - agent-learn/lecciones_aprendidas.md

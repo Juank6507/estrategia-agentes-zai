@@ -19,7 +19,7 @@
 - agent-context/comunicacion.md (agregado P5 protocolo de actualizacion)
 - agent-context/identidad.md (actualizado PERSISTIR)
 - agent-context/proyecto.md (actualizado flujo EP sandbox)
-- agent-context/dcpa.md (sin cambios funcionales)
+- agent-context/dcepi.md (renombrado de dcpa.md, metodologia DCEPI)
 - worklog_template.md (actualizado protocolo de arranque)
 - tareas_inmediatas.md (actualizado estado de completitud)
 
@@ -64,7 +64,7 @@
 - agent-context/identidad.md
 - agent-context/contrato.md
 - agent-context/comunicacion.md
-- agent-context/dcpa.md
+- agent-context/dcepi.md
 - agent-context/entorno.md
 - agent-context/proyecto.md
 - agent-learn/errores_comunes.md

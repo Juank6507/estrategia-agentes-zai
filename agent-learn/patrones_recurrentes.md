@@ -27,10 +27,10 @@
 - **Regla:** Contrato NH2 + checklist de integridad
 
 ---
-### P5 -- DCPA para cambios relevantes
-- **Patron:** Seguir Diagnostico -> Plan -> Consenso -> Autorizacion -> Ejecucion
+### P5 -- DCEPI para cambios relevantes
+- **Patron:** Seguir Diagnostico -> Consenso -> Ejecucion -> Plan -> Inspeccion
 - **Frecuencia:** Cambios de codigo, bugs, arquitectura
-- **Regla:** dcpa.md
+- **Regla:** dcepi.md
 
 ---
 ### P6 -- Compatibilidad cruzada

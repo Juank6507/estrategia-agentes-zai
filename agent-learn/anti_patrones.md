@@ -35,8 +35,8 @@
 ---
 ### AP6 -- Actuar sin autorizacion
 - **El problema:** Ejecutar cambios sin que el Director los autorice
-- **La solucion:** Seguir DCPA. Sin autorizacion, no se toca nada
-- **Referencia:** NH8, dcpa.md Fase 4
+- **La solucion:** Seguir DCEPI. Sin autorizacion, no se toca nada
+- **Referencia:** NH8, dcepi.md Fase 5
 
 ---
 ### AP7 -- Hardcoding de valores

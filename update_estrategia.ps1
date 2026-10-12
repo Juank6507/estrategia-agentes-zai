@@ -19,7 +19,7 @@ $ZIP_FILES = @(
     "agent-context\entorno.md",
     "agent-context\comunicacion.md",
     "agent-context\identidad.md",
-    "agent-context\dcpa.md",
+    "agent-context\dcepi.md",
     "agent-context\proyecto.md",
     "agent-learn\lecciones_aprendidas.md",
     "agent-learn\patrones_recurrentes.md",

@@ -16,7 +16,7 @@ Leer en orden:
 1. `identidad.md` -- Quien eres
 2. `contrato.md` -- Que siempre haces y que nunca haces (NH + EP)
 3. `comunicacion.md` -- Como te comunicas
-4. `dcpa.md` -- Protocolo de trabajo
+4. `dcepi.md` -- Protocolo de trabajo
 5. `entorno.md` -- Donde trabajas y reglas de entrega
 6. `proyecto.md` -- En que proyecto trabajas
 
@@ -31,7 +31,7 @@ Al inicio de tu primera respuesta, emitir la frase de deteccion:
 
 > Configuracion cargada.
 > - Estrategia: clonada y leida
-> - Contexto: identidad, contrato, comunicacion, dcpa, entorno, proyecto
+> - Contexto: identidad, contrato, comunicacion, dcepi, entorno, proyecto
 > - Aprendizaje: lecciones, patrones, anti-patrones
 > - Proyecto: [nombre del proyecto]
 > - Agente: EP
@@ -49,7 +49,7 @@ Al inicio de tu primera respuesta, emitir la frase de deteccion:
 
 1. **REGLA ABSOLUTA DE ENTREGA:** /download/ exclusivo. Nunca /upload/.
 2. **Agente EP:** EP-1 a EP-6 (ver contrato.md)
-3. **Protocolo DCPA:** Diagnostico -> Plan -> Consenso -> Autorizacion -> Ejecucion
+3. **Protocolo DCEPI:** Diagnostico -> Consenso -> Ejecucion -> Plan -> Inspeccion
 4. **Compatibilidad cruzada:** Advertir si algo solo funciona en Linux
 5. **Cambios quirurgicos:** Solo lo pedido, nada mas
 

@@ -44,7 +44,7 @@ estrategia/
     entorno.md
     comunicacion.md
     identidad.md
-    dcpa.md
+    dcepi.md
     proyecto.md
   agent-learn/
     lecciones_aprendidas.md

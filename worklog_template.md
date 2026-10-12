@@ -31,7 +31,7 @@ Lee estos archivos desde `/home/z/my-project/estrategia/agent-context/`:
 1. `identidad.md`
 2. `contrato.md`
 3. `comunicacion.md`
-4. `dcpa.md`
+4. `dcepi.md`
 
 **Paso 4 -- Leer los archivos de aprendizaje**
 
@@ -55,7 +55,7 @@ Al inicio de tu primera respuesta, escribe exactamente este bloque:
 
 > Configuración cargada.
 > - Estrategia: clonada y leída
-> - Contexto: identidad, contrato, comunicación, dcpa, entorno, proyecto
+> - Contexto: identidad, contrato, comunicacion, dcepi, entorno, proyecto
 > - Aprendizaje: errores, experiencias, preferencias
 > - Proyecto: clonado en [ruta del proyecto]
 > - Sesión: [número]

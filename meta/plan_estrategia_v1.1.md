@@ -67,7 +67,7 @@
 - [x] agent-context/identidad.md existe y define identidad
 - [x] agent-context/contrato.md existe y tiene NH + SIEMPRE + EP
 - [x] agent-context/comunicacion.md existe y define estilo + P5
-- [x] agent-context/dcpa.md existe y define protocolo
+- [x] agent-context/dcepi.md existe y define protocolo
 - [x] agent-context/entorno.md existe y define espacios + flujo
 - [x] agent-context/proyecto.md existe y define repos
 - [x] agent-learn/lecciones_aprendidas.md existe
