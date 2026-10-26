@@ -5,11 +5,11 @@
 
 ## Pendientes
 
-- [ ] 7. I.3d -- diff cero y aprendizajes (próximo prompt; requiere que el Director confirme la actualización de ambos repos)
-- [ ] Director: descargar estrategia_v1.2.zip desde /download/ a C:\Users\juanc\Downloads\, extraer de él SOLO update_estrategia.ps1 y ejecutarlo (v3.0: borra todo el repo local salvo .git, descomprime el zip íntegro, push main + sync operativo y diff GitHub<->local sin preguntas)
+- [ ] Director: re-descargar estrategia_v1.2.zip (ahora con agent-learn poblado), extraer de él SOLO update_estrategia.ps1 y ejecutarlo desde C:\Users\juanc\Downloads (borra todo el repo salvo .git, descomprime el zip íntegro, push main + sync operativo, diff GitHub<->local). Tras esto el ciclo DCEPI v1.2 queda cerrado completo
 
 ## Hechas
 
+- [x] v1.2: 7. I.3d — aprendizajes poblados DENTRO de la implementación y ANTES de la actualización de repos (orden del Director): lecciones_aprendidas.md +L007/L008/L009, anti_patrones.md +AP12/AP13, patrones_recurrentes.md +P10, preferencias_director.md +2 preferencias, dcepi.md I.3d + Regla de cierre (los aprendizajes viajan en el .zip de entrega; no se posponen fuera del método)
 - [x] v1.2: update_estrategia.ps1 v3.0 (orden del Director: flujo de 2 acciones; localiza el .zip más reciente en Downloads; BORRADO TOTAL del repo local salvo .git que sustituye a la purga ELIMINADOS; descompresión íntegra del zip; sentencias GitHub I.3c: push main + sync operativo; DIFF GitHub<->local con verificación DIFF CERO e informe en Downloads; sin preguntas; -DryRun/-NoPush auxiliares)
 - [x] v1.2: MANIFIESTO_ENTREGA.txt generado (SHA256 por archivo + ELIMINADOS) incluido en el zip y en el repo
 - [x] v1.2: script probado con PowerShell real (pwsh 7.4.6 en sandbox): DryRun, entrega corrupta aborta sin cambios, ejecución completa con push main + sync operativo, idempotencia y flujo por defectos

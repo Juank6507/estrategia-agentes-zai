@@ -152,6 +152,8 @@ git push -u origin main
 
 **I.3d — Cierre del método (diff cero):** diff entre cada archivo intervenido (workspace del agente vs repositorio) = **CERO diferencias** → actualizar worklog + tareas inmediatas + aprendizajes. Aprendizajes **genéricos** → `agent-learn/` (accesibles a todos los agentes); **específicos** → DTI del proyecto; el worklog queda narrativo. El llenado de aprendizajes se hace **con autorización previa del Director** y criterio de utilidad en el momento preciso.
 
+**Regla de cierre (orden del Director, v1.2):** la actualización de aprendizajes **forma parte de la implementación** y por tanto se produce **ANTES de la actualización de los repositorios**: el agente propone en I.3d y, con autorización, escribe las entradas en `agent-learn/` y regenera el `.zip` de entrega, de modo que ambos repositorios reciben los aprendizajes ya poblados con la propia entrega y el ciclo DCEPI queda completo. No se pospone a sesiones futuras fuera del método.
+
 ---
 
 ## Baremos (procedimiento)
