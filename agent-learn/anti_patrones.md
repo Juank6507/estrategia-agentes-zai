@@ -68,3 +68,15 @@
 - **El problema:** El repo local tiene archivos de una version anterior
 - **La solucion:** Siempre git pull al inicio. Verificar version en spec
 - **Referencia:** B1, EP-5
+
+---
+### AP12 -- Purgas quirurgicas en entregas de reemplazo total
+- **El problema:** Mantener listas de archivos eliminados (seccion ELIMINADOS) y purgarlas es redundante y fragil cuando la entrega reemplaza todo el contenido
+- **La solucion:** Borrar todo el contenido del destino (conservando .git) y descomprimir la entrega integra; los retirados desaparecen solos
+- **Referencia:** update_estrategia.ps1 v3.0, orden del Director
+
+---
+### AP13 -- Scripts de actualizacion interactivos
+- **El problema:** El v2.0 preguntaba zip/repo/commit (Enter-Enter-Enter); el flujo real del Director es extraer y ejecutar, sin mas
+- **La solucion:** Por defecto automatico (deteccion del .zip mas reciente + valores por defecto); parametros solo como modos auxiliares (-ZipPath, -RepoDir, -DryRun, -NoPush)
+- **Referencia:** Sesion 23, orden del Director

@@ -55,3 +55,9 @@
 - **Patron:** El repo puede tener version stale; siempre hacer git pull
 - **Frecuencia:** Cada sesion
 - **Regla:** B1 + EP-5
+
+---
+### P10 -- Flujo de actualizacion del meta-proyecto (2 acciones)
+- **Patron:** Descargar zip -> extraer solo update_estrategia.ps1 -> ejecutarlo; el script hace borrado total + zip integro + push main + sync operativo + diff GitHub-local
+- **Frecuencia:** Cada version de la estrategia
+- **Regla:** dcepi.md I.3c + entorno.md flujo v3.0 + L009 (aprendizajes dentro de la implementacion, antes de la actualizacion de repos)
