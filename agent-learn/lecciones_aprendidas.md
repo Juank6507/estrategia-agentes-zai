@@ -1,6 +1,7 @@
 # LECCIONES APRENDIDAS
 
-<!-- Criterio de inclusion: solo lecciones que el agente aprendio y que son aplicables a sesiones futuras. -->
+<!-- Criterio de inclusion: solo lecciones que el agente aprendio y que son aplicables a sesiones futuras.
+     Consolidacion v1.2: experiencias.md fue fundido en este archivo (6 -> 4 archivos). -->
 
 ---
 ### L001 -- Repo de estrategia puede estar desactualizado
@@ -27,7 +28,7 @@
 ### L004 -- Protocolo de Arranque previene sesiones desactualizadas
 - **Sesion:** v1.1
 - **Contexto:** Agente comenzo a trabajar sin leer los archivos de estrategia
-- **Leccion:** LEER los 9 archivos al inicio es obligatorio. Previene trabajar con contexto stale y violar reglas desconocidas
+- **Leccion:** LEER los 10 archivos al inicio es obligatorio (premisa de respuesta como #1). Previene trabajar con contexto stale y violar reglas desconocidas
 - **Aplica cuando:** Inicio de cada sesion, sin excepciones
 
 ---
@@ -36,3 +37,10 @@
 - **Contexto:** update_estrategia.ps1 tenia em-dash y smart quotes que causaron errores de parsing en Windows PowerShell
 - **Leccion:** Para scripts .ps1 que se ejecutan en Windows: solo ASCII. Reemplazar em-dash (--) con doble guion (--), evitar comillas tipograficas, usar UTF-8 sin BOM
 - **Aplica cuando:** Crear o modificar scripts .ps1 para el Director
+
+---
+### L006 -- El worklog puede ser truncado externamente
+- **Sesion:** v1.2 (meta-proyecto)
+- **Contexto:** El worklog del sandbox fue truncado entre escrituras propias; la copia de respaldo local tambien fue eliminada
+- **Leccion:** Verificar continuidad del worklog en cada arranque (premisa). Las copias locales no son proteccion duradera: la proteccion duradera es el repo GitHub y la entrega completa que siempre incluye el worklog. Restaurar verbatim desde el contexto de sesion y documentar lo no recuperable
+- **Aplica cuando:** Inicio de sesion y cualquier discrepancia de registros

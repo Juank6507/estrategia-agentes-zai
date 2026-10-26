@@ -1,83 +1,21 @@
 # WORKLOG
 
 <!-- ╔══════════════════════════════════════════════════════════════╗ -->
-<!-- ║  SECCIÓN DE ESTRATEGIA — PROHIBIDO MODIFICAR             ║ -->
-<!-- ║  Todo lo que está por encima de "--- ENTRADAS ---" es de    ║ -->
-<!-- ║  solo lectura. Los agentes NO deben tocar esta sección.    ║ -->
+<!-- ║  PLANTILLA DE WORKLOG                                        ║ -->
+<!-- ║  Este archivo es la PLANTILLA. El protocolo completo vive    ║ -->
+<!-- ║  en worklog_protocolo.md (leerlo antes de usar este archivo). ║ -->
 <!-- ╚══════════════════════════════════════════════════════════════╝ -->
 
-Al iniciar sesión, Z.ai te indicó que leyeras este archivo. Eso ya lo has hecho. Ahora sigue estas instrucciones:
+Al iniciar sesión, Z.ai te indicó que leyeras este archivo. Procede así:
 
-**Paso 1 — Obtener los archivos de estrategia**
-
-Si `/home/z/my-project/estrategia/` no existe, clona el repositorio:
-```
-git clone https://github.com/Juank6507/estrategia-agentes-zai.git /home/z/my-project/estrategia/
-```
-Si ya existe, actualízalo:
-```
-cd /home/z/my-project/estrategia/ && git pull
-```
-
-**Paso 2 — Leer los archivos de entorno y proyecto**
-
-Lee desde `/home/z/my-project/estrategia/agent-context/`:
-1. `entorno.md` — rutas, reglas de entrega, compatibilidad, naturaleza del código.
-2. `proyecto.md` — URL del repositorio del proyecto, ramas, agentes. Si el repositorio del proyecto no existe localmente, clónalo en la ruta indicada.
-
-**Paso 3 — Leer los archivos de contexto**
-
-Lee estos archivos desde `/home/z/my-project/estrategia/agent-context/`:
-1. `identidad.md`
-2. `contrato.md`
-3. `comunicacion.md`
-4. `dcepi.md`
-
-**Paso 4 -- Leer los archivos de aprendizaje**
-
-Lee estos archivos desde `/home/z/my-project/estrategia/agent-learn/`:
-1. `lecciones_aprendidas.md` -- Lecciones de sesiones anteriores
-2. `patrones_recurrentes.md` -- Patrones que se repiten
-3. `anti_patrones.md` -- Lo que hay que evitar
-4. Lee tambien `errores_comunes.md`, `preferencias_director.md` y `experiencias.md` si existen.
-
-**Paso 5 — Identificar tu identidad y sesión**
-
-Lee `proyecto.md` para identificar qué agente eres (APA o MB). Lee la última entrada de sesión en este worklog (debajo de `--- ENTRADAS ---`) para obtener el número de sesión anterior. Tu sesión es esa + 1.
-
-**Paso 6 — Internalizar el aprendizaje**
-
-Revisa los archivos de `agent-learn/`. Si hay alguna entrada relevante para el tipo de tarea que vas a realizar, menciónala en tu primera respuesta al Director. No es un formulario: es procesar la experiencia previa para aplicarla.
-
-**Paso 7 — Emitir la frase de detección**
-
-Al inicio de tu primera respuesta, escribe exactamente este bloque:
-
-> Configuración cargada.
-> - Estrategia: clonada y leída
-> - Contexto: identidad, contrato, comunicacion, dcepi, entorno, proyecto
-> - Aprendizaje: errores, experiencias, preferencias
-> - Proyecto: clonado en [ruta del proyecto]
-> - Sesión: [número]
-> - Agente: [APA o MB]
-> - Modo de comunicación: lenguaje natural sin tecnicismos
-
-No modifiques este formato. No lo antecedas de nada. Es lo primero que escribes.
-
-**Paso 8 — Protección de este archivo**
-
-- **NUNCA** uses la herramienta Write en este archivo (worklog.md).
-- Cuando necesites añadir tu entrada de sesión, usa **solo** la herramienta Edit para **insertar contenido nuevo** **por debajo** de la línea `--- ENTRADAS ---`.
-- **NUNCA** modifiques, borres ni muevas nada que esté por encima de esa línea.
-- Si necesitas actualizar tu aprendizaje, hazlo en `/home/z/my-project/estrategia/agent-learn/` y luego `git add, commit, push`.
-
-<!-- ╔══════════════════════════════════════════════════════════════╗ -->
-<!-- ║  FIN DE LA SECCIÓN DE ESTRATEGIA                           ║ -->
-<!-- ╚══════════════════════════════════════════════════════════════╝ -->
+1. **Protocolo:** lee `worklog_protocolo.md` (fase de apertura: continuidad, número de sesión; fase de cierre: formato verbatim de la entrada).
+2. **Arranque:** sigue el Protocolo de Arranque de `prompt_arranque.md` (10 archivos, premisa de respuesta #1).
+3. **Protección de este archivo:** NUNCA reescribirlo. La sección de estrategia (todo lo anterior a `--- ENTRADAS ---`) es inalterable (NH20). Añade tu entrada SOLO por debajo de `--- ENTRADAS ---`, con el formato de worklog_protocolo.md.
+4. **Aprendizaje:** si actualizas `agent-learn/`, hazlo con git add, commit, push (autorizado por la estrategia; el resto de push es del Director, I.3c).
 
 --- ENTRADAS ---
 
-(Cada entrada de sesión usa este formato:
+(Cada entrada de sesión usa el formato verbatim de worklog_protocolo.md:
 ### [YYYY-MM-DD] — Sesión N — [Agente]
 - **Tarea:** lo que se pidió
 - **Qué se hizo:** resumen ejecutivo

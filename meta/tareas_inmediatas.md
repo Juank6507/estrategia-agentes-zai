@@ -1,20 +1,36 @@
-# TAREAS INMEDIATAS (meta)
+# TAREAS INMEDIATAS (meta -- unificado)
 
-<!-- Este archivo administra el Director. El agente lo lee como referencia. -->
+<!-- Este archivo lo administra el Director con sus prompts. El agente lo lee y actualiza. -->
+<!-- Ubicacion unica: estrategia/meta/tareas_inmediatas.md (la copia duplicada en la raiz fue retirada en v1.2). -->
 
 ## Pendientes
 
-- [ ] Director ejecuta update_estrategia.ps1 para integrar v1.1 en GitHub
-- [ ] Verificar que el script corregido funciona sin errores de encoding
-- [ ] Confirmar que el .zip se detecta automaticamente en Downloads
+- [ ] 7. I.3d -- diff cero y aprendizajes (próximo prompt; requiere que el Director confirme la actualización de ambos repos)
+- [ ] Director: descargar estrategia_v1.2.zip desde /download/ a C:\Users\juanc\Downloads\, extraer de él SOLO update_estrategia.ps1 y ejecutarlo (v3.0: borra todo el repo local salvo .git, descomprime el zip íntegro, push main + sync operativo y diff GitHub<->local sin preguntas)
 
 ## Hechas
 
-- [x] v1.1: Spec y plan actualizados (R1-R11, B1-B6)
-- [x] v1.1: Protocolo de Arranque documentado (9 archivos)
-- [x] v1.1: Agente EP documentado (EP-1 a EP-6)
-- [x] v1.1: REGLA ABSOLUTA DE ENTREGA documentada
-- [x] v1.1: prompt_arranque.md creado
-- [x] v1.1: Brechas CZAI B1-B6 corregidas
-- [x] v1.1: update_estrategia.ps1 corregido (ASCII-only, auto-deteccion .zip)
-- [x] v1.1: Flujo de actualizacion documentado en 9 archivos
+- [x] v1.2: update_estrategia.ps1 v3.0 (orden del Director: flujo de 2 acciones; localiza el .zip más reciente en Downloads; BORRADO TOTAL del repo local salvo .git que sustituye a la purga ELIMINADOS; descompresión íntegra del zip; sentencias GitHub I.3c: push main + sync operativo; DIFF GitHub<->local con verificación DIFF CERO e informe en Downloads; sin preguntas; -DryRun/-NoPush auxiliares)
+- [x] v1.2: MANIFIESTO_ENTREGA.txt generado (SHA256 por archivo + ELIMINADOS) incluido en el zip y en el repo
+- [x] v1.2: script probado con PowerShell real (pwsh 7.4.6 en sandbox): DryRun, entrega corrupta aborta sin cambios, ejecución completa con push main + sync operativo, idempotencia y flujo por defectos
+- [x] v1.2: C y E cerrados; spec_estrategia_v1.2.md y plan_estrategia_v1.2.md versionados en meta/
+- [x] v1.2: historial_versiones.md actualizado con la entrada v1.2
+- [x] v1.2: agent-context/ completo (premisa_respuesta.md y herramientas.md nuevos; dcepi.md reescrito; contrato, comunicacion, entorno y proyecto actualizados; dcpa.md eliminado)
+- [x] v1.2: Protocolo de Arranque v1.2 (10 archivos, premisa #1) en prompt_arranque.md
+- [x] v1.2: worklog_protocolo.md creado; worklog_template.md reducido a plantilla
+- [x] v1.2: agent-learn consolidado 6 -> 4 (errores_comunes fundido en anti_patrones; experiencias fundido en lecciones_aprendidas)
+- [x] v1.2: update_estrategia.ps1 con 1 repo/2 ramas y cabecera de ambito
+- [x] v1.2: PDFs de la metodologia (v1 y v2) ubicados en meta/
+- [x] v1.2: tareas_inmediatas unificado en meta/ (copia de raiz retirada)
+
+## No olvidar
+- Lenguaje del director natural y en sus mismos terminos (no hablar cosas tecnicas mas alla de funcionalidades)
+- El proyecto tiene dos tipos de archivos:
+    a) scripts atomicos (independientes, standalone con validacion propia)
+    b) scripts de dependencia (importan atomicos, se validan con tests en la carpeta tests/).
+    Identificar cual es antes de tocarlo.
+- Los cambios son quirurgicos: solo se modifica lo que se pidio. El resto queda igual.
+- Si veo que un codigo puede mejorarse con OOP, se lo digo al Director como propuesta.
+- Buenas practicas de programacion, no usar valores fijos (hardcoding).
+- Todo archivo entregado lleva en la primera linea un comentario con su ubicacion y nombre de destino.
+- La frase de control [FASE: X | Estrategia: activa] abre toda respuesta (premisa_respuesta.md).

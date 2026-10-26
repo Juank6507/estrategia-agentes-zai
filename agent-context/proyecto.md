@@ -25,9 +25,17 @@ Cada agente trabaja con su propio repositorio independiente:
 ## Agentes
 
 | Agente | Subproyecto | Repositorio |
----|---|---|
+|---|---|---|
 | **APA** | apa | https://github.com/Juank6507/APA_apa.git |
 | **MB** | model_broker | https://github.com/Juank6507/APA_model_broker.git |
+
+## Acceso de los agentes de proyecto al repo de estrategia (1 repo / 2 ramas)
+
+- Los agentes de proyecto (APA, MB y futuros) acceden al repo de estrategia **solo por la rama `operativo`**: `git clone -b operativo https://github.com/Juank6507/estrategia-agentes-zai.git`
+- La rama `operativo` contiene únicamente: `agent-context/`, `agent-learn/`, `worklog_template.md`, `worklog_protocolo.md` y `prompt_arranque.md`.
+- Los agentes de proyecto **físicamente no pueden ver** `meta/`, `director-only/`, los PDFs de la metodología ni el worklog del meta-proyecto (no existen en su rama).
+- El agente del meta-proyecto clona `main` (rama completa).
+- La rama `operativo` se sincroniza automáticamente desde `main` por `update_estrategia.ps1` tras cada actualización.
 
 ## Nota
 

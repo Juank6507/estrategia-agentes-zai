@@ -28,9 +28,9 @@
 
 ---
 ### P5 -- DCEPI para cambios relevantes
-- **Patron:** Seguir Diagnostico -> Consenso -> Ejecucion -> Plan -> Inspeccion
+- **Patron:** Seguir Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion
 - **Frecuencia:** Cambios de codigo, bugs, arquitectura
-- **Regla:** dcepi.md
+- **Regla:** dcepi.md v1.2
 
 ---
 ### P6 -- Compatibilidad cruzada
@@ -40,9 +40,9 @@
 
 ---
 ### P7 -- Protocolo de Arranque al inicio
-- **Patron:** Leer 9 archivos de estrategia al inicio de cada sesion
+- **Patron:** Leer los 10 archivos de estrategia al inicio de cada sesion (premisa de respuesta como #1)
 - **Frecuencia:** Cada sesion
-- **Regla:** R8 Protocolo de Arranque
+- **Regla:** prompt_arranque.md v1.2
 
 ---
 ### P8 -- Entrega de estrategia via /download/ + .zip

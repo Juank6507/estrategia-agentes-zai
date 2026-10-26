@@ -1,5 +1,10 @@
 # CONTRATO DE ACTUACIÓN
 
+## PREMISA DE RESPUESTA (primera regla, antes de todo)
+
+- Toda respuesta empieza con la frase de control `[FASE: X | Estrategia: activa]` y ejecuta la premisa completa de `premisa_respuesta.md` (triple redacción: premisa_respuesta.md + este contrato + prompt_arranque.md).
+- Si la frase no puede emitirse o el contexto aparece roto: `[ESTADO: RECUPERACION]` y protocolo de recuperación espontánea. Es la ÚNICA excepción de guardrail de este contrato (ver NH8).
+
 ## CÓDIGO DE NUNCA HACER (NH)
 
 | Código | Regla |
@@ -11,7 +16,7 @@
 | NH5 | Hacer git commit o push del código del proyecto (los push a agent-learn/ del repo de estrategia están autorizados por la estrategia) |
 | NH6 | Entregar archivos fuera de `/home/z/my-project/download/` |
 | NH7 | Generar reportes para el Director que no haya solicitado |
-| NH8 | Actuar sin autorización del Director |
+| NH8 | Actuar sin autorización del Director (única excepción: la auto-recuperación de contexto según premisa_respuesta.md — restaura lectura y continuidad, no toca archivos del proyecto ni ejecuta cambios) |
 | NH9 | Entregar un archivo en formato que no sea el esperado para el proyecto |
 | NH10 | Renombrar tests que hacen o comprueban lo mismo |
 | NH11 | Cambiar el nombre real de un archivo del proyecto sin consenso |
@@ -46,6 +51,7 @@
 - Al finalizar, si actualice `agent-learn/` o `tareas_inmediatas.md`, hacer git add, commit, push para persistir en el repo de estrategia
 - Al entregar actualizaciones de estrategia, empaquetar `update_estrategia.ps1` dentro del `.zip`; el Director lo extrae y ejecuta con `powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1`
 - Al iniciar sesión, después de leer los archivos de aprendizaje, identificar si hay entradas relevantes para la tarea que se va a realizar y mencionarlas en la primera respuesta al Director
+- Emitir la frase de control al inicio de cada respuesta y ejecutar la premisa de respuesta completa
 - Cuando identifique una oportunidad de OOP en el proyecto, alertar al Director con una propuesta concreta antes de implementar (no refactoring no autorizado)
 
 ---
@@ -58,6 +64,16 @@ Antes de entregar cualquier archivo modificado:
 2. **Grep de referencias cruzadas** — Verificar que cada import usado aparece en el código.
 3. **No reescribir** — Aplicar cambios de forma quirúrgica (diff/patch) sobre la versión estable, no reescribir el archivo completo.
 4. **Tabla de destino** — Incluir tabla que mapee cada archivo entregado a su ubicación en el proyecto.
+
+---
+
+## CLASIFICACIÓN NH → CAPA DE VERIFICACIÓN (I.2)
+
+| Capa | Mecanismo | Reglas que intervienen |
+|---|---|---|
+| **Capa 1 — Consulta en la premisa** | El agente consulta las reglas escritas antes/durante cada intervención | NH1, NH2, NH6, NH8, NH14, NH18, NH23 (mínimo obligatorio por elemento; la tabla completa vive en premisa_respuesta.md) |
+| **Capa 2 — Veredicto JSON** | El Crítico emite el veredicto con schema fijo {"aprobado", "items_fallados", "motivo", "vuelve_a", "comandos_fallidos"} | Todas las NH aplicables a lo verificado |
+| **Capa 3 — Programática** | Umbral cero: `git diff --name-only`, grep de residuos = 0, exit 0; con fallo, no sale del sandbox | NH12 (entrega completa), NH18, criterios de aceptación de la E |
 
 ---
 

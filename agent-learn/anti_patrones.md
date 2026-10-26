@@ -1,6 +1,7 @@
 # ANTI-PATRONES
 
-<!-- Criterio de inclusion: comportamientos que causaron problemas y que hay que evitar. -->
+<!-- Criterio de inclusion: comportamientos que causaron problemas y que hay que evitar.
+     Consolidacion v1.2: errores_comunes.md fue fundido en este archivo (6 -> 4 archivos). -->
 
 ---
 ### AP1 -- Explicar implementacion tecnica al Director
@@ -35,8 +36,8 @@
 ---
 ### AP6 -- Actuar sin autorizacion
 - **El problema:** Ejecutar cambios sin que el Director los autorice
-- **La solucion:** Seguir DCEPI. Sin autorizacion, no se toca nada
-- **Referencia:** NH8, dcepi.md Fase 5
+- **La solucion:** Seguir DCEPI. Sin autorizacion, no se toca nada. Unica excepcion: la auto-recuperacion de contexto (premisa_respuesta.md)
+- **Referencia:** NH8, dcepi.md elemento I
 
 ---
 ### AP7 -- Hardcoding de valores
@@ -52,9 +53,9 @@
 
 ---
 ### AP9 -- Actuar sin Protocolo de Arranque
-- **El problema:** Empezar a trabajar sin leer los 9 archivos de estrategia al inicio
-- **La solucion:** Siempre LEER -> DECLARAR -> ACTUAR. Sin excepciones
-- **Referencia:** R8
+- **El problema:** Empezar a trabajar sin leer los 10 archivos de estrategia al inicio
+- **La solucion:** Siempre LEER -> DECLARAR -> ACTUAR. Sin excepciones. La premisa de respuesta es el archivo #1
+- **Referencia:** prompt_arranque.md v1.2
 
 ---
 ### AP10 -- Entrega fuera de /download/
