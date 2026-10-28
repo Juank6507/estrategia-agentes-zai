@@ -69,3 +69,19 @@ Al arrancar (y cuando un supuesto real lo exija), el agente debe poder responder
 2. Que puede ejecutar (archivos, terminal, git).
 3. Que capacidades IA y de entorno tiene y donde se documentan.
 4. Que NO puede hacer: entregar fuera de download/, push desde el sandbox (NH5 con su excepcion de estrategia), tocar contexto_zai como activo propio, actuar sin autorizacion (NH8, salvo auto-recuperacion).
+
+## 8. Recuperacion de contexto (herramienta documentada, v1.3)
+
+La herramienta de recuperacion de contexto es 100% por ficheros y no depende de la memoria del LLM. Es la misma para cualquier agente y cualquier proyecto:
+
+| Paso | Accion |
+|---|---|
+| 1 | Emitir `[ESTADO: RECUPERACION]` (no requiere permiso: unica excepcion de NH8) |
+| 2 | Ejecutar la Recuperacion Espontanea de `premisa_respuesta.md` (en la RAIZ de la estrategia), seccion 3 |
+| 3 | Releer el worklog del proyecto: la cola (ultima entrada + marcador de sesion) y la cabecera de estrategia (bloque de Regla Conductual Minima con la ruta de la premisa) |
+| 4 | Verificar continuidad (worklog_protocolo.md, Fase de Apertura): ultima entrada = sesion anterior a la actual |
+| 5 | Reemitir la frase de control y continuar la tarea desde donde el worklog indica |
+
+**Sobre la compresion de contexto:** la perdida de contexto por compresion es INVISIBLE para el agente (percibe continuidad, no arranque). El disparador correcto no es "sentir el corte": es NO poder emitir la frase de control, o que el registro del worklog no cuadre. Ante cualquiera de las dos senales, ejecutar esta seccion sin pedir permiso.
+
+**Via de escalado (si la recuperacion falla):** si los ficheros de recuperacion no estan disponibles (estrategia ausente, worklog truncado, clon imposible), el agente NO improvisa y NO toca nada: informa al Director con el diagnostico exacto (que fichero falta, que se intento, que resultado dio) y espera instruccion. Si un proceso externo falla (p. ej. contexto_zai), su reparacion es competencia del Director o del proyecto propietario del proceso: el agente documenta el fallo y escala; no lo repara ni lo rodea.

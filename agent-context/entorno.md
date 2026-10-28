@@ -76,4 +76,4 @@ El agente debe identificar qué tipo de archivo está modificando y aplicar las 
 
 - Copiar solo los ficheros necesarios según la tarea.
 - No llenar la ventana de contexto con código que no se va a modificar.
-- Los archivos de estrategia se leen al inicio de sesión (Protocolo de Arranque, 10 archivos con la premisa de respuesta como #1) y no necesitan releerse a menos que el protocolo DCEPI lo indique o el Director lo pida.
+- Los archivos de estrategia se leen al inicio de sesión (Protocolo de Arranque, 10 archivos con la premisa de respuesta como #1) y no necesitan releerse a menos que el protocolo DCEPI lo indique o el Director lo pida. **EXCEPCIÓN (v1.3):** tras una pérdida de contexto (compresión), la re-lectura no solo está permitida: es OBLIGATORIA — Recuperación Espontánea de `premisa_respuesta.md` (raíz de la estrategia, §3) + sección "Recuperación de contexto" de `herramientas.md`.

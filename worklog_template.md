@@ -1,10 +1,20 @@
 # WORKLOG
 
 <!-- ╔══════════════════════════════════════════════════════════════╗ -->
-<!-- ║  PLANTILLA DE WORKLOG                                        ║ -->
-<!-- ║  Este archivo es la PLANTILLA. El protocolo completo vive    ║ -->
-<!-- ║  en worklog_protocolo.md (leerlo antes de usar este archivo). ║ -->
+<!-- ║  PLANTILLA DE WORKLOG (v1.3)                                 ║ -->
+<!-- ║  AGENTE NUEVO O PROYECTO NUEVO SIN WORKLOG: este archivo ES  ║ -->
+<!-- ║  tu worklog de sesión. Cópialo como worklog.md en el proyecto║ -->
+<!-- ║  (NUNCA lo edites in situ) y rige por él desde el minuto 1.  ║ -->
+<!-- ║  El protocolo completo vive en worklog_protocolo.md.         ║ -->
 <!-- ╚══════════════════════════════════════════════════════════════╝ -->
+
+## REGLA CONDUCTUAL MÍNIMA (se ejecuta en TODA respuesta)
+
+1. **Frase de control:** la primera línea de toda respuesta es `[FASE: X | Estrategia: activa]` (X = elemento DCEPI vigente: D, C, E, P o I). Si no puedes emitirla = pérdida de contexto → aplica la Recuperación (punto 3) sin pedir permiso.
+2. **Premisa de respuesta:** la regla única de conducta vive en `premisa_respuesta.md`, en la RAÍZ de la estrategia (`estrategia/premisa_respuesta.md`). Ante cualquier duda de cómo responder, léela.
+3. **Recuperación de contexto:** si pierdes el hilo (sesión desconocida, worklog que no cuadra), ejecuta la Recuperación Espontánea de `premisa_respuesta.md` (§3) y la sección "Recuperación de contexto" de `agent-context/herramientas.md`. No requiere permiso.
+4. **Verificación:** tras cada escritura en disco, read-back (número de líneas + marcador + cola). Nada se da por escrito sin evidencia.
+5. **Panel de checkmarks (R29):** toda respuesta muestra, bajo la frase de control, el panel del elemento vigente: cada punto precedido de su pregunta, con `[x]` cumplido (con evidencia en disco) o `[?]` sin respuesta conocida (se pregunta al Director, nunca se suple). Sólo se reabre lo que no tiene respuesta conocida. Los subsubelementos se colocan como checkmark a criterio del agente. Al cierre de cada elemento, la checklist íntegra con evidencias se registra en el worklog.
 
 Al iniciar sesión, Z.ai te indicó que leyeras este archivo. Procede así:
 
