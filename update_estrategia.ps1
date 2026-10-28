@@ -65,7 +65,9 @@ $MANIFEST_NAME = "MANIFIESTO_ENTREGA.txt"
 $DEFAULT_REPO_DIR = "C:\Python\Proyectos\estrategia"
 
 # Rutas que la rama operativo CONSERVA (lista cerrada aprobada por el Director).
+# v1.3: se anade premisa_respuesta.md (movida a la raiz desde agent-context/).
 $OPERATIVO_KEEP = @(
+    "premisa_respuesta.md",
     "agent-context",
     "agent-learn",
     "worklog_template.md",
@@ -73,9 +75,10 @@ $OPERATIVO_KEEP = @(
     "prompt_arranque.md"
 )
 
-# Archivos minimos que TODA entrega debe traer (estructura v1.2, Protocolo de Arranque)
+# Archivos minimos que TODA entrega debe traer (estructura v1.3, Protocolo de Arranque)
+# v1.3: premisa_respuesta.md vive en la RAIZ (reubicada desde agent-context/).
 $REQUIRED_FILES = @(
-    "agent-context/premisa_respuesta.md",
+    "premisa_respuesta.md",
     "agent-context/herramientas.md",
     "agent-context/dcepi.md",
     "agent-context/contrato.md",

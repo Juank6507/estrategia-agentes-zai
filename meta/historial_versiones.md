@@ -1,5 +1,49 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.3 (2026-10-28)
+
+### Motivacion
+Dos fallos convergentes: (1) el guardrails v1.2 moria en la perdida de contexto (el agente arrancaba por el worklog y la cabecera no lo llevaba nunca a la premisa; la compresion de contexto es invisible y el resumen automatico mata conductas); (2) la incidencia S45: el metodo tenia elementos y subelementos pero se saltaban "a la torera" -- la primera implementacion de esta v1.3 fue INVALIDADA por el Director (vicio de procedimiento: I ejecutada sin baremo estrategico fijado en C, segundo ciclo consecutivo saltandose un subelemento prescrito). La v1.3 re-ancla la premisa embebida en el worklog, la reubica en la raiz, documenta la recuperacion como herramienta y codifica el protocolo del panel de checkmarks: cero interpretacion del LLM en guardrails, metodo y subelementos.
+
+### Novedades
+1. **R22: Reubicacion de la premisa** -- premisa_respuesta.md pasa de agent-context/ a la RAIZ de la estrategia (git mv, historia preservada)
+2. **R23: Re-anclaje embebido en el worklog** -- bloque de Regla Conductual Minima (5 puntos) en la cabecera del worklog canonico y de worklog_template.md; Paso 4 corregido y Paso 12 con nota de deprecacion en el canonico
+3. **R24: Recuperacion documentada como herramienta** -- premisa 3 ampliada a 6 pasos; nueva seccion 8 "Recuperacion de contexto" en herramientas.md con via de escalado
+4. **R25: I.3e re-clonado final** -- el ciclo termina con re-clonado fresco desde GitHub tras el push del Director (disco == GitHub == entrega por construccion)
+5. **R26: Via de escalado** -- fallo de herramienta/proceso externo -> documentar y escalar al Director (dcepi.md I.2)
+6. **R27: Transferencia de worklog entre agentes** -- protocolo de toma de posesion en worklog_protocolo.md
+7. **R28: Regla de agente/proyecto nuevo** -- worklog_template.md se copia como worklog de sesion y rige desde el minuto 1 (Apertura paso 0)
+8. **R29: Protocolo del panel de checkmarks** -- norma en el elemento E de dcepi.md, ejecucion en premisa_respuesta.md (2.4 + 5), linea conductual en la Regla Conductual Minima; panel por respuesta con [x]/[?] precedidos de la pregunta; solo se reabre lo desconocido; subsubelementos a criterio del agente; checklist integra al cierre de cada elemento (orden del Director, incidencia S45)
+9. **Baremo estrategico v1.3 FIJADO por el Director en C (S46, verbatim)** -- verificacion con datos reales del chat del cumplimiento de cada aspecto conciliado de la spec (precedente v1.2/S21); aplicado en S46
+10. **DESVIACION 1 (ratificada, S44)** -- update_estrategia.ps1: REQUIRED_FILES y OPERATIVO_KEEP ajustados a la reubicacion de la premisa
+11. **Re-anclaje del entorno** -- entorno.md: tras una perdida de contexto, la re-lectura de premisa, worklog y tareas es OBLIGATORIA
+
+### Procedimiento de esta version
+- Primera implementacion INVALIDADA por el Director (S45). Re-implementada en S48 sobre el clon reseteado a f7cc61d, con el baremo fijado (S46) y R29 conciliados DENTRO del ciclo. Evidencia de la implementacion invalidada preservada fuera del repo (snapshot + zip de evidencia).
+
+### Archivos movidos
+- agent-context/premisa_respuesta.md -> premisa_respuesta.md (raiz; git mv, historia preservada)
+
+### Archivos nuevos
+- meta/spec_estrategia_v1.3.md
+- meta/plan_estrategia_v1.3.md
+
+### Archivos modificados
+- premisa_respuesta.md (raiz, 3 a 6 pasos, 2.4 panel R29, nota de panel en 5)
+- agent-context/herramientas.md (seccion 8 "Recuperacion de contexto" + via de escalado)
+- agent-context/dcepi.md (titulo v1.3, ruta de la premisa, escalado I.2, I.3e, protocolo R29 en el elemento E)
+- agent-context/entorno.md (re-lectura obligatoria tras perdida de contexto)
+- worklog_protocolo.md (Apertura paso 0, Transferencia entre agentes, ruta de la premisa en Deteccion)
+- worklog_template.md (cabecera v1.3: Regla Conductual Minima de 5 puntos con panel R29 + regla de copia)
+- prompt_arranque.md (premisa #1 desde la raiz, raiz(1)+agent-context(7), v1.3)
+- update_estrategia.ps1 (DESVIACION 1: dos listas ajustadas a la reubicacion)
+- meta/historial_versiones.md (esta entrada)
+- meta/tareas_inmediatas.md (pendientes/hechas v1.3)
+- MANIFIESTO_ENTREGA.txt (regenerado)
+- worklog canonico del meta-proyecto (bloque conductual con punto 5 R29; fuera del repo, viaja en la entrega)
+
+---
+
 ## v1.2 (2026-10-24)
 
 ### Novedades

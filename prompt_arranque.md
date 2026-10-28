@@ -1,4 +1,4 @@
-# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.2
+# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.3
 
 Este archivo es el **punto de entrada unico** y fallback para el arranque del agente.
 
@@ -9,8 +9,8 @@ Si el worklog no esta disponible, leer este archivo y seguir sus instrucciones.
 ## PREMISA DE RESPUESTA (se ejecuta en TODA respuesta, no solo al arrancar)
 
 - Primera linea de toda respuesta: frase de control `[FASE: X | Estrategia: activa]` (X = elemento DCEPI vigente: D, C, E, P o I).
-- Emitirla correctamente = autoverificacion. No poder emitirla = perdida de contexto: emitir `[ESTADO: RECUPERACION]` y ejecutar la recuperacion espontanea de `agent-context/premisa_respuesta.md` (unica excepcion de guardrail; no requiere permiso).
-- Regla con triple redaccion: `agent-context/premisa_respuesta.md` + `agent-context/contrato.md` + este archivo.
+- Emitirla correctamente = autoverificacion. No poder emitirla = perdida de contexto: emitir `[ESTADO: RECUPERACION]` y ejecutar la recuperacion espontanea de `premisa_respuesta.md` (en la RAIZ de la estrategia; unica excepcion de guardrail; no requiere permiso).
+- Regla con triple redaccion: `premisa_respuesta.md` (raiz) + `agent-context/contrato.md` + este archivo.
 
 ---
 
@@ -20,8 +20,10 @@ Si el worklog no esta disponible, leer este archivo y seguir sus instrucciones.
 
 Leer en orden:
 
-**agent-context/ (8 archivos):**
-1. `premisa_respuesta.md` -- La premisa que se ejecuta en cada respuesta (frase de control, recuperacion, mapeo por elemento)
+**raiz (1 archivo):**
+1. `premisa_respuesta.md` -- La premisa que se ejecuta en cada respuesta (frase de control, recuperacion, mapeo por elemento). Desde v1.3 vive en la RAIZ de la estrategia: es lo primero que el agente debe poder encontrar
+
+**agent-context/ (7 archivos):**
 2. `identidad.md` -- Quien eres
 3. `contrato.md` -- Que siempre haces y que nunca haces (NH + clasificacion por capas + EP)
 4. `comunicacion.md` -- Como te comunicas
@@ -46,7 +48,7 @@ Al inicio de tu primera respuesta, tras la frase de control, emitir el bloque de
 > - Aprendizaje: lecciones, anti-patrones (+ patrones y preferencias a demanda)
 > - Proyecto: [nombre del proyecto]
 > - Agente: [agente]
-> - Version: v1.2
+> - Version: v1.3
 
 ### Paso 3: ACTUAR
 
@@ -60,7 +62,7 @@ Al inicio de tu primera respuesta, tras la frase de control, emitir el bloque de
 
 1. **Premisa de respuesta:** frase de control en cada respuesta; recuperacion espontanea si falla.
 2. **REGLA ABSOLUTA DE ENTREGA:** /download/ exclusivo. Nunca /upload/.
-3. **DCEPI v1.2:** Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion (ver dcepi.md).
+3. **DCEPI v1.3:** Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion (ver dcepi.md).
 4. **Entregas:** meta-proyecto = SIEMPRE completa; proyectos = solo modificados salvo tests E2E (dcepi.md I.3a).
 5. **Repo unico / 2 ramas:** el meta-proyecto clona `main`; los agentes de proyecto clonan `-b operativo` (ver proyecto.md y entorno.md).
 6. **Compatibilidad cruzada:** advertir si algo solo funciona en Linux.

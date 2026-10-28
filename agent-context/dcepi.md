@@ -1,4 +1,4 @@
-# PROTOCOLO DCEPI v1.2
+# PROTOCOLO DCEPI v1.3
 
 ## Definición
 
@@ -12,7 +12,7 @@ Todo trabajo que implique modificar código, corregir un bug o cambiar la arquit
 
 ## Premisa de respuesta (transversal)
 
-Antes de responder CUALQUIER mensaje, se ejecuta `agent-context/premisa_respuesta.md`:
+Antes de responder CUALQUIER mensaje, se ejecuta `premisa_respuesta.md` (RAIZ de la estrategia desde v1.3):
 
 - Primera línea de toda respuesta: frase de control `[FASE: X | Estrategia: activa]` (X = elemento vigente). Emitirla correctamente = autoverificación; no poder emitirla = pérdida de contexto → `[ESTADO: RECUPERACION]` y protocolo de recuperación espontánea (única excepción de guardrail).
 - La respuesta corresponde a los subelementos del elemento vigente (tabla de mapeo en la premisa).
@@ -69,6 +69,17 @@ Respuesta coherente y abarcadora pero simple y precisa (ampliable solo a petici�
 - Barrido anti-retirados: la E declara qué notaciones/taxonomías retiradas deben quedar en 0 coincidencias.
 - El Director **valida la E** (no el plan). La E puede emitirse junto con la P en el mismo prompt si el Director lo pide.
 
+### Protocolo del panel de checkmarks (R29, v1.3 — orden del Director tras la incidencia S45)
+
+Cero interpretación del LLM en el guardrails, el método y cada uno de sus subelementos: cada punto y subpunto de cada elemento se ejecuta como checklist exigible y visible.
+
+1. **Panel por respuesta:** toda respuesta muestra, bajo la frase de control, el panel del elemento vigente con CADA punto precedido de su pregunta correspondiente.
+2. **Estados:** `[x]` cumplido (con evidencia en disco) / `[?]` sin respuesta conocida (se pregunta al Director, nunca se suple). El agente recopila información hasta dar por conciliado o respondido cada punto, y toda respuesta hace referencia a cada punto y su estado.
+3. **Reapertura mínima:** sólo se reabre lo que no tiene respuesta conocida hasta ese momento.
+4. **Subsubelementos:** quedan a decisión del agente colocarlos como checkmark (ejemplo: los 13 subelementos del D se muestran como panel; dentro de ellos, el agente puede abrir subsubelementos marcados).
+5. **Registro:** al cierre de cada elemento, la checklist íntegra con evidencias se copia al worklog (trazabilidad).
+6. **Ejecución de la norma:** la regla vive en triple redacción — este elemento E (norma), premisa_respuesta.md §2.4 y §5 (ejecución por respuesta) y la Regla Conductual Mínima del worklog (cabecera de plantilla y canónico).
+
 ---
 
 ## Elemento P — PLAN
@@ -119,6 +130,8 @@ Respuesta coherente y abarcadora pero simple y precisa (ampliable solo a petici�
 
 **MAX_ITER = 5** por defecto (ajustable por el Director). Superado el límite → **escalado al Director** con el historial de veredictos.
 
+**Escalado por fallo de herramienta o proceso (v1.3):** si una herramienta o un proceso externo (p. ej. contexto_zai) falla y bloquea la tarea, el agente NO lo repara ni lo rodea: documenta el fallo (qué se intentó, error exacto, evidencia) y escala al Director con el diagnóstico. La reparación de procesos externos es competencia del Director o del proyecto propietario del proceso.
+
 **Las 3 capas de verificación:**
 
 | Capa | Mecanismo | Umbral |
@@ -153,6 +166,8 @@ git push -u origin main
 **I.3d — Cierre del método (diff cero):** diff entre cada archivo intervenido (workspace del agente vs repositorio) = **CERO diferencias** → actualizar worklog + tareas inmediatas + aprendizajes. Aprendizajes **genéricos** → `agent-learn/` (accesibles a todos los agentes); **específicos** → DTI del proyecto; el worklog queda narrativo. El llenado de aprendizajes se hace **con autorización previa del Director** y criterio de utilidad en el momento preciso.
 
 **Regla de cierre (orden del Director, v1.2):** la actualización de aprendizajes **forma parte de la implementación** y por tanto se produce **ANTES de la actualización de los repositorios**: el agente propone en I.3d y, con autorización, escribe las entradas en `agent-learn/` y regenera el `.zip` de entrega, de modo que ambos repositorios reciben los aprendizajes ya poblados con la propia entrega y el ciclo DCEPI queda completo. No se pospone a sesiones futuras fuera del método.
+
+**I.3e — Re-clonado final (cierre por construcción, v1.3):** tras el push del Director (I.3c), el sandbox elimina su carpeta `estrategia/` y la re-clona fresca desde GitHub (git clone de main). El entorno del agente queda garantizado por construcción: lo que hay en disco == lo que hay en GitHub == lo que se entregó. Es el paso final obligatorio del ciclo; sin él, el clon local puede divergir del repo. Ejecutarlo solo cuando el Director confirme el push completado.
 
 ---
 

@@ -5,10 +5,17 @@
 
 ## Pendientes
 
-- [ ] Director: re-descargar estrategia_v1.2.zip (ahora con agent-learn poblado), extraer de él SOLO update_estrategia.ps1 y ejecutarlo desde C:\Users\juanc\Downloads (borra todo el repo salvo .git, descomprime el zip íntegro, push main + sync operativo, diff GitHub<->local). Tras esto el ciclo DCEPI v1.2 queda cerrado completo
+- [ ] Director: descargar estrategia_v1.3.zip en Downloads, extraer de él SOLO update_estrategia.ps1 y ejecutarlo (localiza el zip más reciente, verifica manifiesto SHA256, reemplazo total, push main + sync operativo, diff cero). Tras el push, avisar al agente para el re-clonado final (I.3e, cierre por construcción)
+- [ ] Director: autorizar los aprendizajes v1.3 propuestos (I.3d) — si autoriza antes del push, se regenera el zip con agent-learn poblado
+- [ ] Director: decidir si se regeneran los worklogs adaptados (czai/mb/apa) con cabecera v1.3 + punto 5 R29 (recomendado: sí)
+- [ ] Agente (próximo ciclo, a orden del Director): sincronizar al repo las sesiones 26-48 del worklog canónico (worklog_EP.md del repo está en S25)
 
 ## Hechas
 
+- [x] v1.3: RE-IMPLEMENTADA (S48) con baremo estratégico FIJADO en C por el Director (S46, verbatim; aplicado con datos reales del chat) y protocolo checkmark R29 conciliado (S46/S47: norma en el elemento E de dcepi.md, ejecución en premisa 2.4+5, línea conductual en worklog). Primera implementación INVALIDADA (S45, vicio de procedimiento: I sin baremo fijado); evidencia preservada fuera del repo (snapshot + zip de evidencia)
+- [x] v1.3: spec_estrategia_v1.3.md y plan_estrategia_v1.3.md versionados en meta/ (C cerrada S47; E+P aprobadas; I ordenada S48)
+- [x] v1.3: DESVIACIÓN 1 ratificada por el Director (S44: "Correcta") — REQUIRED_FILES y OPERATIVO_KEEP de update_estrategia.ps1 ajustados a la reubicación de la premisa
+- [x] v1.3: manifest regenerado (SHA256 de toda la entrega, verificación interna 100%) y zip I.3a completo en /download/ con diff zip↔clon CERO
 - [x] v1.2: 7. I.3d — aprendizajes poblados DENTRO de la implementación y ANTES de la actualización de repos (orden del Director): lecciones_aprendidas.md +L007/L008/L009, anti_patrones.md +AP12/AP13, patrones_recurrentes.md +P10, preferencias_director.md +2 preferencias, dcepi.md I.3d + Regla de cierre (los aprendizajes viajan en el .zip de entrega; no se posponen fuera del método)
 - [x] v1.2: update_estrategia.ps1 v3.0 (orden del Director: flujo de 2 acciones; localiza el .zip más reciente en Downloads; BORRADO TOTAL del repo local salvo .git que sustituye a la purga ELIMINADOS; descompresión íntegra del zip; sentencias GitHub I.3c: push main + sync operativo; DIFF GitHub<->local con verificación DIFF CERO e informe en Downloads; sin preguntas; -DryRun/-NoPush auxiliares)
 - [x] v1.2: MANIFIESTO_ENTREGA.txt generado (SHA256 por archivo + ELIMINADOS) incluido en el zip y en el repo
@@ -34,3 +41,4 @@
 - Buenas practicas de programacion, no usar valores fijos (hardcoding).
 - Todo archivo entregado lleva en la primera linea un comentario con su ubicacion y nombre de destino.
 - La frase de control [FASE: X | Estrategia: activa] abre toda respuesta (premisa_respuesta.md).
+- El panel de checkmarks R29 acompaña a la frase de control en TODA respuesta: cada punto precedido de su pregunta, [x] con evidencia / [?] se pregunta al Director (nunca se suple); sólo se reabre lo desconocido (dcepi.md elemento E).
