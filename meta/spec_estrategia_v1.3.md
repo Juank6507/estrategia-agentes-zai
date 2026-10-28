@@ -55,7 +55,8 @@
 ### R29 -- Protocolo del panel de checkmarks (incidencia S45)
 - Principio del Director: no queda nada a la imaginacion o entendimiento del LLM en lo que refiere al guardrails, el metodo y cada uno de sus subelementos; desde ahora es un checkmark de cada punto y subpunto; el LLM solo valida si estan cumplidos y si le falta informacion.
 - Norma en el elemento E de dcepi.md; ejecucion en premisa_respuesta.md (2.4 y 5); linea conductual en la Regla Conductual Minima del worklog (plantilla y canonico).
-- 6 puntos: panel por respuesta bajo la frase de control; estados [x] cumplido con evidencia / [?] sin respuesta conocida (se pregunta al Director, nunca se suple); solo se reabre lo desconocido; subsubelementos a criterio del agente; registro integral de la checklist con evidencias al cierre de cada elemento; triple redaccion de la regla.
+- 7 puntos: panel por respuesta bajo la frase de control; estados [x] cumplido con evidencia / [?] sin respuesta conocida (se pregunta al Director, nunca se suple); solo se reabre lo desconocido; subsubelementos a criterio del agente; registro integral de la checklist con evidencias al cierre de cada elemento; triple redaccion de la regla; lenguaje natural del panel (punto 7).
+- Enmienda del Director (S50, antes de la segunda pasada): punto 7 -- los checkmarks del panel se redactan en lenguaje natural, en los terminos del Director (que se hizo, que falta, que debe decidir), sin jerga tecnica; el detalle tecnico queda en el worklog como evidencia y se amplia solo a peticion expresa. Motivo: los paneles usaban lenguaje tecnico (identificadores de commit, comandos, hashes) y eso dificultaba al Director validar cada subelemento tocado, incumpliendo la norma de comunicacion (NH3, comunicacion.md). Codificada en la triple redaccion (dcepi.md elemento E, premisa 2.4, Regla Conductual Minima de plantilla y canonico).
 
 ## Baremo estrategico v1.3 (fijado por el Director en S46)
 

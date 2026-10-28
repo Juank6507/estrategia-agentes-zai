@@ -20,6 +20,9 @@ Dos fallos convergentes: (1) el guardrails v1.2 moria en la perdida de contexto 
 
 ### Procedimiento de esta version
 - Primera implementacion INVALIDADA por el Director (S45). Re-implementada en S48 sobre el clon reseteado a f7cc61d, con el baremo fijado (S46) y R29 conciliados DENTRO del ciclo. Evidencia de la implementacion invalidada preservada fuera del repo (snapshot + zip de evidencia).
+- I.3c primera pasada VERIFICADA desde el sandbox (S49): origin/main = 49c7d6a (hijo de f7cc61d), diff clon↔GitHub CERO y zip↔clon CERO.
+- I.3d en segunda pasada (S49): aprendizajes AUTORIZADOS por el Director ("Aprendizaje Ok") y poblados; zip regenerado con agent-learn poblado (mismo patron de cierre que la v1.2).
+- Enmienda del Director ANTES de la segunda pasada (S50): R29 punto 7 (lenguaje natural del panel), a peticion expresa del Director ("el lenguaje tecnico en los checkmarks incumple las normas de comunicacion con el director"). Codificada en la triple redaccion (dcepi.md elemento E, premisa 2.4, Regla Conductual Minima de plantilla y canonico); viaja en la misma entrega de segunda pasada.
 
 ### Archivos movidos
 - agent-context/premisa_respuesta.md -> premisa_respuesta.md (raiz; git mv, historia preservada)
@@ -40,6 +43,7 @@ Dos fallos convergentes: (1) el guardrails v1.2 moria en la perdida de contexto 
 - meta/historial_versiones.md (esta entrada)
 - meta/tareas_inmediatas.md (pendientes/hechas v1.3)
 - MANIFIESTO_ENTREGA.txt (regenerado)
+- agent-learn/ (I.3d segunda pasada S49: lecciones_aprendidas +L010/L011/L012, anti_patrones +AP14, patrones_recurrentes +P11, preferencias_director +2)
 - worklog canonico del meta-proyecto (bloque conductual con punto 5 R29; fuera del repo, viaja en la entrega)
 
 ---

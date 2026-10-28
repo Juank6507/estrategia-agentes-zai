@@ -61,3 +61,9 @@
 - **Patron:** Descargar zip -> extraer solo update_estrategia.ps1 -> ejecutarlo; el script hace borrado total + zip integro + push main + sync operativo + diff GitHub-local
 - **Frecuencia:** Cada version de la estrategia
 - **Regla:** dcepi.md I.3c + entorno.md flujo v3.0 + L009 (aprendizajes dentro de la implementacion, antes de la actualizacion de repos)
+
+---
+### P11 -- Panel de checkmarks R29 en toda respuesta, en el lenguaje del Director
+- **Patron:** Toda respuesta abre con la frase de control y el panel del elemento vigente: cada punto precedido de su pregunta, con [x] (cumplido, con evidencia en disco) o [?] (sin respuesta conocida: se pregunta al Director, nunca se suple); solo se reabre lo desconocido; la checklist integra con evidencias va al worklog al cierre de cada elemento. Cada checkmark se redacta en lenguaje natural (que se hizo, que falta, que debe decidir), sin jerga tecnica: el detalle tecnico queda en el worklog como evidencia (enmienda S50, L013)
+- **Frecuencia:** Cada respuesta (desde S45; lenguaje natural desde S50)
+- **Regla:** R29 puntos 1-7 (dcepi.md elemento E) + premisa_respuesta.md 2.4 y 5 + punto 5 de la Regla Conductual Minima del worklog

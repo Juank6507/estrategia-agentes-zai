@@ -80,3 +80,15 @@
 - **El problema:** El v2.0 preguntaba zip/repo/commit (Enter-Enter-Enter); el flujo real del Director es extraer y ejecutar, sin mas
 - **La solucion:** Por defecto automatico (deteccion del .zip mas reciente + valores por defecto); parametros solo como modos auxiliares (-ZipPath, -RepoDir, -DryRun, -NoPush)
 - **Referencia:** Sesion 23, orden del Director
+
+---
+### AP14 -- Saltarse subelementos prescritos del metodo
+- **El problema:** Ejecutar la I saltandose subelementos prescritos (p. ej. entrar sin la precondicion I.1 o sin el baremo fijado en C) aunque el trabajo tecnico sea correcto
+- **La solucion:** El orden del plan es obligatorio (fases con veredicto JSON, MAX_ITER); si un subelemento no puede ejecutarse, se documenta y se escala al Director; nunca se omite en silencio
+- **Referencia:** S45 (invalidacion v1.3), dcepi.md I.2, NH8
+
+---
+### AP15 -- Jerga tecnica en el panel de checkmarks
+- **El problema:** Redactar los checkmarks con lenguaje tecnico (identificadores de commit, comandos, hashes, "diff CERO", "read-back"); el punto es tecnicamente cierto pero el Director no puede entender cada subelemento tocado, incumpliendo las normas de comunicacion (S50) y dejando incompleto el aprendizaje I.3d (S51)
+- **La solucion:** Cada checkmark en lenguaje natural: que se hizo, que falta, que debe decidir. La jerga y el detalle tecnico van solo al worklog como evidencia; un punto correcto pero en jerga se considera NO conforme
+- **Referencia:** R29 punto 7 (dcepi.md elemento E), NH3, comunicacion.md, L013
