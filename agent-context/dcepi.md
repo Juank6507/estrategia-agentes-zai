@@ -79,6 +79,7 @@ Cero interpretación del LLM en el guardrails, el método y cada uno de sus sube
 4. **Subsubelementos:** quedan a decisión del agente colocarlos como checkmark (ejemplo: los 13 subelementos del D se muestran como panel; dentro de ellos, el agente puede abrir subsubelementos marcados).
 5. **Registro:** al cierre de cada elemento, la checklist íntegra con evidencias se copia al worklog (trazabilidad).
 6. **Ejecución de la norma:** la regla vive en triple redacción — este elemento E (norma), premisa_respuesta.md §2.4 y §5 (ejecución por respuesta) y la Regla Conductual Mínima del worklog (cabecera de plantilla y canónico).
+7. **Lenguaje del panel (enmienda del Director, S50):** cada checkmark se redacta en lenguaje natural, en los términos del Director: qué se hizo, qué falta y qué debe decidir. La jerga técnica (identificadores de commit, comandos, hashes, diffs, rutas) NO es el idioma del panel: queda en el worklog como evidencia (trazabilidad) y se amplía solo a petición expresa. Un punto técnicamente cierto pero redactado en jerga se considera NO conforme (incumple NH3 y comunicacion.md).
 
 ---
 
