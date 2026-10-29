@@ -1,4 +1,7 @@
-# update_estrategia.ps1 -- v3.0
+# update_estrategia.ps1 -- v3.1
+# v3.1 (2026-10-28, orden del Director S53): el informe DIFF_ENTREGA se genera con la
+#       salida de git decodificada como UTF-8 (corrige el mojibake CP850 del informe,
+#       diagnosticado en S49 y reconfirmado en S52). Resto del script sin cambios.
 # El Director extrae este archivo del .zip de entrega y lo ejecuta. El script hace el resto.
 # ASCII-only: sin em-dash, sin smart quotes, sin caracteres Unicode especiales
 #
@@ -103,7 +106,7 @@ $REQUIRED_FILES = @(
 function Write-Title {
     Write-Host ""
     Write-Host "============================================" -ForegroundColor Cyan
-    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v3.0)" -ForegroundColor Cyan
+    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v3.1)" -ForegroundColor Cyan
     Write-Host "  zip -> borrado total -> repo local -> GitHub" -ForegroundColor Cyan
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host ""
@@ -520,6 +523,11 @@ function Invoke-DiffCheck {
             # Diff de la entrega: cambios introducidos por esta version
             $diffFile = Join-Path $dlDir ("DIFF_ENTREGA_estrategia_v" + $Version + ".txt")
             $hasParent = $true
+            # v3.1: PowerShell 5.1 decodifica la salida de git con la codepage OEM (CP850 en
+            # consolas espanolas) y el informe sale con los acentos rotos (mojibake). Se fuerza
+            # UTF-8 solo durante la captura del diff y se restaura al terminar (S53).
+            $prevConsoleEnc = [Console]::OutputEncoding
+            try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
             git rev-parse HEAD~1 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { $hasParent = $false }
             if ($hasParent) {
@@ -530,6 +538,7 @@ function Invoke-DiffCheck {
             } else {
                 Write-Host "  Diff de la entrega no disponible (primer commit del repo)." -ForegroundColor Yellow
             }
+            try { [Console]::OutputEncoding = $prevConsoleEnc } catch { }
         } else {
             Write-Host "  Sin nuevos cambios: el diff de la entrega coincide con lo ya publicado." -ForegroundColor DarkGray
         }

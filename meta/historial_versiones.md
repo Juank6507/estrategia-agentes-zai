@@ -1,5 +1,25 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.3.1 (2026-10-28)
+
+### Motivacion
+Orden del Director tras valorar el informe DIFF_ENTREGA de la segunda pasada (S52: contenido correcto; unico defecto = la codificacion del informe) y cerrar los pendientes de decision abiertos: "No pueden haber errores por lo tanto se corrige y se vuelve a actualizar el repo. por otro lado si es necesario se corrigen los worklog del resto de los proyectos en un .zip adicional" (S53).
+
+### Novedades
+1. **update_estrategia.ps1 v3.1** -- el informe DIFF_ENTREGA se genera con la salida de git decodificada como UTF-8 ([Console]::OutputEncoding = UTF8 durante la captura del diff, restaurado al terminar). Corrige el mojibake CP850 repetido en cada pasada (diagnosticado en S49 con prueba matematica y correccion propuesta, reconfirmado en S52). Resto del script sin cambios.
+2. **Worklogs adaptados v1.3 (zip adicional, fuera del repo)** -- worklog_{czai,mb,apa}.md regenerados con cabecera v1.3: REGLA CONDUCTUAL MINIMA de 5 puntos (incl. punto 5: panel R29 con su punto 7, lenguaje natural) y ruta de prompt_arranque corregida a la raiz. Entradas byte-identicas al original (NH20; verificado con diff; marcadores 8/24/1 intactos). Entrega: download/worklogs_adaptados_v1.3.zip (+ README_NOTA_ADAPTACION.md).
+3. **Aprendizajes (regla L013: completados ANTES de regenerar la entrega)** -- lecciones_aprendidas.md +L014 (cero errores conocidos: todo defecto detectado se corrige en cuanto se autoriza) y preferencias_director.md +1 (Calidad -- cero errores conocidos).
+
+### Archivos modificados
+- update_estrategia.ps1 (v3.0 -> v3.1: fix de codificacion en la captura del diff)
+- agent-learn/lecciones_aprendidas.md (+L014), agent-learn/preferencias_director.md (+1)
+- meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md (S53)
+- MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.3.1)
+
+### Verificacion
+- Manifiesto 31/31 SHA256 OK (umbral cero). Zip<->clon: CERO diferencias, 32 ficheros.
+- Cambio del script verificado por inspeccion (diff quirurgico, ASCII y LF intactos); el efecto en el informe se confirma en la siguiente pasada del Director (PowerShell 5.1 en su equipo).
+
 ## v1.3 (2026-10-28)
 
 ### Motivacion

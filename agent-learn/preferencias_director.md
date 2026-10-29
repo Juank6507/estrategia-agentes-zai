@@ -43,3 +43,8 @@
 ### Comunicación — El panel de checkmarks en su lenguaje
 - **Observación:** El Director corrigió los paneles de la v1.3 (S50): los checkmarks con lenguaje técnico "dificultan el entendimiento de cada subelemento tocado durante el abordaje del método DCEPI"; lo reiteró al constatar que el aprendizaje I.3d no recogía la lección (S51)
 - **Regla derivada:** Todo checkmark se redacta en sus términos (qué se hizo, qué falta, qué debe decidir); el detalle técnico queda en el worklog y se amplía solo a petición expresa
+
+---
+### Calidad — Cero errores conocidos en el meta-proyecto
+- **Observación:** Ante el defecto de codificación del informe de actualización, detectado en S49 y repetido en la segunda pasada (S52), el Director ordenó: "No pueden haber errores por lo tanto se corrige y se vuelve a actualizar el repo" (S53); en la misma orden encargó corregir los worklogs del resto de los proyectos y entregarlos en un zip adicional si es necesario
+- **Regla derivada:** Todo defecto conocido se corrige en la entrega siguiente a su autorización, antes de cualquier otro trabajo; los pendientes de decisión se re-presentan en cada panel hasta que el Director decide

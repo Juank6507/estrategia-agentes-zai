@@ -93,3 +93,10 @@
 - **Contexto:** Los paneles de las sesiones S48-S49 cumplian la estructura de R29 (puntos, preguntas, estados) pero cada checkmark iba redactado con jerga tecnica (identificadores de commit, comandos, hashes, "diff CERO", "read-back", "perimetro"); el Director lo corrigio (S50): incumplia las normas de comunicacion (NH3 + comunicacion.md) y dificultaba entender cada subelemento tocado del metodo. El aprendizaje I.3d se habia poblado en S49, ANTES de esa orden, y no recogia la leccion: el Director lo constato en S51 ("Al Aprendizajes v1.3 (I.3d) le falta esta parte referente al lenguaje")
 - **Leccion:** El panel de checkmarks es lo que ve el Director: cada checkmark se redacta en lenguaje natural (que se hizo, que falta, que debe decidir); la jerga y el detalle tecnico quedan en el worklog como evidencia y se amplian solo a peticion expresa. Un punto tecnicamente cierto pero redactado en jerga se considera NO conforme (R29 punto 7). Ademas: al cierre de cada sesion se releen los aprendizajes; si una orden nueva introduce una leccion, el agent-learn se completa ANTES de regenerar la entrega
 - **Aplica cuando:** Redaccion de todo panel de checkmarks y cierre de cada sesion
+
+---
+### L014 -- Cero errores conocidos: todo defecto detectado se corrige en cuanto se autoriza
+- **Sesion:** v1.3.1 (meta-proyecto)
+- **Contexto:** El mojibake CP850 del informe DIFF_ENTREGA se detecto en S49 (con prueba matematica y correccion propuesta), se repitio en la segunda pasada y se reconfirmo en S52; quedo listado como pendiente de decision. El Director ordeno (S53): "No pueden haber errores por lo tanto se corrige y se vuelve a actualizar el repo"
+- **Leccion:** El estandar del Director es cero errores conocidos: un defecto detectado no se archiva como pendiente sin mas; se re-presenta en cada panel hasta que el Director decide, y cuando autoriza, se corrige y se re-entrega de inmediato (la correccion viaja en la siguiente entrega, antes de cualquier otro trabajo)
+- **Aplica cuando:** Cierre de cada sesion con defectos detectados y preparacion de entregas

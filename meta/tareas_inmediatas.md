@@ -5,13 +5,15 @@
 
 ## Pendientes
 
-- [ ] Director (SEGUNDA PASADA, aprendizajes poblados en S49 y completados con el lenguaje en S51): descargar el zip REGENERADO download/estrategia_v1.3.zip, extraer de él SOLO update_estrategia.ps1 y ejecutarlo (push con agent-learn poblado + tareas/historial/manifest actualizados). Tras el push, avisar al agente para el re-clonado final (I.3e, cierre por construcción)
-- [ ] Director: decidir si se regeneran los worklogs adaptados (czai/mb/apa) con cabecera v1.3 + punto 5 R29 (recomendado: sí)
-- [ ] Director (propuesta S49, sin autorizar): corregir en update_estrategia.ps1 la codificación con la que se guarda el informe DIFF_ENTREGA (PowerShell 5.1 decodifica la salida de git con la codepage OEM/CP850 y el informe sale con mojibake; el repo queda intacto — verificado en S49 revirtiendo la doble codificación)
-- [ ] Agente (próximo ciclo, a orden del Director): sincronizar al repo las sesiones 26-51 del worklog canónico (worklog_EP.md del repo está en S25)
+- [ ] Director (SEGUNDA PASADA v1.3.1): descargar download/estrategia_v1.3.1.zip, extraer de él SOLO update_estrategia.ps1 y ejecutarlo (push con el script v3.1 — informe DIFF con codificación corregida — + aprendizajes L014/preferencia + historial/tareas/manifest actualizados). Tras el push, avisar al agente para el re-clonado final (I.3e, cierre por construcción)
+- [ ] Agente (próximo ciclo, a orden del Director): sincronizar al repo las sesiones 26-53 del worklog canónico (worklog_EP.md del repo está en S25)
 
 ## Hechas
 
+- [x] v1.3.1 (S53, orden del Director "No pueden haber errores..."): update_estrategia.ps1 v3.0→v3.1 — el informe DIFF_ENTREGA se genera con la salida de git decodificada como UTF-8 (corrige el mojibake CP850 propuesto en S49 y reconfirmado en S52); manifiesto regenerado (VERSION: 1.3.1) y zip re-entregado (download/estrategia_v1.3.1.zip)
+- [x] v1.3.1 (S53): worklogs adaptados del resto de los proyectos REGENERADOS con cabecera v1.3 (Regla Conductual Mínima de 5 puntos con panel R29 punto 7 + ruta de prompt_arranque corregida a la raíz); entradas byte-idénticas (czai/mb/apa: marcadores 8/24/1 intactos); entregados en download/worklogs_adaptados_v1.3.zip (zip adicional, fuera del repo)
+- [x] v1.3.1 (S53): agent-learn completado ANTES de regenerar la entrega (regla L013): lecciones_aprendidas +L014 (cero errores conocidos), preferencias_director +1 (Calidad — cero errores conocidos)
+- [x] v1.3 (S52, cierre del ciclo): segunda pasada del Director verificada (origin/main = be5ab841) e I.3e ejecutado (re-clonado fresco, triple igualdad disco == GitHub == entrega); informe DIFF_ENTREGA valorado (contenido correcto; único defecto = codificación del informe → corregida en v1.3.1)
 - [x] v1.3: I.3c PRIMERA PASADA VERIFICADA desde el sandbox (S49): origin/main = 49c7d6a (hijo de f7cc61d), diff clon↔GitHub CERO, zip↔clon CERO. El Director adjuntó el informe DIFF_ENTREGA de su script y fue revisado: contenido idéntico byte a byte tras revertir la codificación; único defecto = codificación del informe (cosmético), no del repo
 - [x] v1.3: I.3d AUTORIZADO por el Director ("Aprendizaje Ok", S49) y poblado en segunda pasada: lecciones_aprendidas +L010/L011/L012, anti_patrones +AP14, patrones_recurrentes +P11, preferencias_director +2; manifest regenerado y zip re-entregado con agent-learn poblado (precedente: cierre v1.2)
 - [x] v1.3: Enmienda R29 punto 7 (S50, orden del Director): los checkmarks de todo panel se redactan en lenguaje natural comprensible (qué se hizo, qué falta, qué debe decidir), sin jerga técnica; el detalle técnico queda en el worklog como evidencia. Codificada en la triple redacción (dcepi.md elemento E + premisa 2.4 + Regla Conductual Mínima punto 5) y viaja en la misma segunda pasada
