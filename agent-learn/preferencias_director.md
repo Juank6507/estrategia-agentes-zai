@@ -48,3 +48,8 @@
 ### Calidad — Cero errores conocidos en el meta-proyecto
 - **Observación:** Ante el defecto de codificación del informe de actualización, detectado en S49 y repetido en la segunda pasada (S52), el Director ordenó: "No pueden haber errores por lo tanto se corrige y se vuelve a actualizar el repo" (S53); en la misma orden encargó corregir los worklogs del resto de los proyectos y entregarlos en un zip adicional si es necesario
 - **Regla derivada:** Todo defecto conocido se corrige en la entrega siguiente a su autorización, antes de cualquier otro trabajo; los pendientes de decisión se re-presentan en cada panel hasta que el Director decide
+
+---
+### Documentación — Describir, no solo remendar
+- **Observación:** Al conciliar las divergencias de la revisión integral (v1.4), el Director amplió el alcance de entorno.md y dcepi.md: no basta con corregir el punto roto; los archivos del núcleo deben describir el entorno de trabajo con sus guardrails, el método DCEPI con todos sus elementos y cómo cada pieza influye en resolver los problemas que corrige (V3/V4)
+- **Regla derivada:** Los archivos del núcleo de la estrategia describen su materia de forma completa (qué es, cómo se usa, cómo se valora, qué problema corrige), no solo el cambio del momento; las remisiones evitan duplicar el dato

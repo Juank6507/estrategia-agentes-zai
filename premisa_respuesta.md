@@ -18,6 +18,7 @@ La primera linea de toda respuesta es la frase de control:
 > [FASE: X | Estrategia: activa]
 
 - **X** es el elemento DCEPI vigente: D, C, E, P o I.
+- La frase y su panel se emiten como PRIMERA LINEA, antes de cualquier pensamiento o comentario (tras leer el prompt, lo primero que se emite es la frase). **Su omision detiene el proceso y/o invalida la respuesta.**
 - Emitir la frase correctamente ES la autoverificacion: para emitirla hay que saber en que fase se esta, y saberlo exige contexto vivo.
 - Si NO se puede emitir la frase (no se sabe la fase, el proyecto o que se estaba haciendo) = **perdida de contexto detectada** -> ejecutar inmediatamente la Recuperacion Espontanea (seccion 3).
 - La frase nunca se omite, nunca se inventa y nunca se sustituye por otra.

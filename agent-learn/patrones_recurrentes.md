@@ -57,10 +57,10 @@
 - **Regla:** B1 + EP-5
 
 ---
-### P10 -- Flujo de actualizacion del meta-proyecto (2 acciones)
-- **Patron:** Descargar zip -> extraer solo update_estrategia.ps1 -> ejecutarlo; el script hace borrado total + zip integro + push main + sync operativo + diff GitHub-local
+### P10 -- Flujo de actualizacion del meta-proyecto (un solo paso, dos repos)
+- **Patron:** El Director descarga el zip y pega en PowerShell la sentencia canonica de la entrega (extrae update_estrategia.ps1 y lo ejecuta); el script pregunta con predeterminados (carpeta del zip: Descargas, el estrategia_v#.#.zip mas reciente; carpeta local: borra y reemplaza; los dos repos GitHub a publicar), verifica integridad umbral cero y publica el repo COMPLETO (todo) y el repo OPERATIVO (paquete de seis elementos), con informe DIFF en Descargas
 - **Frecuencia:** Cada version de la estrategia
-- **Regla:** dcepi.md I.3c + entorno.md flujo v3.0 + L009 (aprendizajes dentro de la implementacion, antes de la actualizacion de repos)
+- **Regla:** dcepi.md I.3c + entorno.md seccion 6 + L009 (aprendizajes dentro de la implementacion) + L016 (sentencia unica, v1.4)
 
 ---
 ### P11 -- Panel de checkmarks R29 en toda respuesta, en el lenguaje del Director

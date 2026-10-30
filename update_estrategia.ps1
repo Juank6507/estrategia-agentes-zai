@@ -1,55 +1,81 @@
-# update_estrategia.ps1 -- v3.1
-# v3.1 (2026-10-28, orden del Director S53): el informe DIFF_ENTREGA se genera con la
-#       salida de git decodificada como UTF-8 (corrige el mojibake CP850 del informe,
-#       diagnosticado en S49 y reconfirmado en S52). Resto del script sin cambios.
-# El Director extrae este archivo del .zip de entrega y lo ejecuta. El script hace el resto.
+# update_estrategia.ps1 -- v4.0.2
+# v4.0 (v1.4, conciliacion V1/V6): (1) el script PREGUNTA con valores predeterminados
+#       (Enter acepta): carpeta del .zip (por defecto Descargas; toma el estrategia_v#.#.zip
+#       mas reciente), carpeta del repo local (borra y reemplaza) y los DOS repos GitHub a
+#       publicar. (2) Publica en DOS repos publicos desde UN solo repo local: el COMPLETO
+#       (todo el contenido) y el OPERATIVO (paquete de seis elementos), en lugar de un repo
+#       con dos ramas (conciliacion V1 de la v1.4). (3) El Director ya NO extrae el script
+#       a mano: la entrega trae una sentencia de PowerShell que lo extrae del .zip y lo
+#       ejecuta (un solo paso).
+# Hereda de v3.1: verificacion SHA256 umbral cero contra el manifiesto, borrado total del
+# repo local (conserva .git), descompresion integra, informe DIFF con codificacion UTF-8
+# (fix S53), modos auxiliares -DryRun/-NoPush.
+# v4.0.1 (v1.4.1, errata de entrega S57): delimitacion ${VAR} antes de ':' en las lineas
+#       348/364 (remotes COMPLETO/OPERATIVO): en PowerShell, "$NOMBRE:" dentro de una cadena
+#       de comillas dobles se interpreta como variable de ambito (como $env:PATH) y rompe
+#       el parseo. Resto del script sin cambios.
+# v4.0.2 (v1.4.2, correccion de produccion S58): (1) la seleccion del .zip es por MAYOR VERSION
+#       del nombre (empate: mas reciente por fecha), no solo por fecha: en Descargas del Director
+#       un zip viejo re-descargado (v1.3.1) resulto el mas nuevo y la sentencia ejecuto la entrega
+#       equivocada (banner "Version : 1.3.1"; la v1.4.1 no llego a aplicarse). (2) Guarda de
+#       coherencia nombre del .zip <-> VERSION del manifiesto: si no cuadran, aviso rojo y
+#       Enter = abortar (umbral cero; S = continuar). (3) El informe DIFF_ENTREGA_estrategia_v*.txt
+#       se genera SIEMPRE, tambien cuando el repo local no cambia ("sin cambios"). (4) La sentencia
+#       de cada entrega fija el NOMBRE EXACTO del .zip y se lo pasa al script con -ZipPath.
 # ASCII-only: sin em-dash, sin smart quotes, sin caracteres Unicode especiales
 #
 # AMBITO: este script es EXCLUSIVO del meta-proyecto de estrategia (estrategia-agentes-zai).
 #         Los proyectos de aplicacion se entregan segun dcepi.md I.3a (solo archivos modificados,
 #         salvo tests E2E) y NO usan este script.
 #
-# FLUJO DEL DIRECTOR (solo 2 acciones, orden del Director):
-#   2.1 Extraer del .zip de entrega el archivo update_estrategia.ps1
-#   2.2 Ejecutarlo:  powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1
-#   (sin preguntas: acepta por defecto el .zip mas reciente y el repo local estandar)
+# FLUJO DEL DIRECTOR (UN solo paso, orden del Director V6):
+#   Pegar en la consola de PowerShell la SENTENCIA que acompana la entrega: extrae este
+#   script del .zip (el mas reciente en Descargas) y lo ejecuta. El script pregunta lo
+#   imprescindible (Enter = valor predeterminado) y hace el resto solo.
 #
 # QUE HACE EL SCRIPT (actualizacion completa del meta-proyecto en UNA sola pasada):
-#   3.1 Busca el .zip mas reciente estrategia*.zip en la carpeta de descargas del Director
-#       (C:\Users\juanc\Downloads\ ; generico: %USERPROFILE%\Downloads) y lo fija como
-#       entrega por defecto.
-#   3.2 BORRA TODO lo que existe en la carpeta estrategia del repo local
-#       (por defecto C:\Python\Proyectos\estrategia; se conserva unicamente .git, la memoria
-#       de git necesaria para publicar) y descomprime el .zip de forma INTEGRA en la carpeta
-#       del proyecto. El .zip trae dentro la carpeta estrategia/, de modo que extraerlo
-#       integro en C:\Python\Proyectos y este paso producen EXACTAMENTE el mismo resultado.
-#       Al ser reemplazo total NO hace falta purga de archivos retirados: el borrado los
-#       elimina todos. Antes de borrar, verifica la integridad SHA256 de CADA archivo del
-#       .zip contra MANIFIESTO_ENTREGA.txt (umbral cero: si algo no cuadra, ABORTA sin
-#       tocar el repositorio).
-#   3.3 Ejecuta las sentencias de actualizacion de GitHub (dcepi.md I.3c): commit + push a
-#       la rama main y sincronizacion automatica de la rama operativo (1 repo / 2 ramas).
-#   3.4 Si es posible, ejecuta el DIFF entre el repo de GitHub (tras actualizar) y la
-#       carpeta local modificada por la implementacion: verifica DIFF CERO y guarda el
-#       diff de la entrega en %USERPROFILE%\Downloads\DIFF_ENTREGA_estrategia_v<version>.txt
+#   3.1 Pregunta la carpeta del .zip (por defecto %USERPROFILE%\Downloads) y toma el
+#       .zip estrategia_v* de MAYOR VERSION de esa carpeta (empate: el mas reciente por
+#       fecha; fix v4.0.2: los timestamps de Descargas no son fiables). Respaldo: patron
+#       generico estrategia*.zip.
+#   3.2 Pregunta la carpeta del repo local (por defecto C:\Python\Proyectos\estrategia),
+#       verifica la integridad SHA256 de CADA archivo del .zip contra MANIFIESTO_ENTREGA.txt
+#       (umbral cero: si algo no cuadra, ABORTA sin tocar nada), BORRA TODO el contenido
+#       del repo local (conserva solo .git) y descomprime el .zip de forma INTEGRA.
+#       Al ser reemplazo total NO hace falta purga de retirados: el borrado los elimina todos.
+#   3.3 Pregunta los DOS repos GitHub a publicar (por defecto: el completo y el operativo
+#       validados en la v1.4) y publica: commit + push del contenido COMPLETO al repo
+#       COMPLETO (remote 'origin') y del paquete OPERATIVO de seis elementos al repo
+#       OPERATIVO (remote 'operativo').
+#   3.4 Ejecuta el DIFF entre el repo de GitHub (tras actualizar) y la carpeta local:
+#       verifica DIFF CERO y guarda el diff de la entrega en
+#       %USERPROFILE%\Downloads\DIFF_ENTREGA_estrategia_v<version>.txt (UTF-8 correcto).
 #
-# ESQUEMA DE REPOSITORIO (R18): UN repo local = UN repo GitHub con DOS ramas:
-#   - main: rama COMPLETA (todo, incluida meta/)
-#   - operativo: rama COMPACTA (agent-context/, agent-learn/, worklog_template.md,
-#               worklog_protocolo.md, prompt_arranque.md) para los agentes de proyecto.
+# ESQUEMA DE REPOSITORIO (v1.4, conciliacion V1): UN repo local -> DOS repos GitHub:
+#   - COMPLETO  https://github.com/Juank6507/estrategia-agentes-zai.git
+#               (todo: agent-context/, agent-learn/, worklogs, meta/, PDFs, manifiesto, script)
+#               Lo clona el agente del meta-proyecto EP.
+#   - OPERATIVO https://github.com/Juank6507/estrategia-agentes-zai-operativo.git
+#               (paquete de seis elementos: agent-context/, agent-learn/,
+#               worklog_template.md, worklog_protocolo.md, prompt_arranque.md,
+#               premisa_respuesta.md). Lo clonan los agentes de proyecto.
+#   Sin credenciales: la separacion de contenido es la separacion entre los dos repos.
 #
-# USO (Director en Windows):
-#   powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1
-# MODOS AUXILIARES:
-#   -ZipPath "C:\Users\juanc\Downloads\estrategia_v1.2.zip"  (forzar un .zip concreto)
-#   -RepoDir "C:\Python\Proyectos\estrategia"                (forzar el repo local)
+# USO (Director en Windows): pegar la sentencia de la entrega en PowerShell (recomendado),
+#   o ejecutar directamente:  powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1
+# MODOS AUXILIARES (fuerzan valores y omiten su pregunta):
+#   -ZipPath "C:\...\estrategia_v1.4.zip"    (forzar un .zip concreto)
+#   -RepoDir "C:\Python\Proyectos\estrategia" (forzar el repo local)
+#   -CompletoUrl "https://github.com/...git"  (forzar el repo completo)
+#   -OperativoUrl "https://github.com/...git" (forzar el repo operativo)
 #   -DryRun    (simulacion: verifica el .zip e informa, NO cambia nada)
-#   -NoPush    (aplica en el repo local; NO toca GitHub ni la rama operativo)
+#   -NoPush    (aplica en el repo local; NO toca GitHub)
 
 param(
     [string]$ZipPath = "",
     [string]$RepoDir = "",
-    [string]$RepoUrl = "https://github.com/Juank6507/estrategia-agentes-zai.git",
+    [string]$CompletoUrl = "",
+    [string]$OperativoUrl = "",
     [switch]$NoPush,
     [switch]$DryRun
 )
@@ -64,11 +90,17 @@ $MAIN_BRANCH = "main"
 $OPERATIVO_BRANCH = "operativo"
 $MANIFEST_NAME = "MANIFIESTO_ENTREGA.txt"
 
-# Repositorio local por defecto del Director (R18 / I.3c de dcepi.md)
+# Repo local por defecto del Director
 $DEFAULT_REPO_DIR = "C:\Python\Proyectos\estrategia"
 
-# Rutas que la rama operativo CONSERVA (lista cerrada aprobada por el Director).
-# v1.3: se anade premisa_respuesta.md (movida a la raiz desde agent-context/).
+# Los DOS repos GitHub por defecto (validados por el Director en la v1.4)
+$DEFAULT_COMPLETO_URL = "https://github.com/Juank6507/estrategia-agentes-zai.git"
+$DEFAULT_OPERATIVO_URL = "https://github.com/Juank6507/estrategia-agentes-zai-operativo.git"
+
+$REMOTE_COMPLETO = "origin"      # remote del repo COMPLETO
+$REMOTE_OPERATIVO = "operativo"  # remote del repo OPERATIVO
+
+# Rutas que el repo operativo CONSERVA (paquete de seis elementos, conciliacion v1.4).
 $OPERATIVO_KEEP = @(
     "premisa_respuesta.md",
     "agent-context",
@@ -78,8 +110,7 @@ $OPERATIVO_KEEP = @(
     "prompt_arranque.md"
 )
 
-# Archivos minimos que TODA entrega debe traer (estructura v1.3, Protocolo de Arranque)
-# v1.3: premisa_respuesta.md vive en la RAIZ (reubicada desde agent-context/).
+# Archivos minimos que TODA entrega debe traer (estructura v1.4, Protocolo de Arranque)
 $REQUIRED_FILES = @(
     "premisa_respuesta.md",
     "agent-context/herramientas.md",
@@ -106,8 +137,8 @@ $REQUIRED_FILES = @(
 function Write-Title {
     Write-Host ""
     Write-Host "============================================" -ForegroundColor Cyan
-    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v3.1)" -ForegroundColor Cyan
-    Write-Host "  zip -> borrado total -> repo local -> GitHub" -ForegroundColor Cyan
+    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v4.0.2)" -ForegroundColor Cyan
+    Write-Host "  zip -> repo local -> 2 repos GitHub" -ForegroundColor Cyan
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host ""
 }
@@ -120,6 +151,19 @@ function Write-Fatal {
     exit 1
 }
 
+function Ask-Value {
+    # Pregunta con valor predeterminado (Enter acepta). Si el valor llega forzado por
+    # parametro, no pregunta y lo informa.
+    param([string]$Prompt, [string]$Default, [string]$Forced)
+    if ($Forced -ne "") {
+        Write-Host "  $Prompt : $Forced (fijado por parametro)" -ForegroundColor DarkGray
+        return $Forced
+    }
+    $answer = Read-Host "  $Prompt [Enter = $Default]"
+    if ($answer.Trim() -eq "") { return $Default }
+    return $answer.Trim()
+}
+
 function Get-TempRoot {
     if ($env:TEMP) { return $env:TEMP }
     return [System.IO.Path]::GetTempPath()
@@ -130,49 +174,76 @@ function Get-DownloadsDir {
     return ""
 }
 
-function Resolve-RepoDir {
-    # Orden de resolucion: -RepoDir > variable de entorno ESTRATEGIA_REPO > ruta por defecto.
-    # El script puede ejecutarse desde cualquier carpeta (p. ej. Downloads, junto al .zip).
-    if ($RepoDir -ne "") { return $RepoDir }
-    if ($env:ESTRATEGIA_REPO -ne "" -and $env:ESTRATEGIA_REPO) { return $env:ESTRATEGIA_REPO }
-    return $DEFAULT_REPO_DIR
+function Get-ZipVersionToken {
+    # Token de version de un nombre de entrega: "estrategia_v1.4.2.zip" -> "1.4.2".
+    # Sin version legible en el nombre -> "0" (queda el ultimo en la seleccion por version).
+    param([string]$FileName)
+    if ($FileName -match 'estrategia_v(\d+(?:\.\d+)*)') { return $Matches[1] }
+    return "0"
 }
 
-function Find-ZipFile {
-    # Generico: el .zip de entrega mas reciente (estrategia*.zip) en Downloads (carpeta
-    # indicada por el Director), con respaldo en Escritorio, repo y carpeta del script.
-    $searchDirs = @()
-    $dl = Get-DownloadsDir
-    if ($dl -ne "") { $searchDirs += $dl }
-    if ($env:USERPROFILE) { $searchDirs += (Join-Path $env:USERPROFILE "Desktop") }
-    $searchDirs += $REPO_DIR
-    if ($PSScriptRoot) { $searchDirs += $PSScriptRoot }
-
-    $candidates = @()
-    foreach ($d in $searchDirs) {
-        if (Test-Path $d) {
-            $found = Get-ChildItem -Path $d -Filter "estrategia*.zip" -File -ErrorAction SilentlyContinue
-            if ($found) { $candidates += $found }
-        }
+function Find-ZipInFolder {
+    # El .zip de entrega de UNA carpeta: el de MAYOR VERSION segun su nombre (fix v4.0.2:
+    # el "mas reciente por fecha" fallo en produccion -- un zip viejo re-descargado pasa
+    # por nuevo). Empate de version: gana el de fecha mas reciente. Patron estricto
+    # estrategia_v*.zip, con respaldo del patron generico estrategia*.zip.
+    param([string]$Folder)
+    if (-not (Test-Path $Folder)) { return $null }
+    $found = @(Get-ChildItem -Path $Folder -Filter "estrategia_v*.zip" -File -ErrorAction SilentlyContinue)
+    if ($found.Count -eq 0) {
+        $found = @(Get-ChildItem -Path $Folder -Filter "estrategia*.zip" -File -ErrorAction SilentlyContinue)
     }
-    if ($candidates.Count -eq 0) { return $null }
-    # El mas reciente por fecha de descarga
-    $newest = $candidates | Sort-Object -Property LastWriteTime -Descending | Select-Object -First 1
-    return $newest.FullName
+    if ($found.Count -eq 0) { return $null }
+    $ranked = foreach ($f in $found) {
+        $tok = Get-ZipVersionToken -FileName $f.Name
+        $ver = $null
+        if (-not [System.Version]::TryParse($tok, [ref]$ver)) { $ver = New-Object System.Version(0, 0) }
+        [pscustomobject]@{ File = $f; Ver = $ver; Ts = $f.LastWriteTime }
+    }
+    $best = $ranked |
+        Sort-Object -Property @{ Expression = "Ver"; Descending = $true }, @{ Expression = "Ts"; Descending = $true } |
+        Select-Object -First 1
+    return $best.File.FullName
 }
 
 function Select-ZipPath {
-    # Sin preguntas (orden del Director): -ZipPath o el mas reciente encontrado; si no hay, FATAL.
+    # Pregunta la carpeta del .zip (por defecto Descargas) y toma el mas reciente.
+    # -ZipPath fuerza el .zip concreto y omite la pregunta.
     if ($ZipPath -ne "") {
         if (-not (Test-Path $ZipPath)) {
             Write-Fatal "El .zip indicado con -ZipPath no existe: $ZipPath"
         }
         return $ZipPath
     }
-    $autoFound = Find-ZipFile
-    if ($autoFound) { return $autoFound }
     $dl = Get-DownloadsDir
-    Write-Fatal ("No se encontro ningun estrategia*.zip en " + $dl + " (ni en Escritorio/repo/script). " +
+    if ($dl -eq "") { $dl = (Get-Location).Path }
+    $folder = Ask-Value -Prompt "Carpeta donde esta el .zip de entrega" -Default $dl -Forced ""
+    $zip = Find-ZipInFolder -Folder $folder
+    if ($zip) {
+        Write-Host ("  .zip seleccionado (mayor version): " + (Split-Path $zip -Leaf)) -ForegroundColor DarkGray
+        return $zip
+    }
+    # Respaldo: Escritorio, repo local y carpeta del script
+    if ($env:USERPROFILE) {
+        $zip = Find-ZipInFolder -Folder (Join-Path $env:USERPROFILE "Desktop")
+        if ($zip) {
+            Write-Host "  No habia .zip en '$folder'; usado el de Escritorio: $zip" -ForegroundColor Yellow
+            return $zip
+        }
+    }
+    $zip = Find-ZipInFolder -Folder $DEFAULT_REPO_DIR
+    if ($zip) {
+        Write-Host "  No habia .zip en '$folder'; usado el del repo local: $zip" -ForegroundColor Yellow
+        return $zip
+    }
+    if ($PSScriptRoot) {
+        $zip = Find-ZipInFolder -Folder $PSScriptRoot
+        if ($zip) {
+            Write-Host "  No habia .zip en '$folder'; usado el de la carpeta del script: $zip" -ForegroundColor Yellow
+            return $zip
+        }
+    }
+    Write-Fatal ("No se encontro ningun estrategia_v*.zip en '$folder' (ni respaldos). " +
         "Descargue el .zip de entrega y reejecute, o use -ZipPath con la ruta completa.")
 }
 
@@ -212,7 +283,6 @@ function Parse-Manifest {
 function Test-Delivery {
     # Extraccion + verificacion SHA256 umbral cero de TODA la entrega.
     # Se ejecuta ANTES de borrar nada del repo: si algo falla, el repo queda intacto.
-    # Devuelve un hashtable con zipRoot, manifest y conteos; aborta si algo falla.
     param([string]$Zip)
 
     $tempDir = Join-Path (Get-TempRoot) ("estrategia_zip_" + [System.Guid]::NewGuid().ToString("N").Substring(0, 8))
@@ -222,7 +292,7 @@ function Test-Delivery {
 
     # Raiz generica: si hay una UNICA carpeta raiz y ningun archivo suelto, esa es la raiz
     $zipRoot = $tempDir
-    $topItems = @(Get-ChildItem $tempDir -Force | Where-Object { $_.Name -ne "MANIFIESTO_ENTREGA.txt" })
+    $topItems = @(Get-ChildItem $tempDir -Force | Where-Object { $_.Name -ne $MANIFEST_NAME })
     if ($topItems.Count -eq 1 -and $topItems[0].PSIsContainer) {
         $zipRoot = $topItems[0].FullName
     }
@@ -238,6 +308,23 @@ function Test-Delivery {
     if ($m.Files.Count -eq 0) {
         Remove-Item $tempDir -Recurse -Force -ErrorAction SilentlyContinue
         Write-Fatal "El manifest no contiene ninguna entrada de archivo."
+    }
+
+    # Guarda v4.0.2: el nombre del .zip debe cuadrar con la VERSION del manifiesto.
+    # Si no cuadran, probablemente se selecciono un zip viejo o renombrado (fallo real en
+    # produccion: se ejecuto la entrega v1.3.1 creyendo aplicar la v1.4.1). Enter = ABORTAR.
+    $zipTok = ""
+    if ((Split-Path -Path $Zip -Leaf) -match 'estrategia_v(\d+(?:\.\d+)*)') { $zipTok = $Matches[1] }
+    $mTok = ("$($m.Version)" -replace '^v', '').Trim()
+    if ($zipTok -ne "" -and $mTok -ne "" -and $zipTok -ne $mTok) {
+        Write-Host ""
+        Write-Host "  ATENCION: el .zip dice v$zipTok en su nombre pero su manifiesto dice VERSION: $mTok." -ForegroundColor Red
+        Write-Host "  Nombre y contenido no coinciden: posible zip antiguo o renombrado." -ForegroundColor Red
+        $resp = Read-Host "  Escriba S para continuar igualmente (Enter = ABORTAR)"
+        if ($resp.Trim().ToUpper() -ne "S") {
+            Remove-Item $tempDir -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Fatal "Abortado: nombre del .zip (v$zipTok) no coincide con VERSION del manifiesto ($mTok)."
+        }
     }
 
     # Estructura minima exigida
@@ -269,21 +356,22 @@ function Test-Delivery {
         Write-Fatal ("Integridad del .zip INCORRECTA (entrega corrupta o incompleta):`n" + (($bad | Select-Object -First 10) -join "`n"))
     }
 
-    Write-Host "  Integridad verificada: $($m.Files.Count) archivos OK, version $($m.Version)." -ForegroundColor Green
+    Write-Host "  Integridad verificada: $($m.Files.Count) archivos OK, version $($m.Version) (zip: $(Split-Path $Zip -Leaf))." -ForegroundColor Green
     return @{ ZipRoot = $zipRoot; Manifest = $m; TempDir = $tempDir }
 }
 
 function Ensure-Repo {
-    # Garantiza que REPO_DIR existe, es un repo git con remote y esta en main.
-    # NOTA v3.0: NO exige repo limpio (el borrado total reemplaza todo el contenido).
+    # Garantiza que REPO_DIR existe, es un repo git y tiene los DOS remotes configurados
+    # con las URLs elegidas por el Director. NO exige repo limpio (el borrado total
+    # reemplaza todo el contenido).
     if (-not (Test-Path $REPO_DIR)) {
         $parent = Split-Path $REPO_DIR -Parent
         if (-not (Test-Path $parent)) {
             New-Item -ItemType Directory -Path $parent -Force | Out-Null
         }
-        Write-Host "  El repo local no existe. Clonando $RepoUrl ..." -ForegroundColor White
-        git clone $RepoUrl $REPO_DIR
-        if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo el clon del repositorio." }
+        Write-Host "  El repo local no existe. Clonando $CompletoUrlFinal ..." -ForegroundColor White
+        git clone $CompletoUrlFinal $REPO_DIR
+        if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo el clon del repositorio completo." }
     }
 
     Push-Location $REPO_DIR
@@ -299,13 +387,35 @@ function Ensure-Repo {
             if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo git init." }
         }
 
-        # Solo configura el remote si no existe origin (no pisa el origin del Director)
-        $remoteUrl = git remote get-url origin 2>$null
+        # Remote del repo COMPLETO: se ajusta a la URL elegida en la pregunta
+        $remoteUrl = git remote get-url $REMOTE_COMPLETO 2>$null
         if ($LASTEXITCODE -ne 0) {
-            git remote add origin $RepoUrl
-            if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo al configurar el remote origin." }
+            git remote add $REMOTE_COMPLETO $CompletoUrlFinal
+            if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo al configurar el remote $REMOTE_COMPLETO." }
         } else {
-            Write-Host "  Remote origin: $remoteUrl" -ForegroundColor DarkGray
+            if ($remoteUrl.Trim() -ne $CompletoUrlFinal.Trim()) {
+                git remote set-url $REMOTE_COMPLETO $CompletoUrlFinal
+                if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo al actualizar la URL del remote $REMOTE_COMPLETO." }
+                Write-Host "  Remote $REMOTE_COMPLETO actualizado a la URL elegida." -ForegroundColor DarkGray
+            } else {
+                Write-Host "  Remote ${REMOTE_COMPLETO}: $remoteUrl" -ForegroundColor DarkGray
+            }
+        }
+
+        # Remote del repo OPERATIVO (v4.0): se ajusta a la URL elegida
+        $remoteOpUrl = git remote get-url $REMOTE_OPERATIVO 2>$null
+        if ($LASTEXITCODE -ne 0) {
+            git remote add $REMOTE_OPERATIVO $OperativoUrlFinal
+            if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo al configurar el remote $REMOTE_OPERATIVO." }
+            Write-Host "  Remote $REMOTE_OPERATIVO creado: $OperativoUrlFinal" -ForegroundColor DarkGray
+        } else {
+            if ($remoteOpUrl.Trim() -ne $OperativoUrlFinal.Trim()) {
+                git remote set-url $REMOTE_OPERATIVO $OperativoUrlFinal
+                if ($LASTEXITCODE -ne 0) { Write-Fatal "Fallo al actualizar la URL del remote $REMOTE_OPERATIVO." }
+                Write-Host "  Remote $REMOTE_OPERATIVO actualizado a la URL elegida." -ForegroundColor DarkGray
+            } else {
+                Write-Host "  Remote ${REMOTE_OPERATIVO}: $remoteOpUrl" -ForegroundColor DarkGray
+            }
         }
 
         # Identidad git necesaria para commit
@@ -386,8 +496,8 @@ function Apply-Delivery {
     return @{ Copied = $copied }
 }
 
-function Invoke-GitCommitAndPush {
-    # Sentencias GitHub de dcepi.md I.3c: add, commit, pull --rebase, push -u origin main
+function Invoke-GitCommit {
+    # Preparacion del commit en main: add + commit (+ pull --rebase para estar al dia)
     param([string]$CommitMsg)
 
     Push-Location $REPO_DIR
@@ -410,8 +520,8 @@ function Invoke-GitCommitAndPush {
             Write-Fatal ("Fallo git commit:`n" + ($commitOut -join "`n"))
         }
 
-        Write-Host "  git pull --rebase origin $MAIN_BRANCH ..." -ForegroundColor White
-        git pull --rebase origin $MAIN_BRANCH 2>&1 | Out-Null
+        Write-Host "  git pull --rebase $REMOTE_COMPLETO $MAIN_BRANCH ..." -ForegroundColor White
+        git pull --rebase $REMOTE_COMPLETO $MAIN_BRANCH 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) {
             Write-Fatal "git pull --rebase encontro conflictos. Resuelva a mano (git status / git rebase --abort) y reejecute."
         }
@@ -423,20 +533,21 @@ function Invoke-GitCommitAndPush {
     }
 }
 
-function Invoke-GitPushMain {
+function Invoke-GitPushCompleto {
+    # Publica el contenido COMPLETO en el repo COMPLETO (remote origin)
     Push-Location $REPO_DIR
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     try {
-        Write-Host "  git push -u origin $MAIN_BRANCH ..." -ForegroundColor White
-        $pushOut = git push -u origin $MAIN_BRANCH 2>&1
+        Write-Host "  git push -u $REMOTE_COMPLETO $MAIN_BRANCH (repo COMPLETO) ..." -ForegroundColor White
+        $pushOut = git push -u $REMOTE_COMPLETO $MAIN_BRANCH 2>&1
         if ($LASTEXITCODE -ne 0) {
-            Write-Host "  ERROR: el push de $MAIN_BRANCH fallo (exit $LASTEXITCODE):" -ForegroundColor Red
+            Write-Host "  ERROR: el push al repo COMPLETO fallo (exit $LASTEXITCODE):" -ForegroundColor Red
             Write-Host ($pushOut -join "`n") -ForegroundColor Red
-            Write-Host "  Manual: cd $REPO_DIR ; git push -u origin $MAIN_BRANCH" -ForegroundColor Yellow
+            Write-Host "  Manual: cd $REPO_DIR ; git push -u $REMOTE_COMPLETO $MAIN_BRANCH" -ForegroundColor Yellow
             exit 1
         }
-        Write-Host "  Push de '$MAIN_BRANCH' completado." -ForegroundColor Green
+        Write-Host "  Repo COMPLETO publicado." -ForegroundColor Green
     }
     finally {
         $ErrorActionPreference = $prevEAP
@@ -444,19 +555,22 @@ function Invoke-GitPushMain {
     }
 }
 
-function Sync-OperativoBranch {
-    # Espejo podado de main (lista cerrada OPERATIVO_KEEP) + push de la rama operativo.
+function Publish-OperativoRepo {
+    # Publica el paquete OPERATIVO de seis elementos en el repo OPERATIVO (remote 'operativo').
+    # Mismo mecanismo probado de la rama operativo (espejo podado de main con la lista
+    # cerrada OPERATIVO_KEEP), ahora empujando a su PROPIO repositorio (conciliacion V1).
     Push-Location $REPO_DIR
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     try {
-        Write-Host "  Sincronizando rama '$OPERATIVO_BRANCH' desde '$MAIN_BRANCH'..." -ForegroundColor White
+        Write-Host "  Preparando el paquete operativo (seis elementos)..." -ForegroundColor White
 
         git rev-parse --verify $OPERATIVO_BRANCH 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) {
-            git rev-parse --verify "origin/$OPERATIVO_BRANCH" 2>&1 | Out-Null
+            git fetch $REMOTE_OPERATIVO $OPERATIVO_BRANCH 2>&1 | Out-Null
+            git rev-parse --verify "$REMOTE_OPERATIVO/$OPERATIVO_BRANCH" 2>&1 | Out-Null
             if ($LASTEXITCODE -eq 0) {
-                git checkout -b $OPERATIVO_BRANCH "origin/$OPERATIVO_BRANCH" 2>&1 | Out-Null
+                git checkout -b $OPERATIVO_BRANCH "$REMOTE_OPERATIVO/$OPERATIVO_BRANCH" 2>&1 | Out-Null
             } else {
                 git checkout -b $OPERATIVO_BRANCH $MAIN_BRANCH 2>&1 | Out-Null
             }
@@ -469,7 +583,7 @@ function Sync-OperativoBranch {
         git rm -r -q --ignore-unmatch . 2>&1 | Out-Null
         git restore --source=$MAIN_BRANCH --worktree --staged -- . 2>&1 | Out-Null
 
-        # Poda: en operativo solo queda la lista cerrada
+        # Poda: en operativo solo queda el paquete de seis elementos
         $topItems = Get-ChildItem -Force | Where-Object { $_.Name -ne ".git" }
         foreach ($item in $topItems) {
             $keep = $false
@@ -483,19 +597,21 @@ function Sync-OperativoBranch {
         }
 
         git add -A 2>&1 | Out-Null
-        $syncOut = git commit -m "sync operativo desde $MAIN_BRANCH (poda de rutas internas)" 2>&1
+        $syncOut = git commit -m "v$($ManifestGlobal.Version): paquete operativo (seis elementos) desde la entrega" 2>&1
         $syncExit = $LASTEXITCODE
         if ($syncExit -eq 0) {
-            git push -u origin $OPERATIVO_BRANCH 2>&1 | Out-Null
+            Write-Host "  git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH (repo OPERATIVO) ..." -ForegroundColor White
+            git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH 2>&1 | Out-Null
             if ($LASTEXITCODE -eq 0) {
-                Write-Host "  Rama '$OPERATIVO_BRANCH' sincronizada y publicada." -ForegroundColor Green
+                Write-Host "  Repo OPERATIVO publicado (paquete de seis elementos)." -ForegroundColor Green
             } else {
-                Write-Host "  Aviso: el push de '$OPERATIVO_BRANCH' fallo (exit $LASTEXITCODE)." -ForegroundColor Yellow
+                Write-Host "  ATENCION: el push al repo OPERATIVO fallo (exit $LASTEXITCODE). Verifique que el repo existe en GitHub y reejecute el push:" -ForegroundColor Yellow
+                Write-Host "    cd $REPO_DIR ; git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH" -ForegroundColor Yellow
             }
         } elseif (($syncOut -join " ") -match "nothing to commit") {
-            Write-Host "  Rama '$OPERATIVO_BRANCH' ya estaba sincronizada." -ForegroundColor DarkGray
+            Write-Host "  Paquete operativo ya estaba sincronizado." -ForegroundColor DarkGray
         } else {
-            Write-Fatal ("Fallo el commit de la rama operativo:`n" + ($syncOut -join "`n"))
+            Write-Fatal ("Fallo el commit del paquete operativo:`n" + ($syncOut -join "`n"))
         }
 
         git checkout $MAIN_BRANCH 2>&1 | Out-Null
@@ -508,8 +624,9 @@ function Sync-OperativoBranch {
 }
 
 function Invoke-DiffCheck {
-    # 3.4 DIFF entre el repo de GitHub (tras actualizar) y la carpeta local modificada.
-    # Verifica DIFF CERO y guarda el diff de la entrega en Downloads.
+    # DIFF entre el repo COMPLETO de GitHub (tras actualizar) y la carpeta local.
+    # Verifica DIFF CERO y guarda SIEMPRE el informe en Downloads (UTF-8 correcto, fix v3.1;
+    # fix v4.0.2: tambien en estado "sin cambios").
     param([string]$Version, [string]$CommitState)
 
     $dlDir = Get-DownloadsDir
@@ -519,15 +636,16 @@ function Invoke-DiffCheck {
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     try {
+        # Informe DIFF: se genera SIEMPRE (fix v4.0.2: en "sin cambios" antes no habia txt).
+        $diffFile = Join-Path $dlDir ("DIFF_ENTREGA_estrategia_v" + $Version + ".txt")
+        # PowerShell 5.1 decodifica la salida de git con la codepage OEM (CP850 en
+        # consolas espanolas) y el informe sale con los acentos rotos (mojibake). Se fuerza
+        # UTF-8 solo durante la captura del diff y se restaura al terminar (fix v3.1, S53).
+        $prevConsoleEnc = [Console]::OutputEncoding
+        try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
         if ($CommitState -eq "ok") {
             # Diff de la entrega: cambios introducidos por esta version
-            $diffFile = Join-Path $dlDir ("DIFF_ENTREGA_estrategia_v" + $Version + ".txt")
             $hasParent = $true
-            # v3.1: PowerShell 5.1 decodifica la salida de git con la codepage OEM (CP850 en
-            # consolas espanolas) y el informe sale con los acentos rotos (mojibake). Se fuerza
-            # UTF-8 solo durante la captura del diff y se restaura al terminar (S53).
-            $prevConsoleEnc = [Console]::OutputEncoding
-            try { [Console]::OutputEncoding = [System.Text.Encoding]::UTF8 } catch { }
             git rev-parse HEAD~1 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { $hasParent = $false }
             if ($hasParent) {
@@ -536,27 +654,43 @@ function Invoke-DiffCheck {
                 git diff HEAD~1 HEAD | Out-File -FilePath $diffFile -Encoding utf8
                 Write-Host "  Diff completo guardado en: $diffFile" -ForegroundColor Green
             } else {
+                ("# DIFF_ENTREGA estrategia v$Version -- primer commit del repo: sin diff disponible.") |
+                    Out-File -FilePath $diffFile -Encoding utf8
                 Write-Host "  Diff de la entrega no disponible (primer commit del repo)." -ForegroundColor Yellow
             }
-            try { [Console]::OutputEncoding = $prevConsoleEnc } catch { }
         } else {
-            Write-Host "  Sin nuevos cambios: el diff de la entrega coincide con lo ya publicado." -ForegroundColor DarkGray
+            # La entrega ya estaba aplicada: sin cambios en el repo local. El informe se
+            # escribe igual (fix v4.0.2), con nota y el diff contra GitHub (esperado vacio).
+            $notas = @(
+                "# DIFF_ENTREGA estrategia v$Version -- SIN CAMBIOS en el repo local",
+                "# La entrega ya estaba aplicada: no hay diff HEAD~1 -> HEAD que generar."
+            )
+            if (-not $NoPush) {
+                git fetch $REMOTE_COMPLETO $MAIN_BRANCH 2>&1 | Out-Null
+                $notas += "# Diff $REMOTE_COMPLETO/$MAIN_BRANCH -> HEAD (esperado vacio):"
+                $notas += (git diff "$REMOTE_COMPLETO/$MAIN_BRANCH" HEAD)
+            } else {
+                $notas += "# Modo -NoPush: diff contra GitHub omitido."
+            }
+            $notas | Out-File -FilePath $diffFile -Encoding utf8
+            Write-Host "  Sin nuevos cambios en el repo local. Informe guardado en: $diffFile" -ForegroundColor Green
         }
+        try { [Console]::OutputEncoding = $prevConsoleEnc } catch { }
 
         if ($NoPush) {
             Write-Host "  Modo -NoPush: GitHub no se ha actualizado; diff cero contra GitHub omitido." -ForegroundColor Yellow
             return
         }
 
-        git fetch origin $MAIN_BRANCH 2>&1 | Out-Null
-        $gh = (git rev-parse "origin/$MAIN_BRANCH").Trim()
+        git fetch $REMOTE_COMPLETO $MAIN_BRANCH 2>&1 | Out-Null
+        $gh = (git rev-parse "$REMOTE_COMPLETO/$MAIN_BRANCH").Trim()
         $loc = (git rev-parse HEAD).Trim()
         $dirty = (git status --porcelain) -join "`n"
         if ($gh -eq $loc -and $dirty.Trim() -eq "") {
-            Write-Host "  DIFF CERO verificado: GitHub (origin/main) y la carpeta local son identicos." -ForegroundColor Green
+            Write-Host "  DIFF CERO verificado: repo COMPLETO (GitHub) y carpeta local identicos." -ForegroundColor Green
         } else {
-            Write-Host "  ATENCION: GitHub y la carpeta local NO coinciden:" -ForegroundColor Red
-            Write-Host ("    origin/main: $gh   |   HEAD local: $loc") -ForegroundColor Red
+            Write-Host "  ATENCION: el repo COMPLETO y la carpeta local NO coinciden:" -ForegroundColor Red
+            Write-Host ("    $REMOTE_COMPLETO/$MAIN_BRANCH : $gh   |   HEAD local: $loc") -ForegroundColor Red
             if ($dirty.Trim() -ne "") {
                 Write-Host "    cambios sin confirmar en local:" -ForegroundColor Red
                 git status --short | Select-Object -First 10 | ForEach-Object { Write-Host "      $_" -ForegroundColor Red }
@@ -575,20 +709,37 @@ function Invoke-DiffCheck {
 
 Write-Title
 
-$REPO_DIR = Resolve-RepoDir
-$zipFinal = Select-ZipPath
+$REPO_DIR = ""
 
-Write-Host "  Operacion : borrado total + entrega .zip integra + GitHub + diff" -ForegroundColor White
+# --- Preguntas con valores predeterminados (conciliacion V6; Enter = predeterminado) ---
+# Orden conciliado: 1) carpeta del .zip, 2) carpeta local, 3) repos GitHub a publicar
+$zipFinal = Select-ZipPath
+$REPO_DIR = Ask-Value -Prompt "Carpeta del repo local (se borra y se reemplaza)" -Default $DEFAULT_REPO_DIR -Forced $RepoDir
+if ($NoPush) {
+    $CompletoUrlFinal = $DEFAULT_COMPLETO_URL
+    $OperativoUrlFinal = $DEFAULT_OPERATIVO_URL
+    Write-Host "  Modo -NoPush: se usan las URLs por defecto sin publicar en GitHub." -ForegroundColor Yellow
+} else {
+    $CompletoUrlFinal = Ask-Value -Prompt "Repo GitHub COMPLETO a publicar" -Default $DEFAULT_COMPLETO_URL -Forced $CompletoUrl
+    $OperativoUrlFinal = Ask-Value -Prompt "Repo GitHub OPERATIVO a publicar" -Default $DEFAULT_OPERATIVO_URL -Forced $OperativoUrl
+}
+
+Write-Host ""
+Write-Host "  Operacion : borrado total + entrega .zip integra + 2 repos GitHub + diff" -ForegroundColor White
 Write-Host "  .zip      : $zipFinal" -ForegroundColor White
 Write-Host "  Repo local: $REPO_DIR" -ForegroundColor White
-if ($NoPush)   { Write-Host "  GitHub    : NO (modo -NoPush, solo repo local)" -ForegroundColor Yellow }
-else           { Write-Host "  GitHub    : SI (push a $MAIN_BRANCH + sync $OPERATIVO_BRANCH)" -ForegroundColor White }
-if ($DryRun)   { Write-Host "  Modo      : SIMULACION (-DryRun, no cambia nada)" -ForegroundColor Yellow }
+if ($NoPush) { Write-Host "  GitHub    : NO (modo -NoPush, solo repo local)" -ForegroundColor Yellow }
+else {
+    Write-Host "  GitHub    : COMPLETO -> $CompletoUrlFinal" -ForegroundColor White
+    Write-Host "              OPERATIVO -> $OperativoUrlFinal" -ForegroundColor White
+}
+if ($DryRun)  { Write-Host "  Modo      : SIMULACION (-DryRun, no cambia nada)" -ForegroundColor Yellow }
 Write-Host ""
 
 # Verificacion de integridad de la entrega (umbral cero) ANTES de tocar el repo
 $delivery = Test-Delivery -Zip $zipFinal
 $m = $delivery.Manifest
+$ManifestGlobal = $m
 
 # Plan informativo
 $existe = Test-Path $REPO_DIR
@@ -622,7 +773,7 @@ if ($DryRun) {
     exit 0
 }
 
-# 1) Repositorio garantizado ANTES de borrar nada
+# 1) Repositorio garantizado ANTES de borrar nada (remotes ya configurados)
 Ensure-Repo
 
 # 2) BORRADO TOTAL del contenido del repo local (excepto .git) -- orden del Director.
@@ -635,21 +786,21 @@ Remove-Item $delivery.TempDir -Recurse -Force -ErrorAction SilentlyContinue
 Write-Host ""
 Write-Host "  Aplicado: $($result.Copied) elementos escritos desde el .zip (reemplazo total)." -ForegroundColor Green
 
-# 4) Sentencias GitHub (dcepi.md I.3c): commit + push main + sync operativo
+# 4) Publicacion en los DOS repos (conciliacion V1): commit + push completo + paquete operativo
 $commitMsg = "v$($m.Version): reemplazo total desde entrega .zip (manifest SHA256 verificado)"
-$commitState = Invoke-GitCommitAndPush -CommitMsg $commitMsg
+$commitState = Invoke-GitCommit -CommitMsg $commitMsg
 
 if (-not $NoPush) {
     if ($commitState -eq "ok") {
-        Invoke-GitPushMain
+        Invoke-GitPushCompleto
     } else {
-        Write-Host "  Sin cambios en main: no se requiere push." -ForegroundColor Yellow
+        Write-Host "  Sin cambios en el repo COMPLETO: no se requiere push." -ForegroundColor Yellow
     }
-    # La rama operativo se sincroniza SIEMPRE (si main no cambio, queda verificada)
-    Sync-OperativoBranch
+    # El paquete OPERATIVO se publica SIEMPRE (si no hubo cambios, queda verificado)
+    Publish-OperativoRepo
 }
 
-# 5) DIFF GitHub (tras actualizar) vs carpeta local modificada por la implementacion
+# 5) DIFF repo COMPLETO (tras actualizar) vs carpeta local modificada por la implementacion
 Invoke-DiffCheck -Version $m.Version -CommitState $commitState
 
 # Estado final
@@ -674,8 +825,10 @@ Write-Host "  Version   : $($m.Version)"
 Write-Host "  Repo      : $REPO_DIR (rama $finalBranch, commit $finalHash)"
 if ($finalDirty.Trim() -eq "") { Write-Host "  Estado    : repo limpio" -ForegroundColor Green }
 else                           { Write-Host "  Estado    : ATENCION, quedan cambios sin confirmar" -ForegroundColor Yellow }
-if (-not $NoPush) { Write-Host "  GitHub    : main actualizada + rama operativo sincronizada" -ForegroundColor Green }
+if (-not $NoPush) {
+    Write-Host "  GitHub    : repo COMPLETO actualizado + paquete OPERATIVO publicado" -ForegroundColor Green
+}
 Write-Host ""
-Write-Host "  Siguiente paso: 7. I.3d (diff cero y aprendizajes)" -ForegroundColor Cyan
+Write-Host "  Siguiente paso del agente: re-clonado final (I.3e) al confirmarle el push." -ForegroundColor Cyan
 Write-Host ""
 exit 0

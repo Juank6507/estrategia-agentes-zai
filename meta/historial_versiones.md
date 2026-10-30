@@ -1,5 +1,81 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.4.2 (2026-10-30)
+
+### Motivacion
+El Director ejecutó la sentencia de lanzamiento v1.4.1 y el script terminó en "ACTUALIZACION COMPLETADA" con "Version : 1.3.1" y sin DIFF_ENTREGA en txt. Diagnóstico (S58, causa raíz única): la sentencia toma el .zip "más reciente por fecha" de Descargas y ejecutó el zip VIEJO estrategia_v1.3.1.zip (un zip re-descargado/movido queda con timestamp más nuevo); su script antiguo (era 1 repo/2 ramas, banner coincidente línea por línea) re-aplicó contenido v1.3.1 ya presente (NO-OP inocuo; commit 99cf6fb inalterado) y no genera informe en estado "sin cambios". La v1.4.1 NUNCA se aplicó.
+
+### Novedades
+1. **update_estrategia.ps1 v4.0.1 -> v4.0.2 -- selección del .zip por MAYOR VERSION** del nombre (empate: más reciente por fecha); los timestamps de Descargas dejan de ser el criterio (fallo de producción: zip viejo pasó por nuevo).
+2. **Guarda de coherencia nombre<->VERSION** del manifiesto (Test-Delivery): si no cuadran, aviso rojo y Enter = abortar (umbral cero; continúa solo con S explícita). El nombre del zip verificado se muestra junto a la versión.
+3. **Informe DIFF SIEMPRE** -- DIFF_ENTREGA_estrategia_v<version>.txt se escribe también cuando el repo local no cambia ("sin cambios": nota + diff GitHub<->HEAD esperado vacío); antes no se generaba txt en ese estado.
+4. **Sentencia de lanzamiento v1.4.2 con nombre exacto** -- fija `estrategia_v1.4.2.zip` en Descargas y se lo pasa al script con -ZipPath (cero ambigüedad; una pregunta menos); la selección por versión del script queda como red de seguridad.
+
+### Archivos modificados
+- update_estrategia.ps1 (v4.0.2), agent-context/herramientas.md (§6), agent-context/dcepi.md (I.3c), meta/tareas_inmediatas.md (pendiente del Director sustituido por el de la v1.4.2)
+- meta/historial_versiones.md (esta entrada), worklog_EP.md + worklog_EP.backup.md (S58), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.4.2)
+- spec/plan/informe v1.4 quedan como registro histórico de la v1.4 (sin cambios)
+
+### Verificacion
+- Manifest 34/34 SHA256 OK contra disco (umbral cero). Diff zip<->disco CERO (35 ficheros: 34 del manifest + MANIFIESTO_ENTREGA.txt). md5 worklog_EP == worklog_EP.backup.
+- Validación estática del script en sandbox (ASCII-only, balance de llaves/paréntesis, sin regresión del patrón "$NOMBRE:", funciones presentes) + simulación Python de la nueva lógica de selección (escenario real: zip viejo con timestamp más nuevo pierde ante la mayor versión). Sin pwsh disponible en el sandbox esta iteración: la validación de parseo y ejecución corresponde al Windows del Director (I.3b) con la sentencia v1.4.2.
+- Aprendizaje propuesto (ratificación del Director pendiente): la versión de una entrega se lee del nombre/manifiesto, nunca del timestamp de Descargas; la sentencia fija el nombre exacto de SU entrega.
+
+## v1.4.1 (2026-10-30)
+
+### Motivacion
+Errata de la entrega v1.4 detectada por el Director en su primera ejecución de la sentencia de lanzamiento: ParserError en update_estrategia.ps1 línea 348 ("Variable reference is not valid. ':' was not followed by a valid variable name character"). La verificación íntegra pre-reempaquetado destapó además que la incorporación de las entradas 34-56 al worklog_EP.md del repo (registrada como hecha en la S56) no estaba en disco.
+
+### Novedades
+1. **update_estrategia.ps1 v4.0 -> v4.0.1** -- en PowerShell, "$NOMBRE:" dentro de una cadena de comillas dobles se interpreta como variable de ámbito (como $env:PATH) y rompe el parseo. Delimitación con ${NOMBRE} en las DOS ocurrencias de la clase (líneas 348 y 364: remotes COMPLETO y OPERATIVO). Barrido umbral cero del patrón en todo el repo: sin otras ocurrencias ($env: legítimos).
+2. **worklog_EP.md del repo completado (entradas 34-56) + S57** -- historia común 1-33 verificada idéntica al canónico; entradas faltantes incorporadas desde el canónico (dueño); backup resincronizado (EP == backup). Corrige el registro incompleto de la S56 (AP16: nada declarado sin comprobar; verificación pre-reempaquetado).
+3. **Re-empaquetado v1.4.1** (precedente v1.3.1: los fixes se publican como patch, nunca como re-entrega silenciosa del mismo número) -- MANIFIESTO regenerado desde disco (VERSION: 1.4.1; 34 entradas; verificación 34/34); download/estrategia_v1.4.1.zip con diff zip<->disco CERO; download/sentencias_actualizacion_v1.4.1.txt con LA MISMA sentencia (toma el zip más reciente de Descargas).
+
+### Archivos modificados
+- update_estrategia.ps1 (v4.0 -> v4.0.1: delimitación ${VAR} en líneas 348/364), agent-context/herramientas.md (mención vigente del script), agent-context/dcepi.md (I.3c), meta/tareas_inmediatas.md (tarea del Director al zip v1.4.1)
+- meta/historial_versiones.md (esta entrada), worklog_EP.md + worklog_EP.backup.md (entradas 34-56 + S57), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.4.1)
+- spec/plan/informe v1.4 quedan como registro histórico de la v1.4 (sin cambios)
+
+### Verificacion
+- Manifest 34/34 SHA256 OK contra disco (umbral cero). Diff zip<->disco CERO (35 ficheros: 34 del manifest + MANIFIESTO_ENTREGA.txt).
+- La sentencia de lanzamiento NO cambia: la v1.4.1 se ejecuta pegando LA MISMA sentencia (toma el zip más reciente de Descargas).
+- Ejecución final en Windows del Director (baremo de doble entorno I.3b): pendiente de su re-ejecución con el zip v1.4.1.
+
+## v1.4 (2026-10-29)
+
+### Motivacion
+Auditoria de coherencia del ciclo v1.4 (32 ficheros revisados uno a uno; 7 vestigios informados sin corregir) + conciliacion del Director en C de las divergencias V1-V8 y de las nuevas decisiones: dos repos publicos, arranque por identidad, script con preguntas y sentencia unica, paquete de seis elementos, guardrail reforzado y via unica de aprendizajes. Autorizacion de implementacion con nombres validados (estrategia-agentes-zai + estrategia-agentes-zai-operativo).
+
+### Novedades
+1. **R30: Dos repos publicos desde un repo local (V1)** -- sustituye a R18 (1 repo/2 rondas): repo COMPLETO (lo clona EP) + repo OPERATIVO (paquete de seis elementos; lo clonan los agentes de proyecto). Sin credenciales: la separacion de contenido es la separacion entre repos. Cero vestigios de "proteccion fisica".
+2. **R31: Arranque por identidad (V2)** -- el worklog identifica agente y proyecto; proyecto.md cataloga los 4 proyectos (EP, APA, MB, CZAI) con URLs, regla de aviso y que repo clonar cada identidad.
+3. **R32: entorno.md integro (V3)** -- describe el entorno con guardrails, metodo DCEPI y herramientas (contexto_zai), remitiendo a las sedes canonicas.
+4. **R33: dcepi.md integro (V4)** -- metodo completo: elementos, subelementos, como se usa/valora/implementa cada uno y que problema corrige; sentencias de cierre para los dos repos; re-clonado final por identidad (I.3e).
+5. **R34: Cabecera del worklog del repo actualizada (V5)** -- por orden expresa del Director, sincronizada con la plantilla; NH20 en dos capas (cabecera de estrategia vs historia intocable); entradas 26-56 incorporadas.
+6. **R35: Script v4.0 + sentencia unica (V6)** -- el script pregunta (Enter = predeterminado): carpeta del zip (Descargas; el estrategia_v#.#.zip mas reciente), carpeta local (borra y reemplaza) y los dos repos GitHub a publicar; hereda integridad umbral cero, informe DIFF UTF-8 (fix v3.1) y modos auxiliares. El Director ya no extrae el script: la entrega trae UNA sentencia de PowerShell que lo extrae y lo ejecuta (instruccion canonica unica).
+7. **R36: Via unica de aprendizajes (V7)** -- se proponen al cerrar la conciliacion de la E y antes del plan; se implementan junto a todo lo demas y viajan dentro de la entrega; sin push directo (NH5 reformulada).
+8. **R37: Paquete operativo de seis elementos (V8)** -- premisa_respuesta.md incluido en el repo operativo como archivo #1 (OPERATIVO_KEEP del script y todas las menciones).
+9. **Guardrail reforzado** -- frase de control + panel como PRIMERA LINEA antes de cualquier pensamiento o comentario; su omision detiene el proceso y/o invalida la respuesta (triple redaccion: premisa, contrato, prompt_arranque).
+10. **Revision integral sin exclusiones** -- factor 6 de la E reformulado: todo archivo se revisa; solo worklogs (historia; correcciones como notas) y PDFs (referencia externa) no se reescriben por naturaleza. Informe completo en meta/informe_revision_integral_v1.4.md.
+11. **Criterio "un dato, un dueño"** -- sedes canonicas declaradas y ningun dato repetido sin regla expresa (triple redaccion y remisiones).
+
+### Archivos nuevos
+- meta/spec_estrategia_v1.4.md
+- meta/plan_estrategia_v1.4.md
+- meta/informe_revision_integral_v1.4.md
+
+### Archivos modificados
+- premisa_respuesta.md, prompt_arranque.md (reescrito v1.4), agent-context/proyecto.md (reescrito), agent-context/entorno.md (reescrito), agent-context/dcepi.md (reescrito), agent-context/comunicacion.md, agent-context/contrato.md, agent-context/herramientas.md, agent-context/identidad.md
+- worklog_template.md, worklog_protocolo.md, worklog_EP.md (cabecera v1.4 + entradas 26-56, orden expresa del Director), worklog_EP.backup.md
+- update_estrategia.ps1 (v3.1 -> v4.0), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.4)
+- meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md
+- agent-learn/lecciones_aprendidas.md (+L015/L016), agent-learn/anti_patrones.md (+AP16/AP17), agent-learn/patrones_recurrentes.md (P10 al flujo v4.0), agent-learn/preferencias_director.md (+1)
+
+### Verificacion
+- Validacion estatica del script v4.0 en sandbox (ASCII puro, balance de llaves/parentesis, 16 funciones integras, LF); sin PowerShell disponible en el sandbox en esta pasada: la verificacion de ejecucion corresponde al Windows del Director (baremo de doble entorno I.3b).
+- Búsquedas umbral cero de vestigios en archivos operativos (criterio 1 de la spec v1.4).
+- Manifiesto regenerado con umbral cero y diff zip<->clon CERO (registro en tareas_inmediatas).
+
 ## v1.3.1 (2026-10-28)
 
 ### Motivacion

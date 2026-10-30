@@ -102,15 +102,15 @@
 - **Aplica cuando:** Cierre de cada sesion con defectos detectados y preparacion de entregas
 
 ---
-### L015 -- El timeout no siempre es lo que parece
-- **Sesion:** v6.11 (proyecto contexto_zai)
-- **Contexto:** El agente EP reporto HTTP 405 en get_message_tree, pero al sondear la API con pruebas propias resulto que el endpoint funcionaba (HTTP 200). El problema real era timeout en get_messages_batch() por falta de paginacion al enviar 1115 message_ids en una sola peticion.
-- **Leccion:** Ante un fallo reportado por terceros, verificar con pruebas propias antes de asumir el diagnostico. El sintoma (success=False) puede tener una causa distinta a la reportada.
-- **Aplica cuando:** Diagnostico de bugs reportados por otros agentes o por el Director
+### L015 -- Un dato, un dueño
+- **Sesion:** v1.4 (meta-proyecto)
+- **Contexto:** La revision integral del ciclo v1.4 encontro que el mismo dato (esquema de repos, flujo del script, composicion del paquete operativo, instrucciones de extraccion) vivia repetido en varios archivos sin regla de sede unica; al cambiar una decision, se actualizaba un archivo y los otros quedaban con la version vieja (origen de V1, V3, V4, V6 y V8)
+- **Leccion:** Todo dato repetido en varios archivos sin regla expresa acaba divergiendo. Cada dato tiene UN archivo sede (proyecto.md: identidad y URLs; entorno.md: flujo de actualizacion; dcepi.md: metodo; premisa/contrato/prompt_arranque: guardrail por triple redaccion) y los demas archivos remiten; ninguna repeticion sin regla expresa que la justifique
+- **Aplica cuando:** Redaccion o modificacion de cualquier archivo de la estrategia y revisiones integrales
 
 ---
-### L016 -- Filtrar antes de descargar
-- **Sesion:** v6.11 (proyecto contexto_zai)
-- **Contexto:** El ciclo incremental descargaba todos los mensajes del chat (1115) para despues filtrar por timestamp. El filtro existia pero llegaba tarde: el timeout ocurria en la descarga, antes de que el filtro pudiera actuar.
-- **Leccion:** Cuando se necesita una parte de un conjunto grande, filtrar antes de descargar, no despues. Obtener primero el metadata (arbol sin contenido), filtrar en memoria, y solo entonces descargar el contenido de los elementos filtrados.
-- **Aplica cuando:** Diseno de extraccion incremental o cualquier operacion que descargue datos para filtrarlos despues
+### L016 -- Menos pasos manuales del Director, menos errores
+- **Sesion:** v1.4 (meta-proyecto)
+- **Contexto:** El flujo de actualizacion exigia al Director extraer a mano update_estrategia.ps1 del .zip antes de ejecutarlo, con tres instrucciones distintas segun el archivo que se leyera; el Director lo concilio (V6): "solo me vas a entregar la sentencia de powershell para que lo extraiga y lo ejecute; de esta forma el proceso es mas automatico y con menos errores"
+- **Leccion:** Todo paso manual del Director que se pueda automatizar sin perder control se automatiza; las entregas llevan la instruccion canonica unica (sentencia que extrae y ejecuta) y ninguna variante paralela
+- **Aplica cuando:** Diseno de entregas y protocolos de actualizacion

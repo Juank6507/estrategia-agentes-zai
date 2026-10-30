@@ -94,7 +94,13 @@
 - **Referencia:** R29 punto 7 (dcepi.md elemento E), NH3, comunicacion.md, L013
 
 ---
-### AP16 -- Mezclar configuracion particular con general
-- **El problema:** config.py tenia APIConfig (URLs, cookies y endpoints de Z.ai) junto con TokenLimits y ThemeRule (configuracion general portable). Esto viola la separacion de capas: lo particular de la plataforma mezclado con lo general hace imposible portar el proyecto a otra plataforma sin tocar config.py.
-- **La solucion:** La configuracion particular de la plataforma y la general deben vivir en archivos separados. Lo particular en client/ (o el paquete equivalente de la plataforma), lo general en config.py. Asi, al cambiar de plataforma, solo se cambia un archivo y el resto no se entera.
-- **Referencia:** NH14 (decision de arquitectura), v6.11 F1, L016
+### AP16 -- Proteccion declarada sin comprobar
+- **El problema:** Los documentos afirmaban que los agentes de proyecto "fisicamente no podian ver" el contenido de la otra rama; la auditoria verifico con acceso anonimo que el repo es publico y cualquiera puede clonarlo completo: la supuesta proteccion fisica era un convenio de contenido mal descrito
+- **La solucion:** Ninguna proteccion, restriccion o acceso se documenta sin verificarlo contra la realidad del entorno; lo que es convenio se describe como convenio (honestidad del limite: premisa 4)
+- **Referencia:** Revision integral v1.4 (V1), verificabilidad externa de la premisa
+
+---
+### AP17 -- El mismo paso, tres maneras
+- **El problema:** El paso "extraer y ejecutar el script" estaba descrito de tres formas distintas (entorno.md: en Descargas; comunicacion.md y prompt_arranque.md: en la carpeta del proyecto); la variante entre archivos provoco confusiones operativas reales
+- **La solucion:** Las instrucciones operativas para el Director son canonicas y unicas (una sentencia de PowerShell que extrae y ejecuta); lo demas remite a la sede; una variante nueva es un defecto, no flexibilidad
+- **Referencia:** V6 (v1.4), L015, comunicacion.md P5

@@ -1,42 +1,45 @@
-# PROYECTO ACTUAL
+<!-- Ubicacion: estrategia/agent-context/proyecto.md (v1.4)
+     Unico archivo del paquete operativo que describe los proyectos y los repos de la estrategia.
+     Sede canonica: identidad de arranque (paso 1), repos de la estrategia y repos de los proyectos. -->
 
-## Nombre
+# PROYECTO — Catálogo e identidad (v1.4)
 
-APA
+## 1. Arranque por identidad (se ejecuta en este orden)
 
-## Descripción
+1. **Quién eres:** el worklog del proyecto te identifica (su cabecera y sus entradas llevan el nombre del agente y del proyecto; p. ej. `worklog_EP.md` → agente EP, meta-proyecto).
+2. **Dónde encajas:** con esa identidad busca tu proyecto en el catálogo de la sección 3. **Si tu proyecto no figura en este archivo, avisa al Director** para que lo incorpore al catálogo; no improvises ni asumas otro proyecto.
+3. **Qué clonas:** este archivo te dice qué repositorio de la estrategia te corresponde (sección 2) y qué repositorio de proyecto usa tu agente (sección 3). Clona o actualiza solo esos.
 
-Proyecto compuesto por dos subproyectos que se desarrollan de forma coordinada:
-- **apa** — aplicación principal
-- **model_broker** — servicio de modelos
+## 2. Repositorios de la estrategia (2 repos públicos, 1 repo local)
 
-## Repositorios por agente
+Un único contenido local (la carpeta del repo en la PC del Director) se publica en **dos repositorios públicos de GitHub**. No hay credenciales de por medio: la separación de contenido es la separación entre los dos repos.
 
-Cada agente trabaja con su propio repositorio independiente:
+| Repo | URL | Contenido | Quién lo clona |
+|---|---|---|---|
+| **Completo** | `https://github.com/Juank6507/estrategia-agentes-zai.git` | Todo: `agent-context/`, `agent-learn/`, worklogs, `meta/`, PDFs de la metodología, manifiesto y script | El agente del meta-proyecto **EP** |
+| **Operativo** | `https://github.com/Juank6507/estrategia-agentes-zai-operativo.git` | Paquete operativo de seis elementos: `agent-context/`, `agent-learn/`, `worklog_template.md`, `worklog_protocolo.md`, `prompt_arranque.md` y `premisa_respuesta.md` (la premisa, primero) | Los agentes de proyecto (APA, MB, CZAI y futuros) |
 
-| Agente | Repositorio | Ruta local |
-|---|---|---|
-| **APA** | `https://github.com/Juank6507/APA_apa.git` | `/home/z/my-project/APA_apa/` |
-| **MB** | `https://github.com/Juank6507/APA_model_broker.git` | `/home/z/my-project/APA_model_broker/` |
+- Ambos repos se publican desde el repo local del Director con `update_estrategia.ps1` en una sola pasada (ver `entorno.md`).
+- Los agentes de proyecto **no** reciben `meta/`, PDFs de la metodología ni worklogs ajenos: sencillamente no existen en su repo operativo.
+- Este agente EP trabaja el meta-proyecto desde el repo completo; su ruta local es `/home/z/my-project/estrategia/`.
 
-- **Rama:** `main` (ambos)
-- El agente identifica su repositorio a partir del worklog adjunto en el prompt de inicio de sesión.
+## 3. Catálogo de proyectos que usan esta estrategia
 
-## Agentes
+| Proyecto | Qué es | Worklog del agente | Repo(s) del proyecto | Ruta local |
+|---|---|---|---|---|
+| **EP** | Meta-proyecto: esta misma estrategia (su desarrollo, versiones y entrega) | `worklog_EP.md` | Repo completo de la estrategia (sección 2) | `/home/z/my-project/estrategia/` |
+| **APA** | Aplicación principal del proyecto APA | `worklog_apa.md` | `https://github.com/Juank6507/APA_apa.git` (rama `main`) | `/home/z/my-project/APA_apa/` |
+| **MB** | Servicio de modelos del proyecto APA | `worklog_mb.md` | `https://github.com/Juank6507/APA_model_broker.git` (rama `main`) | `/home/z/my-project/APA_model_broker/` |
+| **CZAI** | Proceso de recuperación de contexto (infraestructura del entorno) | `worklog_czai.md` | `https://github.com/Juank6507/contexto_zai.git` | `/home/z/my-project/contexto_zai/` |
 
-| Agente | Subproyecto | Repositorio |
-|---|---|---|
-| **APA** | apa | https://github.com/Juank6507/APA_apa.git |
-| **MB** | model_broker | https://github.com/Juank6507/APA_model_broker.git |
+Notas del catálogo:
+- Cada agente trabaja **solo** con su proyecto y sus repos; los demás proyectos del catálogo existen para que el arranque por identidad funcione, no para tocarlos.
+- CZAI es competencia del agente CZAI: el resto de agentes solo actúa sobre él cuando el proceso lo pida (manos fuera; ver `entorno.md`).
 
-## Acceso de los agentes de proyecto al repo de estrategia (1 repo / 2 ramas)
+## 4. Regla de aviso
 
-- Los agentes de proyecto (APA, MB y futuros) acceden al repo de estrategia **solo por la rama `operativo`**: `git clone -b operativo https://github.com/Juank6507/estrategia-agentes-zai.git`
-- La rama `operativo` contiene únicamente: `agent-context/`, `agent-learn/`, `worklog_template.md`, `worklog_protocolo.md` y `prompt_arranque.md`.
-- Los agentes de proyecto **físicamente no pueden ver** `meta/`, `director-only/`, los PDFs de la metodología ni el worklog del meta-proyecto (no existen en su rama).
-- El agente del meta-proyecto clona `main` (rama completa).
-- La rama `operativo` se sincroniza automáticamente desde `main` por `update_estrategia.ps1` tras cada actualización.
+Si el worklog te identifica como agente de un proyecto que **no figura** arriba (o si el repo de tu proyecto no existe localmente y su URL no está en el catálogo), **detente y avisa al Director**: él actualiza este archivo. Ningún agente se auto-asigna un proyecto ni inventa URLs.
 
-## Nota
+## 5. Mantenimiento
 
-Este archivo es el único que cambia al cambiar de proyecto. El Director actualiza la URL, rama y agentes según corresponda. Los demás archivos de `agent-context/` son genéricos y no se modifican.
+Este archivo es el punto único de verdad para identidad, catálogo y URLs. Cuando entre un proyecto nuevo o cambie una URL, se actualiza aquí y solo aquí; los demás archivos remiten a esta sección.

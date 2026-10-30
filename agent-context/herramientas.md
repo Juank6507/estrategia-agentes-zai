@@ -57,10 +57,10 @@ Se invocan desde codigo del lado servidor (nunca desde el cliente):
 
 | Herramienta | Uso |
 |---|---|
-| **git** | Repos de estrategia y de proyectos; el push a GitHub lo ejecuta el Director (I.3c) |
-| **GitHub** | Repo unico `estrategia-agentes-zai` con 2 ramas: main (completa) y operativo (compacta para agentes de proyecto) |
-| **update_estrategia.ps1** | Script del Director (Windows): reemplazo total desde .zip + push a main + sync automatico de operativo. Exclusivo del meta-proyecto |
-| **.zip de entrega** | En download/; meta-proyecto: SIEMPRE completo; proyectos: solo modificados (salvo tests E2E) |
+| **git** | Repos de estrategia y de proyectos; el push a GitHub lo ejecuta el Director o su script (I.3c) |
+| **GitHub (2 repos publicos)** | **Completo** `estrategia-agentes-zai` (todo el contenido; lo clona EP) y **operativo** `estrategia-agentes-zai-operativo` (paquete de seis elementos; lo clonan los agentes de proyecto). URLs y reglas: proyecto.md |
+| **update_estrategia.ps1** | Script del Director (Windows, v4.0.2): toma el .zip de mayor version del nombre (la sentencia de cada entrega fija el nombre exacto con -ZipPath), guarda nombre↔VERSION del manifiesto (Enter aborta), pregunta repo local/repos con predeterminados, verifica integridad (umbral cero), reemplazo total, publica los dos repos y genera SIEMPRE el informe DIFF en Downloads. Exclusivo del meta-proyecto |
+| **.zip de entrega** | En download/; meta-proyecto: SIEMPRE completo + sentencia que extrae y ejecuta el script; proyectos: solo modificados (salvo tests E2E) |
 
 ## 7. Regla instrumental (D.0)
 
@@ -68,7 +68,7 @@ Al arrancar (y cuando un supuesto real lo exija), el agente debe poder responder
 1. Que canales tiene (chat, worklog, upload/download).
 2. Que puede ejecutar (archivos, terminal, git).
 3. Que capacidades IA y de entorno tiene y donde se documentan.
-4. Que NO puede hacer: entregar fuera de download/, push desde el sandbox (NH5 con su excepcion de estrategia), tocar contexto_zai como activo propio, actuar sin autorizacion (NH8, salvo auto-recuperacion).
+4. Que NO puede hacer: entregar fuera de download/, push desde el sandbox (NH5: la entrega viaja en el .zip), tocar contexto_zai como activo propio, actuar sin autorizacion (NH8, salvo auto-recuperacion).
 
 ## 8. Recuperacion de contexto (herramienta documentada, v1.3)
 

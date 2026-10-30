@@ -29,14 +29,13 @@
 
 La comunicacion es **exclusivamente por este chat**. No se generan documentos externos salvo solicitud explicita.
 
-## Protocolo de actualizacion (P5) -- v1.2
+## Protocolo de actualizacion (P5) -- v1.4
 
 Cuando el agente entrega una actualizacion de estrategia como `.zip` (regimen meta-proyecto: SIEMPRE completo):
 1. El Director descarga el `.zip` a su PC
-2. Extrae `update_estrategia.ps1` del `.zip` a la carpeta del proyecto (`C:\Python\Proyectos\estrategia\`)
-3. Ejecuta: `powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1`
-4. El script auto-detecta el `.zip` en Downloads/Escritorio; si no lo encuentra, pide la ruta
-5. El script copia TODOS los archivos (reemplazo total), hace push a la rama `main` y sincroniza automaticamente la rama `operativo` (poda de rutas internas). Toda la complejidad vive dentro del script
+2. El Director pega en PowerShell **la sentencia que trae la entrega**: extrae `update_estrategia.ps1` del `.zip` y lo ejecuta (un solo paso, sin extraccion manual)
+3. El script pregunta con valores predeterminados (Enter acepta): carpeta del zip (Descargas; toma el mas reciente), carpeta local del repo (borra y reemplaza) y los dos repos GitHub a publicar
+4. El script verifica la integridad SHA256 contra el manifiesto (umbral cero), publica el repo **completo** y el **operativo** (paquete de seis elementos) y genera el informe DIFF en Descargas. Toda la complejidad vive dentro del script
 
 Para proyectos de aplicacion (regimen general): solo archivos modificados salvo tests E2E. Ver dcepi.md I.3a.
 
