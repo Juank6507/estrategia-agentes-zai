@@ -100,3 +100,17 @@
 - **Contexto:** El mojibake CP850 del informe DIFF_ENTREGA se detecto en S49 (con prueba matematica y correccion propuesta), se repitio en la segunda pasada y se reconfirmo en S52; quedo listado como pendiente de decision. El Director ordeno (S53): "No pueden haber errores por lo tanto se corrige y se vuelve a actualizar el repo"
 - **Leccion:** El estandar del Director es cero errores conocidos: un defecto detectado no se archiva como pendiente sin mas; se re-presenta en cada panel hasta que el Director decide, y cuando autoriza, se corrige y se re-entrega de inmediato (la correccion viaja en la siguiente entrega, antes de cualquier otro trabajo)
 - **Aplica cuando:** Cierre de cada sesion con defectos detectados y preparacion de entregas
+
+---
+### L015 -- El timeout no siempre es lo que parece
+- **Sesion:** v6.11 (proyecto contexto_zai)
+- **Contexto:** El agente EP reporto HTTP 405 en get_message_tree, pero al sondear la API con pruebas propias resulto que el endpoint funcionaba (HTTP 200). El problema real era timeout en get_messages_batch() por falta de paginacion al enviar 1115 message_ids en una sola peticion.
+- **Leccion:** Ante un fallo reportado por terceros, verificar con pruebas propias antes de asumir el diagnostico. El sintoma (success=False) puede tener una causa distinta a la reportada.
+- **Aplica cuando:** Diagnostico de bugs reportados por otros agentes o por el Director
+
+---
+### L016 -- Filtrar antes de descargar
+- **Sesion:** v6.11 (proyecto contexto_zai)
+- **Contexto:** El ciclo incremental descargaba todos los mensajes del chat (1115) para despues filtrar por timestamp. El filtro existia pero llegaba tarde: el timeout ocurria en la descarga, antes de que el filtro pudiera actuar.
+- **Leccion:** Cuando se necesita una parte de un conjunto grande, filtrar antes de descargar, no despues. Obtener primero el metadata (arbol sin contenido), filtrar en memoria, y solo entonces descargar el contenido de los elementos filtrados.
+- **Aplica cuando:** Diseno de extraccion incremental o cualquier operacion que descargue datos para filtrarlos despues

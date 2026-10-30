@@ -92,3 +92,9 @@
 - **El problema:** Redactar los checkmarks con lenguaje tecnico (identificadores de commit, comandos, hashes, "diff CERO", "read-back"); el punto es tecnicamente cierto pero el Director no puede entender cada subelemento tocado, incumpliendo las normas de comunicacion (S50) y dejando incompleto el aprendizaje I.3d (S51)
 - **La solucion:** Cada checkmark en lenguaje natural: que se hizo, que falta, que debe decidir. La jerga y el detalle tecnico van solo al worklog como evidencia; un punto correcto pero en jerga se considera NO conforme
 - **Referencia:** R29 punto 7 (dcepi.md elemento E), NH3, comunicacion.md, L013
+
+---
+### AP16 -- Mezclar configuracion particular con general
+- **El problema:** config.py tenia APIConfig (URLs, cookies y endpoints de Z.ai) junto con TokenLimits y ThemeRule (configuracion general portable). Esto viola la separacion de capas: lo particular de la plataforma mezclado con lo general hace imposible portar el proyecto a otra plataforma sin tocar config.py.
+- **La solucion:** La configuracion particular de la plataforma y la general deben vivir en archivos separados. Lo particular en client/ (o el paquete equivalente de la plataforma), lo general en config.py. Asi, al cambiar de plataforma, solo se cambia un archivo y el resto no se entera.
+- **Referencia:** NH14 (decision de arquitectura), v6.11 F1, L016
