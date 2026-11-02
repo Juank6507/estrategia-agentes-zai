@@ -58,8 +58,10 @@ Se invocan desde codigo del lado servidor (nunca desde el cliente):
 | Herramienta | Uso |
 |---|---|
 | **git** | Repos de estrategia y de proyectos; el push a GitHub lo ejecuta el Director o su script (I.3c) |
-| **GitHub (2 repos publicos)** | **Completo** `estrategia-agentes-zai` (todo el contenido; lo clona EP) y **operativo** `estrategia-agentes-zai-operativo` (paquete de seis elementos; lo clonan los agentes de proyecto). URLs y reglas: proyecto.md |
-| **update_estrategia.ps1** | Script del Director (Windows, v4.0.2): toma el .zip de mayor version del nombre (la sentencia de cada entrega fija el nombre exacto con -ZipPath), guarda nombre↔VERSION del manifiesto (Enter aborta), pregunta repo local/repos con predeterminados, verifica integridad (umbral cero), reemplazo total, publica los dos repos y genera SIEMPRE el informe DIFF en Downloads. Exclusivo del meta-proyecto |
+| **GitHub (2 repos publicos)** | **Completo** `estrategia-agentes-zai` (todo el contenido; lo clona EP) y **operativo** `estrategia-agentes-zai-operativo` (paquete de siete elementos; lo clonan los agentes de proyecto). URLs y reglas: proyecto.md |
+| **update_estrategia.ps1** | Script del Director (Windows, v4.1.0): toma el .zip de mayor version del nombre (la sentencia de cada entrega fija el nombre exacto con -ZipPath), guarda nombre↔VERSION del manifiesto (Enter aborta), pregunta repo local/repos con predeterminados, verifica integridad (umbral cero), reemplazo total, publica los dos repos (operativo: siete elementos) y genera SIEMPRE el informe DIFF en Downloads. Exclusivo del meta-proyecto |
+| **plantillas/ (v1.5)** | `plantilla_script_entrega_proyecto.ps1` (script de entrega de cada implementación: contenido, Windows, condiciones previas y cierre, NH24) y `plantilla_documento_consolidado.md` (documento único de retorno, NH26); `worklog_template.md` vive aqui dentro. Normas: dcepi.md I.3a/I.3d y proyecto.md §6 |
+| **retorno/ (v1.5)** | Lugar determinado del documento consolidado de retorno (NH26): en cada repo de proyecto como `retorno/documento_consolidado.md`; en este meta-proyecto, copias de cosecha `<PROYECTO>_documento_consolidado.md`. Contrato de la carpeta: retorno/README.md |
 | **.zip de entrega** | En download/; meta-proyecto: SIEMPRE completo + sentencia que extrae y ejecuta el script; proyectos: solo modificados (salvo tests E2E) |
 
 ## 7. Regla instrumental (D.0)

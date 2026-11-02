@@ -1,7 +1,10 @@
 # WORKLOG
 
 <!-- ╔══════════════════════════════════════════════════════════════╗ -->
-<!-- ║  PLANTILLA DE WORKLOG (v1.4)                                 ║ -->
+<!-- ║  PLANTILLA DE WORKLOG (v1.5)                                 ║ -->
+<!-- ║  Ubicacion: estrategia/plantillas/worklog_template.md        ║ -->
+<!-- ║  (en la raiz de la estrategia hasta la v1.4.2; desde la      ║ -->
+<!-- ║  v1.5 vive en plantillas/, por orden del Director).          ║ -->
 <!-- ║  AGENTE NUEVO O PROYECTO NUEVO SIN WORKLOG: este archivo ES  ║ -->
 <!-- ║  tu worklog de sesión. Cópialo como worklog.md en el proyecto║ -->
 <!-- ║  (NUNCA lo edites in situ) y rige por él desde el minuto 1.  ║ -->

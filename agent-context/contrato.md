@@ -32,6 +32,9 @@
 | NH21 | Usar hardcoding de valores que deberían ser configurables (constantes, variables de entorno, archivos de configuración) |
 | NH22 | Implementar lógica que pueda beneficiarse de OOP usando en su lugar código procedural, sin alertar al Director de la oportunidad |
 | NH23 | Modificar, reestructurar o "mejorar" código que no fue solicitado en la tarea. Solo se toca lo que el Director pide. Si el agente ve algo mejorable, lo menciona como propuesta pero no lo modifica |
+| NH24 | Entregar una implementación sin su script de entrega estándar (v1.5, R5/R6): hermano del update_estrategia.ps1, generado desde plantillas/plantilla_script_entrega_proyecto.ps1, que cubre de forma automática contenido (I.3a), funcionamiento en Windows (I.3b), condiciones previas (I.3c) y cierre con veredicto umbral cero que condiciona el re-clonado (I.3e), con manifiesto, sentencia y checklist embebida. Pasa el gauntlet de I.2 como cualquier archivo; si no supera el estándar: correcciones y reintento, 5 intentos (MAX_ITER); agotados, escalado al Director con el problema exacto, sin rodearlo ni reparar procesos ajenos |
+| NH25 | Apoyar un veredicto de validación en fallbacks o mocks (v1.5, R4): los datos de toda validación son reales si existen; si no es posible, los más reales posibles declarándolo en la evidencia; los mocks presentes quedan marcados como desarrollo, nunca como validación |
+| NH26 | Retornar información del agente a la estrategia por una vía distinta de la vía repositorios en 2 momentos (v1.5, R1): M1, documento único consolidado (desde plantillas/plantilla_documento_consolidado.md) en retorno/documento_consolidado.md del repo del proyecto, tras aprobación expresa del Director; M2, cosecha por el agente EP desde el fichero de entornos al actualizar la estrategia. Lo general viaja en el documento consolidado; lo particular, en el worklog del proyecto |
 
 ---
 

@@ -1,5 +1,39 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.5 (2026-11-02)
+
+### Motivacion
+Ciclo v1.5 del DCEPI ordenado por el Director tras cerrarse el v1.4.2: retorno agente -> estrategia sin via estandarizada, estructura de respuesta mal codificada en la premisa, entregas de proyecto sin script ni verificacion de funcionamiento en Windows y tests que pasan con mocks/fallbacks. Conciliado en C punto por punto (4 puntos); E y P emitidas juntas por orden expresa; aprobadas por el Director (2026-11-02) con la estructura de carpetas de la estrategia operativa: dos carpetas nuevas en la raiz (retorno/ y plantillas/) con las dos plantillas en plantillas/ y worklog_template.md reubicado alli desde la raiz.
+
+### Novedades
+1. **R1 (NH26): Retorno por via repositorios en 2 momentos** -- M1, en el elemento C de cada proyecto: ficha propuesta, Director aprueba, agente actualiza el archivo de estrategia local y genera el documento unico consolidado desde plantilla en retorno/documento_consolidado.md del repo del proyecto; M2, al actualizar la estrategia el agente EP cosecha desde el fichero de entornos (proyecto.md 3 y 6) y el .ps1 redistribuye. Lo general viaja en el documento consolidado; lo particular queda en el worklog del proyecto.
+2. **R2: Estructura de produccion de la respuesta** -- corto -> narrativa -> resumen, con el resumen abarcador (toca cada aspecto sin omitir ninguno); la estructura es el modo de produccion, no un elemento adicional; guardrail y panel quedan como envoltura fija. Sede: premisa_respuesta.md 2.3.
+3. **R3: Escalera de validacion de scripts (3 niveles)** -- individual -> funcional -> e2e, en orden, sin saltar niveles con el anterior en fallo (dcepi.md I.2).
+4. **R4 (NH25): Baremo estrategico de datos reales** -- validar siempre con datos reales si existen; si no, lo mas reales posibles declarandolo; prohibido apoyar veredictos en fallbacks y mocks (dcepi.md I.2 y 8).
+5. **R5 (NH24): Estandar del script de entrega en cada implementacion** -- hermano del update_estrategia.ps1, generado desde plantilla, cubre contenido (I.3a), funcionamiento en Windows (I.3b), condiciones previas (I.3c) y cierre con veredicto umbral cero que condiciona el re-clonado (I.3e); mitad Windows del baremo de doble entorno automatizada (checklist embebida).
+6. **R6: Generacion del script por el agente de proyecto** -- la indicacion es la norma I.3a + la plantilla; el script pasa el gauntlet como cualquier archivo; si no supera el estandar: correccion y reintento con MAX_ITER 5; agotados, escalado al Director con el problema exacto.
+7. **Estructura de carpetas (orden del Director 2026-11-02):** carpetas nuevas `plantillas/` y `retorno/` en la raiz de la estrategia; `worklog_template.md` reubicado en plantillas/; retorno/README.md como contrato de la carpeta. **Paquete operativo: de seis a SIETE elementos** (agent-context/, agent-learn/, plantillas/, retorno/, worklog_protocolo.md, prompt_arranque.md, premisa_respuesta.md); REQUIRED_FILES de 16 a 19.
+8. **update_estrategia.ps1 v4.0.2 -> v4.1.0** (intervencion quirurgica, criterio 6 de la spec): OPERATIVO_KEEP y REQUIRED_FILES actualizados, cabecera/banner y menciones vigentes; resto del algoritmo byte-identico al v4.0.2.
+
+### Archivos nuevos
+- meta/spec_estrategia_v1.5.md (E, con las respuestas del Director a las 2 preguntas abiertas)
+- meta/plan_estrategia_v1.5.md (P, fases F1-F8)
+- plantillas/plantilla_script_entrega_proyecto.ps1 (plantilla R5/R6)
+- plantillas/plantilla_documento_consolidado.md (plantilla R1/NH26)
+- plantillas/worklog_template.md (reubicado desde la raiz; banner v1.5)
+- retorno/README.md (contrato de la carpeta retorno/)
+
+### Archivos modificados
+- premisa_respuesta.md (2.3: estructura corto -> narrativa -> resumen abarcador), agent-context/dcepi.md (v1.5: I.2 escalera + baremo, I.3a script obligatorio, I.3b mitad Windows, I.3c cosecha M2 + siete elementos, I.3d regla de retorno M1/M2, 8 baremo de datos reales), agent-context/contrato.md (NH24-NH26), agent-context/proyecto.md (v1.5: operativo de siete elementos + seccion 6 fichero de entornos y cosecha), agent-context/herramientas.md (6: siete elementos, v4.1.0, plantillas/, retorno/), agent-context/entorno.md (v1.5: siete elementos + script de entrega en reglas de entrega), agent-context/comunicacion.md (P5 siete elementos + script por proyecto)
+- prompt_arranque.md (DCEPI v1.5, siete elementos), agent-learn/patrones_recurrentes.md (P10: siete elementos)
+- update_estrategia.ps1 (v4.1.0), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.5, 39 entradas), meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md, worklog_EP.md + worklog_EP.backup.md (S60)
+
+### Verificacion
+- Snapshot de regresion v1.4.2 en snapshots/estrategia_v1.4.2_pre_v1.5_20261102_053035 (37 ficheros, verificado 37/37) antes de tocar nada (I.1).
+- Barrido anti-retirados umbral cero en operativos: "respuesta estructurada" = 0 coincidencias; "seis elementos" = 0 en operativos (solo meta/ historico y worklogs conservan su historia, por diseno).
+- Validacion estatica de ambos .ps1 en sandbox (ASCII puro, balance de llaves/parentesis, checklist embebida presente); la ejecucion final corresponde al Windows del Director (I.3b) con la sentencia v1.5.
+- Manifiesto regenerado desde disco con verificacion 100% y diff zip<->disco CERO (registro en tareas_inmediatas).
+
 ## v1.4.2 (2026-10-30)
 
 ### Motivacion

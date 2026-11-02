@@ -13,7 +13,7 @@ El worklog es la memoria narrativa del proyecto y la garantia de continuidad ent
 
 ## Fase 1 -- Apertura (al iniciar sesion)
 
-0. Si NO existe worklog del proyecto (agente nuevo o proyecto nuevo): copiar `worklog_template.md` como worklog de la sesion (p. ej. `worklog.md` en el proyecto), NUNCA editar la plantilla in situ. La copia nace con la Regla Conductual Minima dentro (v1.3) y rige como guardrails desde el primer minuto. Continuar con los pasos siguientes sobre esa copia.
+0. Si NO existe worklog del proyecto (agente nuevo o proyecto nuevo): copiar `plantillas/worklog_template.md` como worklog de la sesion (p. ej. `worklog.md` en el proyecto), NUNCA editar la plantilla in situ. La copia nace con la Regla Conductual Minima dentro (v1.3) y rige como guardrails desde el primer minuto. Continuar con los pasos siguientes sobre esa copia.
 1. Leer el worklog completo (o, si es muy largo, la seccion de estrategia y las ultimas entradas). El worklog te identifica: agente y proyecto (identidad, paso 1 del arranque).
 2. Con esa identidad, consultar `agent-context/proyecto.md`: si tu proyecto no figura en el catalogo, avisa al Director; si figura, el archivo te dice que repositorio de la estrategia clonar (completo = meta-proyecto EP; operativo = agentes de proyecto). Si la carpeta no existe, clona TU repo; si existe, actualizala (git pull).
 3. Verificar continuidad: la ultima entrada registrada debe corresponder a la sesion anterior a la actual. Si el registro no cuadra con lo escrito en sesiones previas (por ejemplo, el archivo termina en una sesion mucho mas antigua), hay truncado o perdida -> aplicar la Proteccion (seccion siguiente).
@@ -35,7 +35,7 @@ Y al final de la entrada, siempre, el marcador: `<!-- sesión: N -->`
 
 ## Reglas de integridad (NH20 en dos capas, v1.4)
 
-- **Cabecera de estrategia** (todo lo anterior a `--- ENTRADAS ---`): solo se actualiza por orden expresa del Director, sincronizada con `worklog_template.md` en cada version de la estrategia. El agente no la toca por iniciativa propia.
+- **Cabecera de estrategia** (todo lo anterior a `--- ENTRADAS ---`): solo se actualiza por orden expresa del Director, sincronizada con `plantillas/worklog_template.md` en cada version de la estrategia. El agente no la toca por iniciativa propia.
 - **Entradas/historia** (todo lo de debajo de `--- ENTRADAS ---`): intocables. Para añadir entradas usar SOLO ediciones que inserten contenido nuevo por debajo del marcador (append). Nunca reescribir el archivo completo, nunca borrar ni mover entradas previas.
 - La entrada se escribe al CERRAR la sesion, no antes (el contenido debe reflejar lo realmente hecho).
 

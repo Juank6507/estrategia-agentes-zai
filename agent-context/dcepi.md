@@ -1,10 +1,10 @@
-<!-- Ubicacion: estrategia/agent-context/dcepi.md (v1.4)
+<!-- Ubicacion: estrategia/agent-context/dcepi.md (v1.5)
      Sede canonica del metodo DCEPI. Descripcion integra: que es, que problemas corrige,
      sus elementos y subelementos, como se usa, se valora e implementa cada uno y como
      influye cada pieza en la solucion. Las reglas NH viven en contrato.md; la premisa, en
      premisa_respuesta.md (raiz). -->
 
-# PROTOCOLO DCEPI v1.4
+# PROTOCOLO DCEPI v1.5
 
 ## 1. Definición y propósito
 
@@ -31,7 +31,7 @@ Antes de responder CUALQUIER mensaje se ejecuta `premisa_respuesta.md` (raíz de
 
 - Primera línea de toda respuesta: frase de control `[FASE: X | Estrategia: activa]` (X = elemento vigente) + panel de checkmarks del elemento, antes de cualquier otro contenido. Emitirla correctamente = autoverificación; no poder emitirla = pérdida de contexto → `[ESTADO: RECUPERACION]` y protocolo de recuperación espontánea (única excepción de guardrail). Su omisión detiene el proceso y/o invalida la respuesta.
 - La respuesta corresponde a los subelementos del elemento vigente (tabla de mapeo en la premisa).
-- Estándar: simple y precisa; solo se amplía a petición del Director.
+- Estructura de producción de la respuesta (v1.5): corto → narrativa → resumen, con el resumen abarcador (toca cada aspecto sin omitir ninguno); simple y precisa, sin relleno; solo se amplía a petición del Director. Norma y ejecución: `premisa_respuesta.md` (sede, §2.3).
 
 ---
 
@@ -195,18 +195,25 @@ Cero interpretación del LLM en el guardrails, el método y cada uno de sus sube
 | 2. Veredicto JSON | El Crítico emite el schema fijo | Sin items_fallados |
 | 3. Programática | `git diff --name-only` (solo archivos de la tabla de alcance), grep de residuos = 0, exit 0 | Cero diferencias; con fallo, no sale del sandbox |
 
+**Escalera de validación de scripts (v1.5, R3):** todo script (y todo elemento) se valida en 3 niveles, en orden, y NO se pasa al siguiente con el anterior en fallo: **individual** (cada aspecto que toca, por separado) → **funcional** (la funcionalidad que intenta resolver, probando la interacción con los módulos/scripts de los que depende, o aislado si no depende de otros) → **e2e** (demostrar que funciona correctamente dentro del proyecto real en marcha). La evidencia asienta el resultado de cada nivel; el veredicto registra el nivel alcanzado; la interacción se prueba contra los módulos reales del proyecto, no contra sustitutos. 0 scripts dados por validados con niveles saltados.
+
+**Baremo de datos reales (v1.5, R4):** las validaciones se ejecutan siempre con datos reales si existen; si no es posible, sobre datos lo más reales posibles, declarándolo en la evidencia. Prohibido apoyar un veredicto en fallbacks y mocks (encubren errores reales); los mocks presentes quedan marcados como desarrollo, nunca como validación. Antes de validar se identifica la fuente de datos reales del proyecto (su base, sus repos, sus documentos). Baremo estratégico de todos los proyectos DCEPI (procedimiento en §8).
+
 ### I.3 Entregas y cierre
 
 **I.3a — Entrega (DOS regímenes, aprobados por el Director):**
 - **Regla general (proyectos de aplicación):** solo los archivos modificados en `.zip` (en `/download/`), con sus tests y sentencias de prueba y de actualización; salvo los tests E2E, que cubren todo el proyecto.
 - **Meta-proyecto (este):** entrega SIEMPRE COMPLETA de todos los archivos, modificados o no, en `.zip` en `/download/` con reemplazo total en la PC del Director. Incluye siempre `update_estrategia.ps1`, el worklog y la **sentencia de PowerShell** que extrae el script del zip y lo ejecuta (v1.4).
+- **Script de entrega obligatorio en toda implementación (v1.5, R5/R6):** cada implementación de cualquier agente viaja con su script de entrega — hermano del `update_estrategia.ps1` — generado por el agente desde `plantillas/plantilla_script_entrega_proyecto.ps1` (la indicación clara y precisa es esta norma + la plantilla). El script cubre de forma automática, sin intervención del Director donde sea posible y con calidad y garantía de implementación completa, los 4 aspectos del cruce: (a) contenido de la entrega según su régimen (este I.3a); (b) funcionamiento en Windows de lo entregado, con las sentencias de prueba y los tests e2e que viajan con ella (I.3b); (c) condiciones previas consumidas (I.3c); (d) cierre por construcción con veredicto umbral cero asentado que condiciona el re-clonado (I.3e). Incluye manifiesto, sentencia de lanzamiento y checklist embebida; lo no automatizable queda señalado y escala. El script se genera como parte de la implementación, pasa el Gauntlet de I.2 como cualquier otro archivo y se valida con la escalera R3; si no supera el estándar: correcciones oportunas y reintento con **5 intentos (MAX_ITER, I.2)**; agotados, escalado al Director con el problema exacto (qué ítem falla, evidencia, diagnóstico), sin rodearlo ni reparar procesos ajenos. 0 entregas de proyecto sin script a partir de la v1.5.
 
-**I.3b — Baremo de doble entorno (sandbox Linux → Windows del Director):** cada archivo modificado se entrega con validación interna + evidencia de superación en el sandbox + sentencias para que el Director valide igual en su entorno Windows + superación de tests E2E del proyecto. Si no supera → vuelve al DCEPI.
+**I.3b — Baremo de doble entorno (sandbox Linux → Windows del Director):** cada archivo modificado se entrega con validación interna + evidencia de superación en el sandbox + sentencias para que el Director valide igual en su entorno Windows + superación de tests E2E del proyecto. Si no supera → vuelve al DCEPI. **Mitad Windows automatizada (v1.5, R5):** el checklist de validación en Windows viaja DENTRO del script de entrega de la implementación: quien recibe la entrega ejecuta la sentencia y obtiene veredicto de contenido + funcionamiento (con los datos reales del proyecto, R4), asentado en el worklog; si un ítem falla, la entrega no se aplica y el elemento vuelve al DCEPI.
 
-**I.3c — Actualización de los dos repos (la ejecuta el Director con la sentencia):** con la entrega descargada, el Director pega la sentencia de PowerShell que extrae `update_estrategia.ps1` del `.zip` y lo ejecuta. El script (v4.0.2, exclusivo del meta-proyecto), preguntando con valores predeterminados (Enter acepta):
+**I.3c — Actualización de los dos repos (la ejecuta el Director con la sentencia):** con la entrega descargada, el Director pega la sentencia de PowerShell que extrae `update_estrategia.ps1` del `.zip` y lo ejecuta. El script (v4.1.0, exclusivo del meta-proyecto), preguntando con valores predeterminados (Enter acepta):
+
+**Paso previo del agente EP — cosecha del retorno (M2, v1.5, R1):** antes de preparar la entrega, el agente EP lee los documentos consolidados de retorno de todos los proyectos del fichero de entornos (`proyecto.md`, secciones 3 y 6: repos GitHub explícitos), vuelca lo general en `agent-learn/` y en los archivos de estrategia correspondientes citando proyecto y documento de origen, y lo particular y específico permanece en el worklog de cada proyecto; la estrategia actualizada se redistribuye a todos los agentes con el propio script (repo operativo).
 1. Carpeta del zip (predeterminada: `%USERPROFILE%\Downloads`; toma el `estrategia_v*.zip` de MAYOR VERSIÓN del nombre — empate: el más reciente por fecha; la sentencia de cada entrega fija el NOMBRE EXACTO y `-ZipPath` lo fuerza; si el nombre no cuadra con la VERSION del manifiesto, avisa y Enter aborta).
 2. Carpeta del repo local (predeterminada `C:\Python\Proyectos\estrategia`; `-RepoDir` la fuerza): verifica la integridad SHA256 de cada archivo contra `MANIFIESTO_ENTREGA.txt` (umbral cero: aborta sin tocar nada si algo no cuadra), BORRA TODO el contenido (conserva solo `.git`) y descomprime el `.zip` íntegro — al ser reemplazo total no hace falta purga de retirados.
-3. Los dos repos GitHub a publicar (predeterminados: completo `estrategia-agentes-zai` y operativo `estrategia-agentes-zai-operativo`): commit + push del contenido completo al repo **completo** y publicación del **paquete operativo de seis elementos** en el repo **operativo** (remite a proyecto.md, sección 2).
+3. Los dos repos GitHub a publicar (predeterminados: completo `estrategia-agentes-zai` y operativo `estrategia-agentes-zai-operativo`): commit + push del contenido completo al repo **completo** y publicación del **paquete operativo de siete elementos** en el repo **operativo** (remite a proyecto.md, secciones 2 y 6).
 4. DIFF entre GitHub (tras actualizar) y la carpeta local: verifica DIFF CERO y guarda SIEMPRE el informe con acentos correctos en Downloads (`DIFF_ENTREGA_estrategia_v<version>.txt`), también cuando el repo local no cambia.
 5. Modos auxiliares: `-DryRun` (simulación), `-NoPush` (solo repo local).
 
@@ -216,13 +223,15 @@ Sentencias manuales equivalentes (solo si el script no pudiera ejecutarse):
 cd C:\Python\Proyectos\estrategia
 git checkout main; git add -A; git commit -m "v1.4: <descripcion>"
 git pull --rebase origin main; git push -u origin main
-# Repo operativo: rama local 'operativo' con los seis elementos, push a su remoto
+# Repo operativo: rama local 'operativo' con los siete elementos, push a su remoto
 # (el script la construye y la publica automaticamente)
 ```
 
 **I.3d — Aprendizajes y cierre del método (diff cero):** diff entre cada archivo intervenido (workspace del agente vs repositorio) = **CERO diferencias** → actualizar worklog + tareas inmediatas + aprendizajes. Aprendizajes **genéricos** → `agent-learn/` (accesibles a todos los agentes en el paquete operativo); **específicos** → DTI del proyecto; el worklog queda narrativo.
 
 **Regla de aprendizajes (v1.4, conciliada):** los aprendizajes **se proponen al cerrar la conciliación de la E y antes de trazar el plan**, y se **implementan junto a todo lo demás** dentro de la I, viajando en la entrega (`.zip` con verificación de integridad) a los dos repos. No existe la vía de push directo desde el sandbox (NH5): la única salida de los aprendizajes es la entrega verificada. El Director autoriza las propuestas; sin autorización, no se escriben.
+
+**Regla de retorno (v1.5, R1):** la información que viaja del agente a la estrategia (lecciones_aprendidas, anti_patrones y cualquier información inversa) sigue la **vía repositorios en 2 momentos**. **M1** (elemento C del método de cada proyecto): el agente propone la ficha, el Director la aprueba, el agente actualiza el archivo de estrategia correspondiente en su espacio y genera el documento único consolidado desde `plantillas/plantilla_documento_consolidado.md`, depositado en el lugar determinado del repo del proyecto: `retorno/documento_consolidado.md`. **M2** (al actualizar la estrategia): el agente EP cosecha desde el fichero de entornos y el script redistribuye (I.3c, paso previo). Lo general viaja en el documento consolidado; lo particular y específico permanece en el worklog del proyecto. No existe otra vía de retorno (NH26).
 
 **I.3e — Re-clonado final (cierre por construcción, v1.3/v1.4):** tras el push del Director (I.3c), cada agente elimina su carpeta local de la estrategia y la re-clona fresca desde **su repo** (por identidad, `proyecto.md` §2): el agente EP desde el repo **completo**; los agentes de proyecto desde el repo **operativo**. El entorno del agente queda garantizado por construcción: lo que hay en disco == lo que hay en GitHub == lo que se entregó. Es el paso final obligatorio del ciclo; sin él, el clon local puede divergir del repo. Ejecutarlo solo cuando el Director confirme el push completado.
 
@@ -240,6 +249,8 @@ git pull --rebase origin main; git push -u origin main
 | **Táctico** | Agente | P (derivado del estratégico) | Junto al plan | Umbral cero del Crítico en I.2; umbrales de perímetro de líneas por intervención (deletions = 0 por defecto solo en intervenciones puramente aditivas) |
 
 `dcepi.md` contiene solo el PROCEDIMIENTO; el contenido estratégico vive en el DTI del proyecto. Regla de ubicación: transversal → estrategia; específico → DTI/proyecto.
+
+**Baremo de datos reales (v1.5, R4):** toda validación declara su fuente de datos: reales si existen; lo más reales posibles, declarado, si no es posible; prohibido apoyar el veredicto en fallbacks y mocks (norma completa en I.2). Aplica a todos los proyectos DCEPI.
 
 ## 9. Excepciones al DCEPI
 

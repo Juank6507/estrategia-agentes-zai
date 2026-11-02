@@ -1,8 +1,8 @@
-<!-- Ubicacion: estrategia/agent-context/proyecto.md (v1.4)
+<!-- Ubicacion: estrategia/agent-context/proyecto.md (v1.5)
      Unico archivo del paquete operativo que describe los proyectos y los repos de la estrategia.
      Sede canonica: identidad de arranque (paso 1), repos de la estrategia y repos de los proyectos. -->
 
-# PROYECTO — Catálogo e identidad (v1.4)
+# PROYECTO — Catálogo e identidad (v1.5)
 
 ## 1. Arranque por identidad (se ejecuta en este orden)
 
@@ -17,7 +17,7 @@ Un único contenido local (la carpeta del repo en la PC del Director) se publica
 | Repo | URL | Contenido | Quién lo clona |
 |---|---|---|---|
 | **Completo** | `https://github.com/Juank6507/estrategia-agentes-zai.git` | Todo: `agent-context/`, `agent-learn/`, worklogs, `meta/`, PDFs de la metodología, manifiesto y script | El agente del meta-proyecto **EP** |
-| **Operativo** | `https://github.com/Juank6507/estrategia-agentes-zai-operativo.git` | Paquete operativo de seis elementos: `agent-context/`, `agent-learn/`, `worklog_template.md`, `worklog_protocolo.md`, `prompt_arranque.md` y `premisa_respuesta.md` (la premisa, primero) | Los agentes de proyecto (APA, MB, CZAI y futuros) |
+| **Operativo** | `https://github.com/Juank6507/estrategia-agentes-zai-operativo.git` | Paquete operativo de siete elementos: `agent-context/`, `agent-learn/`, `plantillas/` (plantilla de script de entrega, plantilla de documento consolidado y plantilla de worklog), `retorno/` (lugar determinado del documento consolidado de retorno), `worklog_protocolo.md`, `prompt_arranque.md` y `premisa_respuesta.md` (la premisa, primero) | Los agentes de proyecto (APA, MB, CZAI y futuros) |
 
 - Ambos repos se publican desde el repo local del Director con `update_estrategia.ps1` en una sola pasada (ver `entorno.md`).
 - Los agentes de proyecto **no** reciben `meta/`, PDFs de la metodología ni worklogs ajenos: sencillamente no existen en su repo operativo.
@@ -43,3 +43,11 @@ Si el worklog te identifica como agente de un proyecto que **no figura** arriba 
 ## 5. Mantenimiento
 
 Este archivo es el punto único de verdad para identidad, catálogo y URLs. Cuando entre un proyecto nuevo o cambie una URL, se actualiza aquí y solo aquí; los demás archivos remiten a esta sección.
+
+## 6. Fichero de entornos y cosecha del retorno (v1.5, R1)
+
+Las URLs de la sección 3 son el **fichero de entornos** del retorno: cada proyecto tiene su repo GitHub explícito, y en cada repo de proyecto el **lugar determinado** del documento consolidado es `retorno/documento_consolidado.md` (carpeta `retorno/` en la raíz del repo).
+
+- **M1 — En el proyecto (elemento C del método):** el agente propone la ficha (lecciones_aprendidas, anti_patrones y cualquier información inversa); el Director la aprueba; el agente actualiza el archivo de estrategia correspondiente en su espacio y genera el documento único consolidado desde `plantillas/plantilla_documento_consolidado.md`, depositado en `retorno/documento_consolidado.md` de su repo. Lo general viaja en el documento consolidado; lo particular y específico permanece en el worklog del proyecto. No existe otra vía de retorno (NH26).
+- **M2 — En el meta-proyecto (al actualizar la estrategia, agente EP):** leer los documentos consolidados de todos los repos del catálogo (sección 3), volcar lo general en `agent-learn/` y en los archivos de estrategia correspondientes citando proyecto y documento de origen, y dejar la estrategia lista para que `update_estrategia.ps1` la redistribuya a todos los agentes (dcepi.md I.3c, paso previo). Las copias de cosecha se guardan en `retorno/` de este meta-proyecto con el nombre `<PROYECTO>_documento_consolidado.md`.
+- Plantillas involucradas: `plantillas/plantilla_documento_consolidado.md` (estructura del documento) y `plantillas/plantilla_script_entrega_proyecto.ps1` (el script de entrega de cada implementación, que también verifica y coloca el documento consolidado).

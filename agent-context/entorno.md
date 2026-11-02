@@ -1,9 +1,9 @@
-<!-- Ubicacion: estrategia/agent-context/entorno.md (v1.4)
+<!-- Ubicacion: estrategia/agent-context/entorno.md (v1.5)
      Descripcion integra del entorno de trabajo del agente: donde trabaja, con que guardrails,
      con que metodo y con que herramientas. Las normas completas viven en sus archivos sede;
      este archivo las describe y remite (un dato, un dueño). -->
 
-# ENTORNO DE TRABAJO (v1.4)
+# ENTORNO DE TRABAJO (v1.5)
 
 ## 1. Espacios
 
@@ -20,7 +20,7 @@
 Un único contenido local en la PC del Director se publica en **dos repos públicos de GitHub** (URLs y reglas en `proyecto.md`, sección 2 — sede canónica):
 
 - **Completo** (`estrategia-agentes-zai`): todo el contenido; lo clona el agente del meta-proyecto EP.
-- **Operativo** (`estrategia-agentes-zai-operativo`): paquete de seis elementos (`agent-context/`, `agent-learn/`, `worklog_template.md`, `worklog_protocolo.md`, `prompt_arranque.md`, `premisa_respuesta.md`); lo clonan los agentes de proyecto.
+- **Operativo** (`estrategia-agentes-zai-operativo`): paquete de siete elementos (`agent-context/`, `agent-learn/`, `plantillas/`, `retorno/`, `worklog_protocolo.md`, `prompt_arranque.md`, `premisa_respuesta.md`); lo clonan los agentes de proyecto.
 - Sin credenciales de por medio: lo que un agente no debe ver no existe en su repo.
 - El clon local se refresca al inicio de cada sesión (clone o pull) y al cierre del ciclo se re-clona fresco desde GitHub (dcepi.md I.3e).
 
@@ -32,7 +32,7 @@ El comportamiento del agente está cercado por cuatro piezas que se refuerzan en
 |---|---|---|
 | **Premisa de respuesta** | Se ejecuta en TODA respuesta: frase de control `[FASE: X | Estrategia: activa]` + panel de checkmarks como primera línea, antes de cualquier otro contenido; recuperación espontánea si falla; tabla de mapeo por elemento. Su omisión detiene el proceso y/o invalida la respuesta | `premisa_respuesta.md` (raíz de la estrategia; triple redacción con contrato y prompt de arranque) |
 | **Contrato de actuación** | Lo que siempre se hace y lo que nunca (códigos NH); clasificación por capas de verificación | `agent-context/contrato.md` |
-| **Worklog conductual** | Regla Conductual Mínima en la cabecera de todo worklog: frase de control, premisa, recuperación, read-back y panel | `worklog_template.md` (plantilla) y cabecera de cada worklog |
+| **Worklog conductual** | Regla Conductual Mínima en la cabecera de todo worklog: frase de control, premisa, recuperación, read-back y panel | `plantillas/worklog_template.md` (plantilla) y cabecera de cada worklog |
 | **Panel de checkmarks (R29)** | Cada punto del método se ejecuta como checklist visible: pregunta + `[x]`/`[?]`, en lenguaje natural; solo se reabre lo desconocido | dcepi.md (elemento E) + premisa §2.4 |
 
 ## 4. Método de trabajo (descripción del DCEPI)
@@ -67,12 +67,12 @@ Inventario completo y modo de uso en `agent-context/herramientas.md` (sede canó
    - Carpeta del repo local (predeterminada `C:\Python\Proyectos\estrategia`): la borra y la reemplaza con el contenido íntegro del zip.
    - Repos GitHub a publicar (predeterminados: el completo y el operativo).
 4. Antes de tocar nada, verifica la integridad SHA256 de cada archivo contra `MANIFIESTO_ENTREGA.txt` (umbral cero: si algo no cuadra, aborta sin cambios).
-5. Publica los dos repos (completo: todo; operativo: los seis elementos) y genera el informe DIFF con acentos correctos en Descargas.
+5. Publica los dos repos (completo: todo; operativo: los siete elementos) y genera el informe DIFF con acentos correctos en Descargas.
 
 ## 7. Reglas de entrega
 
 - Todo lo entregable va en `/home/z/my-project/download/` (nunca en `upload/`; NH6).
-- **Dos regímenes (dcepi.md I.3a):** meta-proyecto = SIEMPRE completo (todos los archivos); proyectos de aplicación = solo modificados, salvo tests E2E.
+- **Dos regímenes (dcepi.md I.3a):** meta-proyecto = SIEMPRE completo (todos los archivos); proyectos de aplicación = solo modificados, salvo tests E2E. **Toda implementación (v1.5) viaja además con su script de entrega** generado desde `plantillas/plantilla_script_entrega_proyecto.ps1` (NH24): contenido, Windows, condiciones previas y cierre con veredicto umbral cero.
 - Cada script entregado lleva en su primera línea un comentario con ubicación y nombre de destino (NH15).
 - La entrega incluye la tabla que mapea cada archivo a su destino y la sentencia de PowerShell de actualización.
 

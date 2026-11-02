@@ -1,9 +1,9 @@
-# update_estrategia.ps1 -- v4.0.2
+# update_estrategia.ps1 -- v4.1.0
 # v4.0 (v1.4, conciliacion V1/V6): (1) el script PREGUNTA con valores predeterminados
 #       (Enter acepta): carpeta del .zip (por defecto Descargas; toma el estrategia_v#.#.zip
 #       mas reciente), carpeta del repo local (borra y reemplaza) y los DOS repos GitHub a
 #       publicar. (2) Publica en DOS repos publicos desde UN solo repo local: el COMPLETO
-#       (todo el contenido) y el OPERATIVO (paquete de seis elementos), en lugar de un repo
+#       (todo el contenido) y el OPERATIVO (paquete de siete elementos), en lugar de un repo
 #       con dos ramas (conciliacion V1 de la v1.4). (3) El Director ya NO extrae el script
 #       a mano: la entrega trae una sentencia de PowerShell que lo extrae del .zip y lo
 #       ejecuta (un solo paso).
@@ -22,6 +22,19 @@
 #       Enter = abortar (umbral cero; S = continuar). (3) El informe DIFF_ENTREGA_estrategia_v*.txt
 #       se genera SIEMPRE, tambien cuando el repo local no cambia ("sin cambios"). (4) La sentencia
 #       de cada entrega fija el NOMBRE EXACTO del .zip y se lo pasa al script con -ZipPath.
+# v4.1.0 (v1.5, orden del Director 2026-11-02): (1) el paquete operativo crece de seis a SIETE
+#       elementos: entran las carpetas plantillas/ (plantilla de script de entrega de proyecto,
+#       plantilla de documento consolidado y worklog_template.md reubicado desde la raiz) y
+#       retorno/ (lugar determinado del documento consolidado de retorno, R1/NH26, con su README
+#       de contrato). (2) REQUIRED_FILES pasa de 16 a 19 archivos (plantillas y retorno).
+#       (3) defensa S61 (verificacion abarcadora pre-entrega): Apply-Delivery IGNORA la carpeta
+#       .git si el .zip la trajera. El .zip inicial de la v1.5 la incluyo sin documentarlo y
+#       su copia -Force machacaba el .git preservado del repo local: se perdia el remote
+#       'operativo' recien configurado por Ensure-Repo y el push al repo OPERATIVO fallaba
+#       (aviso no fatal y banner final falso). El borrado total conserva el .git del repo
+#       local; la entrega solo aporta contenido (precedente v1.2: .git excluido).
+#       (4) Resto del algoritmo byte-identico al v4.0.2 (intervencion quirurgica, criterio 6
+#       de la spec v1.5, ampliado por la defensa del punto 3 con registro en la S61).
 # ASCII-only: sin em-dash, sin smart quotes, sin caracteres Unicode especiales
 #
 # AMBITO: este script es EXCLUSIVO del meta-proyecto de estrategia (estrategia-agentes-zai).
@@ -45,7 +58,7 @@
 #       Al ser reemplazo total NO hace falta purga de retirados: el borrado los elimina todos.
 #   3.3 Pregunta los DOS repos GitHub a publicar (por defecto: el completo y el operativo
 #       validados en la v1.4) y publica: commit + push del contenido COMPLETO al repo
-#       COMPLETO (remote 'origin') y del paquete OPERATIVO de seis elementos al repo
+#       COMPLETO (remote 'origin') y del paquete OPERATIVO de siete elementos al repo
 #       OPERATIVO (remote 'operativo').
 #   3.4 Ejecuta el DIFF entre el repo de GitHub (tras actualizar) y la carpeta local:
 #       verifica DIFF CERO y guarda el diff de la entrega en
@@ -56,15 +69,15 @@
 #               (todo: agent-context/, agent-learn/, worklogs, meta/, PDFs, manifiesto, script)
 #               Lo clona el agente del meta-proyecto EP.
 #   - OPERATIVO https://github.com/Juank6507/estrategia-agentes-zai-operativo.git
-#               (paquete de seis elementos: agent-context/, agent-learn/,
-#               worklog_template.md, worklog_protocolo.md, prompt_arranque.md,
+#               (paquete de siete elementos: agent-context/, agent-learn/,
+#               plantillas/, retorno/, worklog_protocolo.md, prompt_arranque.md,
 #               premisa_respuesta.md). Lo clonan los agentes de proyecto.
 #   Sin credenciales: la separacion de contenido es la separacion entre los dos repos.
 #
 # USO (Director en Windows): pegar la sentencia de la entrega en PowerShell (recomendado),
 #   o ejecutar directamente:  powershell -ExecutionPolicy Bypass -File .\update_estrategia.ps1
 # MODOS AUXILIARES (fuerzan valores y omiten su pregunta):
-#   -ZipPath "C:\...\estrategia_v1.4.zip"    (forzar un .zip concreto)
+#   -ZipPath "C:\...\estrategia_v1.5.zip"    (forzar un .zip concreto)
 #   -RepoDir "C:\Python\Proyectos\estrategia" (forzar el repo local)
 #   -CompletoUrl "https://github.com/...git"  (forzar el repo completo)
 #   -OperativoUrl "https://github.com/...git" (forzar el repo operativo)
@@ -100,17 +113,18 @@ $DEFAULT_OPERATIVO_URL = "https://github.com/Juank6507/estrategia-agentes-zai-op
 $REMOTE_COMPLETO = "origin"      # remote del repo COMPLETO
 $REMOTE_OPERATIVO = "operativo"  # remote del repo OPERATIVO
 
-# Rutas que el repo operativo CONSERVA (paquete de seis elementos, conciliacion v1.4).
+# Rutas que el repo operativo CONSERVA (paquete de siete elementos, conciliacion v1.5).
 $OPERATIVO_KEEP = @(
     "premisa_respuesta.md",
     "agent-context",
     "agent-learn",
-    "worklog_template.md",
+    "plantillas",
+    "retorno",
     "worklog_protocolo.md",
     "prompt_arranque.md"
 )
 
-# Archivos minimos que TODA entrega debe traer (estructura v1.4, Protocolo de Arranque)
+# Archivos minimos que TODA entrega debe traer (estructura v1.5, Protocolo de Arranque)
 $REQUIRED_FILES = @(
     "premisa_respuesta.md",
     "agent-context/herramientas.md",
@@ -126,7 +140,10 @@ $REQUIRED_FILES = @(
     "agent-learn/preferencias_director.md",
     "prompt_arranque.md",
     "worklog_protocolo.md",
-    "worklog_template.md",
+    "plantillas/worklog_template.md",
+    "plantillas/plantilla_script_entrega_proyecto.ps1",
+    "plantillas/plantilla_documento_consolidado.md",
+    "retorno/README.md",
     "update_estrategia.ps1"
 )
 
@@ -137,7 +154,7 @@ $REQUIRED_FILES = @(
 function Write-Title {
     Write-Host ""
     Write-Host "============================================" -ForegroundColor Cyan
-    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v4.0.2)" -ForegroundColor Cyan
+    Write-Host "  ACTUALIZACION DE ESTRATEGIA Z.ai (v4.1.0)" -ForegroundColor Cyan
     Write-Host "  zip -> repo local -> 2 repos GitHub" -ForegroundColor Cyan
     Write-Host "============================================" -ForegroundColor Cyan
     Write-Host ""
@@ -475,7 +492,8 @@ function Apply-Delivery {
     param($Delivery)
 
     $copied = 0
-    Get-ChildItem -Path $Delivery.ZipRoot -Force | ForEach-Object {
+    # Defensa v4.1.0 (S61): el .git del repo local NUNCA se sobreescribe con el del zip.
+    Get-ChildItem -Path $Delivery.ZipRoot -Force | Where-Object { $_.Name -ne ".git" } | ForEach-Object {
         $dst = Join-Path $REPO_DIR $_.Name
         Copy-Item -Path $_.FullName -Destination $dst -Recurse -Force
         $copied++
@@ -556,14 +574,14 @@ function Invoke-GitPushCompleto {
 }
 
 function Publish-OperativoRepo {
-    # Publica el paquete OPERATIVO de seis elementos en el repo OPERATIVO (remote 'operativo').
+    # Publica el paquete OPERATIVO de siete elementos en el repo OPERATIVO (remote 'operativo').
     # Mismo mecanismo probado de la rama operativo (espejo podado de main con la lista
     # cerrada OPERATIVO_KEEP), ahora empujando a su PROPIO repositorio (conciliacion V1).
     Push-Location $REPO_DIR
     $prevEAP = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     try {
-        Write-Host "  Preparando el paquete operativo (seis elementos)..." -ForegroundColor White
+        Write-Host "  Preparando el paquete operativo (siete elementos)..." -ForegroundColor White
 
         git rev-parse --verify $OPERATIVO_BRANCH 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) {
@@ -583,7 +601,7 @@ function Publish-OperativoRepo {
         git rm -r -q --ignore-unmatch . 2>&1 | Out-Null
         git restore --source=$MAIN_BRANCH --worktree --staged -- . 2>&1 | Out-Null
 
-        # Poda: en operativo solo queda el paquete de seis elementos
+        # Poda: en operativo solo queda el paquete de siete elementos
         $topItems = Get-ChildItem -Force | Where-Object { $_.Name -ne ".git" }
         foreach ($item in $topItems) {
             $keep = $false
@@ -597,13 +615,13 @@ function Publish-OperativoRepo {
         }
 
         git add -A 2>&1 | Out-Null
-        $syncOut = git commit -m "v$($ManifestGlobal.Version): paquete operativo (seis elementos) desde la entrega" 2>&1
+        $syncOut = git commit -m "v$($ManifestGlobal.Version): paquete operativo (siete elementos) desde la entrega" 2>&1
         $syncExit = $LASTEXITCODE
         if ($syncExit -eq 0) {
             Write-Host "  git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH (repo OPERATIVO) ..." -ForegroundColor White
             git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH 2>&1 | Out-Null
             if ($LASTEXITCODE -eq 0) {
-                Write-Host "  Repo OPERATIVO publicado (paquete de seis elementos)." -ForegroundColor Green
+                Write-Host "  Repo OPERATIVO publicado (paquete de siete elementos)." -ForegroundColor Green
             } else {
                 Write-Host "  ATENCION: el push al repo OPERATIVO fallo (exit $LASTEXITCODE). Verifique que el repo existe en GitHub y reejecute el push:" -ForegroundColor Yellow
                 Write-Host "    cd $REPO_DIR ; git push -u $REMOTE_OPERATIVO $OPERATIVO_BRANCH" -ForegroundColor Yellow

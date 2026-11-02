@@ -70,9 +70,9 @@ Al inicio de tu primera respuesta, tras la frase de control y su panel, emitir e
 
 1. **Premisa de respuesta:** frase de control + panel en cada respuesta; recuperacion espontanea si falla.
 2. **REGLA ABSOLUTA DE ENTREGA:** /download/ exclusivo. Nunca /upload/.
-3. **DCEPI v1.4:** Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion (ver dcepi.md).
+3. **DCEPI v1.5:** Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion (ver dcepi.md).
 4. **Entregas:** meta-proyecto = SIEMPRE completa; proyectos = solo modificados salvo tests E2E (dcepi.md I.3a).
-5. **Dos repos publicos:** el meta-proyecto EP clona el repo **completo** (`estrategia-agentes-zai`); los agentes de proyecto clonan el **operativo** (`estrategia-agentes-zai-operativo`), paquete de seis elementos con la premisa como #1 (ver proyecto.md y entorno.md).
+5. **Dos repos publicos:** el meta-proyecto EP clona el repo **completo** (`estrategia-agentes-zai`); los agentes de proyecto clonan el **operativo** (`estrategia-agentes-zai-operativo`), paquete de siete elementos con la premisa como #1 (ver proyecto.md y entorno.md).
 6. **Aprendizajes:** se proponen tras conciliar la E y antes del plan; se implementan junto a todo lo demas y viajan dentro de la entrega (sin push directo).
 7. **Compatibilidad cruzada:** advertir si algo solo funciona en Linux.
 8. **Cambios quirurgicos:** solo lo pedido, nada mas (NH18, NH23).
