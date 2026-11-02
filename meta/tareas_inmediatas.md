@@ -5,7 +5,7 @@
 
 ## Pendientes
 
-- [ ] Director (ENTREGA v1.5): descargar download/estrategia_v1.5.zip y pegar en PowerShell LA SENTENCIA v1.5 (fija el NOMBRE EXACTO `estrategia_v1.5.zip` en Descargas y se lo pasa al script con -ZipPath; pregunta repo local/repos con Enter; publica el repo COMPLETO y el OPERATIVO — este último ahora con el paquete de SIETE elementos: entran plantillas/ y retorno/, y worklog_template.md vive en plantillas/). Sustituye a la tarea de la v1.4.2. Tras el push, avisar al agente para el re-clonado final (I.3e por identidad)
+- [ ] Director (ENTREGA v1.5.1): descargar download/estrategia_v1.5.1.zip y pegar en PowerShell LA SENTENCIA v1.5.1 (fija el NOMBRE EXACTO `estrategia_v1.5.1.zip` en Descargas y se lo pasa al script con -ZipPath; pregunta repo local/repos con Enter; publica el repo COMPLETO y el OPERATIVO). Hotfix acción A: la plantilla del script de entrega queda como PASO obligatorio en el Paso 3 (ACTUAR) del prompt_arranque.md. Sustituye a la tarea de la v1.5. Tras el push, avisar al agente para el re-clonado final (I.3e por identidad)
 - [ ] Director: colocar los worklogs adaptados en los chats/sandboxes de czai, mb y apa (los adaptados v1.3 quedan desfasados en la regla de identidad; regenerables como v1.4 a orden)
 - [ ] Agente (tras el push del Director): re-clonado final I.3e desde el repo COMPLETO y verificación triple igualdad (disco == GitHub == entrega)
 - [ ] Proyectos APA/MB/CZAI (próximo ciclo de cada uno): adoptar las plantillas de plantillas/ — script de entrega (NH24) y documento consolidado de retorno en retorno/documento_consolidado.md (NH26) — por su propio DCEPI, no en este

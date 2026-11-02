@@ -1,8 +1,8 @@
-# MANIFIESTO_ENTREGA -- estrategia v1.5 (meta-proyecto)
+# MANIFIESTO_ENTREGA -- estrategia v1.5.1 (meta-proyecto)
 # Destino: raiz del repositorio C:\Python\Proyectos\estrategia (y de todo .zip de entrega I.3a)
 # Generado por el agente EP en sandbox. Verificacion SHA256 umbral cero (update_estrategia.ps1 v4.1.0).
 # Formato: <sha256>  <ruta relativa con / ; el manifest no se lista a si mismo>
-VERSION: 1.5
+VERSION: 1.5.1
 63aa188377ffdc256f21f7e4f06624ac829f224d8619fd0fcecd63d47ff1c434  agent-context/comunicacion.md
 1094fa9c38a04391f7a6917aa2fc01b3bff3f310d1f858a835e0f1a4e002fb85  agent-context/contrato.md
 1f1b95e2aff5a373bfaeb623e012c0c98e9e5b13f0b57a8e3e6a49a065a359c2  agent-context/dcepi.md
@@ -19,7 +19,7 @@ de3235c4654ba2fde1429f24d9ce2dd4392b23568d0a3f69dea06b9c7cd090da  agent-learn/pa
 3d9fefde0da998ede022aa26ec097aa88680accc3b1a379d7063c72159825f3c  meta/director-only/informe_estrategia_v1.1.md
 ce1d5d8bc71be871d9a517ffc65f59f0e8d3bca2423e22fa9c82279b901f2617  meta/director-only/prompt_inicio_sesion.txt
 5ea8de6c88b84e7667efb076578904ca990a0c85b7e960997a5f9886b3386ecd  meta/director-only/prompt_templates.md
-4d3363ce07cac5e220c919baab6fa3782f9567e78b84b762888a526687fa7125  meta/historial_versiones.md
+ac2145905b52804bfd0608cf59e52954a24c37a25904f7bb70fa4081038aca44  meta/historial_versiones.md
 19b0bb9038659e6aa1146bfbc24fc949474e9c26e849cf7de42f141b7b0f3e1a  meta/informe_revision_integral_v1.4.md
 97b15b6f3cfaa2b8258aca36a736f74347178471f1b3148d541cab579058a94b  meta/plan_estrategia_v1.1.md
 e59ceedd8c980be5a87738e69e830dde6dcaaf9bb821f16b943942fa31ca37ae  meta/plan_estrategia_v1.2.md
@@ -31,16 +31,16 @@ f6708350549d97362705a90188cda2252c2d064f861250422f4b1efd88f737fd  meta/spec_estr
 1a5be11226dacf7b0b823ddf4f1c3ba4f8a6cf472a7a38134396a779b0de6003  meta/spec_estrategia_v1.3.md
 77da11e581ca871516f95c9323b0d6a566e1f75891f2953167232da454e085cb  meta/spec_estrategia_v1.4.md
 e6741bad510a716d7ab1ce5f95f94b426b3866dce8b23cd480887d198be02a50  meta/spec_estrategia_v1.5.md
-7b29b2d206768e95448b497870e08c4f11894da4a7244e84bd3699dc5f48fc33  meta/tareas_inmediatas.md
+ea2b20274a794ff96c0158e2f17b4353a2fd7221efeac32e6aa377839196abf0  meta/tareas_inmediatas.md
 0a315ae5fd6ab2d694a3a90ff2832943ce9ea8524de1a4fb82bcdc4eed6c615d  plantillas/plantilla_documento_consolidado.md
 cca70ed2a9597b0e26a561165560408efa7adb17a9b4f658fc1aa844d7ac302c  plantillas/plantilla_script_entrega_proyecto.ps1
 bce210a9f50f1df07b5cfced4759c9b86f59d3c38905fa706adf3e6b171e32f7  plantillas/worklog_template.md
 3a34a53b8981f0cb96c8fab9645f11156086dd610495b48faf106ecd4e97dfb7  premisa_respuesta.md
-d9dc25c20066589b4aa4e2cc16b1a6c81716baf58f5db39c0b418421ec9ce4a5  prompt_arranque.md
+721461d5f1a4c86733221527bc681377d6c3b72f052bec4e26af55b22deba72c  prompt_arranque.md
 3ad752168fe934e886b53dbed7265f97b724d8ea33575611668b95eb53caf3ac  retorno/README.md
 49ef269804f92408a042dcd971a403830a29651d02ff032fe661112124ed1504  update_estrategia.ps1
-ab9855af53c506381f44fde2823c88cc543ee08c10255766e2d6128a1f78c8bf  worklog_EP.backup.md
-ab9855af53c506381f44fde2823c88cc543ee08c10255766e2d6128a1f78c8bf  worklog_EP.md
+d95669b8d432687e998fb8a9b0cc7c0ad81f43279a8fd8b70278c37324432481  worklog_EP.backup.md
+d95669b8d432687e998fb8a9b0cc7c0ad81f43279a8fd8b70278c37324432481  worklog_EP.md
 f64c3a691c2d4701b6ee1c8ccf8e129e842e54c0947a4214d5a0cf95ee75a023  worklog_protocolo.md
 
 # ELIMINADOS (retirados de la estrategia; el borrado total del script los cubre)

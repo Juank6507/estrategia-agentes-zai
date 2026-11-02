@@ -1,4 +1,4 @@
-# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.4
+# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.5.1
 
 Este archivo es el **punto de entrada unico** y fallback para el arranque del agente.
 
@@ -44,7 +44,7 @@ Leer en orden:
 9. `lecciones_aprendidas.md` -- Lo que aprendiste
 10. `anti_patrones.md` -- Lo que hay que evitar
 
-(`patrones_recurrentes.md` y `preferencias_director.md` existen y se consultan cuando el tema lo requiere.)
+(`patrones_recurrentes.md`, `preferencias_director.md` y las plantillas de `plantillas/` existen y se consultan a demanda: las plantillas, al empaquetar entregas de proyecto y al generar el documento consolidado de retorno.)
 
 ### Paso 2: DECLARAR
 
@@ -56,13 +56,14 @@ Al inicio de tu primera respuesta, tras la frase de control y su panel, emitir e
 > - Aprendizaje: lecciones, anti-patrones (+ patrones y preferencias a demanda)
 > - Proyecto: [nombre del proyecto]
 > - Agente: [agente]
-> - Version: v1.4
+> - Version: v1.5.1
 
 ### Paso 3: ACTUAR
 
 - Identificar si hay lecciones, patrones o anti-patrones relevantes para la tarea
 - Mencionarlos en la primera respuesta
 - Aplicarlos durante el trabajo
+- **ANTES DE EMPAQUETAR CUALQUIER ENTREGA DE PROYECTO: instancia el script de entrega desde la plantilla `plantillas/plantilla_script_entrega_proyecto.ps1`** -- localiza la plantilla en `plantillas/`, copiala y sustituye TODOS sus marcadores `<<...>>` por datos reales del proyecto (NH24, dcepi.md I.3a R5/R6). Prohibido escribir el script a mano o entregar sin el
 
 ---
 

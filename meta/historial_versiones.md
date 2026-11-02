@@ -1,5 +1,20 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.5.1 (2026-11-02)
+
+### Motivacion
+Brecha detectada por el Director en vuelo: el agente CZAI (contexto_zai) entrego implementaciones sin instanciar el script de entrega desde plantillas/plantilla_script_entrega_proyecto.ps1 -- lo escribio a mano, sin la validacion en Windows del Director (NH24 + dcepi.md I.3a R5/R6 + prompt_arranque.md ya lo ordenaban; fallo de disparo procedural, no de distribucion: la plantilla ya viajaba en el operativo v1.5 y 6 de los 10 ficheros del Paso 1 ya la nombraban). Conciliado en C por el Director (2026-11-02): opcion A (referencia obligatoria en el Paso 3 del prompt_arranque.md), hotfix v1.5.1. Opcion B (mover la plantilla a agent-context/) descartada: romperia el orden de estructura (las dos plantillas juntas en plantillas/), dispersaria activos y no corregiria el fallo real (de disparo, no de ubicacion).
+
+### Novedades
+1. **Paso 3 (ACTUAR) del prompt_arranque.md convierte la norma en PASO en el momento de uso** -- nueva entrada obligatoria: "ANTES DE EMPAQUETAR CUALQUIER ENTREGA DE PROYECTO: instancia el script de entrega desde la plantilla `plantillas/plantilla_script_entrega_proyecto.ps1`" (localizar la plantilla, copiarla, sustituir TODOS los marcadores <<...>> por datos reales; prohibido escribirla a mano o entregar sin ella). La norma vive ahora donde el agente actua al empaquetar, no solo donde se legisla.
+2. **Complemento de simetría en el Paso 1** -- la nota de consulta a demanda (linea 47) incluye ahora las plantillas de `plantillas/`: se consultan al empaquetar entregas de proyecto y al generar el documento consolidado de retorno (R1/NH26). La plantilla queda en el camino de lectura del archivo de arranque unico y fallback.
+3. **Marcadores de version alineados** (hallazgo residual S64, misma clase que H2): el prompt_arranque.md conservaba "Estrategia Z.ai v1.4" (L1) y "Version: v1.4" (L59) pese al paso a v1.5; ambos quedan en v1.5.1 en esta entrega.
+
+### Archivos modificados
+- prompt_arranque.md (titulo, nota del Paso 1, bloque de deteccion del Paso 2, Paso 3 ACTUAR)
+- meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md (pendiente del Director), worklog_EP.md + worklog_EP.backup.md (S65), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.5.1)
+- update_estrategia.ps1 SIN CAMBIOS (v4.1.0, el ya validado por el Director en la ejecucion de la v1.5)
+
 ## v1.5 (2026-11-02)
 
 ### Motivacion
