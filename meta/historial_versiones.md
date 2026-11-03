@@ -1,5 +1,36 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.5.3 (2026-11-02)
+
+### Motivacion
+Correccion del Director sobre la v1.5.2: "Te dije que la plantilla no cambia y la redujistes a los 4 elementos que te mencione de forma equivocada". La formulacion de la v1.5.2 redujo la plantilla (y su invocacion obligatoria) a los cuatro subelementos enumerados --"su invocacion es obligatoria EN los cuatro subelementos", "la implementacion que omita la plantilla en cualquiera de estos cuatro puntos"-- cuando la orden era: la plantilla se invoca como obligatoria como parte del ELEMENTO I del DCEPI ENTERO, y los cuatro subelementos (entrega, validacion de los scripts en su entorno Windows, actualizacion del repositorio del proyecto y generacion del diff de comprobacion) son la sede donde esa invocacion se hace explicita y verificable, no su limite. La v1.5.2 queda INVALIDADA sin ejecucion (su sentencia no se llego a pegar en PowerShell); esta v1.5.3 la sustituye.
+
+### Novedades
+1. **dcepi.md -- norma reescrita (elemento I, sede en I.3a, v1.5.3):** la plantilla NO cambia (TODOS sus elementos se mantienen: interfaz param(), funciones, manifiesto, checklist embebida, sentencia de lanzamiento, informe) y NO se reduce a los cuatro subelementos ni se redefine por ellos; su invocacion es obligatoria durante la implementacion como parte del elemento I ENTERO -- no un conjunto cerrado de cuatro puntos -- y los cuatro subelementos de entrega fijados por el Director la hacen explicita y verificable: (1) entrega (instanciacion sin excepcion), (2) validacion de los scripts en el entorno Windows del Director (viaja dentro del script instanciado, con su sentencia de lanzamiento), (3) actualizacion del repositorio del proyecto (commit y push solo tras veredicto APROBADO, umbral cero), (4) generacion del diff de comprobacion (diff repositorio actualizado <-> entrega, archivado como evidencia del cierre). Cierre anclado al elemento: "la implementacion que omita la plantilla donde el elemento I la ordena no sale del elemento I".
+2. **prompt_arranque.md Paso 3 (ACTUAR) realineado:** el disparo elimina la reduccion "en los cuatro subelementos" y remite a la sede con la v1.5.3.
+3. **v1.5.2 INVALIDADA:** entrega de tránsito, sin ejecucion en Windows; no descargar ni ejecutar su sentencia.
+
+### Archivos modificados
+- agent-context/dcepi.md (norma reescrita v1.5.3), prompt_arranque.md (Paso 3 realineado)
+- meta/historial_versiones.md (esta entrada + v1.5.2 invalidada), meta/tareas_inmediatas.md (tarea del Director v1.5.3), worklog_EP.md + worklog_EP.backup.md (S70), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.5.3)
+- plantillas/plantilla_script_entrega_proyecto.ps1 SIN CAMBIOS (orden expresa del Director; SHA256 cca70ed2... verificado intacto antes y despues)
+
+## v1.5.2 (2026-11-02) -- INVALIDADA (no ejecutada; sustituida por la v1.5.3)
+**INVALIDACION (S70):** el Director nunca ejecuto su sentencia; la formulacion de la norma reducia la plantilla y su invocacion a los cuatro subelementos, de forma equivocada. No descargar ni ejecutar download/estrategia_v1.5.2.zip. Se conserva el registro por trazabilidad.
+
+### Motivacion
+Segunda brecha de la clase plantilla, reportada por el Director en vuelo: el agente CZAI (contexto_zai) leyo la plantilla pero no la siguio como guardrail --instanciacion parcial en la v6.12: respetó las funciones internas pero cambio la interfaz de entrada y omitió la sentencia de lanzamiento--. Autodiagnóstico de CZAI conciliado por el Director con la correccion definitiva: LA PLANTILLA NO CAMBIA (sus elementos se mantienen); lo que cambia es su INVOCACION OBLIGATORIA durante la implementacion, como parte del elemento I del DCEPI y de los subelementos de entrega: entrega, validacion de los scripts en el entorno Windows del Director, actualizacion del repositorio del proyecto y generacion del diff de comprobacion. El aparcamiento del reset (S67-S68) queda sin efecto practico: ninguna carpeta se llego a borrar.
+
+### Novedades
+1. **dcepi.md I.3a -- Invocacion obligatoria de la plantilla en el elemento I (sede de la norma):** la plantilla se invoca como obligatoria durante la implementacion en los cuatro subelementos de entrega: (1) entrega (el script se instancia desde la plantilla, sin excepcion); (2) validacion de los scripts en el Windows del Director (la validacion viaja dentro del script instanciado y se ejecuta con su sentencia de lanzamiento); (3) actualizacion del repositorio del proyecto (commit y push solo tras el veredicto APROBADO del script, que la condiciona; umbral cero); (4) generacion del diff de comprobacion (diff repositorio actualizado <-> entrega, archivado como evidencia del cierre). La implementacion que omita la plantilla en cualquiera de los cuatro puntos no sale del elemento I.
+2. **Contrato de instancia codificado en la norma** (las tres reglas de CZAI, ahora en dcepi.md I.3a): sustitucion de los marcadores <<...>> y nada mas; sin anadir ni quitar parametros; sin alterar funciones; sentencia de lanzamiento exacta documentada en la entrega. La plantilla v1.0 queda byte-identica (SHA256 cca70ed2... intacto).
+3. **prompt_arranque.md Paso 3 (ACTUAR) alineado:** el disparo de la v1.5.1 gana la cadena de los cuatro subelementos y la remision a la sede (dcepi.md I.3a, v1.5.2).
+
+### Archivos modificados
+- agent-context/dcepi.md (I.3a: nuevo parrafo de invocacion obligatoria), prompt_arranque.md (Paso 3: disparo ampliado)
+- meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md (pendiente del Director), worklog_EP.md + worklog_EP.backup.md (S69), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.5.2)
+- plantillas/plantilla_script_entrega_proyecto.ps1 SIN CAMBIOS (orden expresa del Director; SHA256 verificado intacto)
+
 ## v1.5.1 (2026-11-02)
 
 ### Motivacion
