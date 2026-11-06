@@ -13,7 +13,7 @@
 | NH2 | Entregar código que no haya sido probado previamente |
 | NH3 | Hablarle al Director en lenguaje técnico innecesario |
 | NH4 | Pedir al Director que edite código, ejecute scripts o revise archivos técnicos |
-| NH5 | Hacer git commit o push del código del proyecto (los push de GitHub los ejecuta el Director o su script, I.3c; los aprendizajes viajan DENTRO de la entrega — no existe push directo de agent-learn/, regla v1.4) |
+| NH5 | Hacer git commit o push del código del proyecto (los push de GitHub los ejecuta el Director o su script, I.3.c; los aprendizajes viajan DENTRO de la entrega — no existe push directo de agent-learn/, regla v1.4) |
 | NH6 | Entregar archivos fuera de `/home/z/my-project/download/` |
 | NH7 | Generar reportes para el Director que no haya solicitado |
 | NH8 | Actuar sin autorización del Director (única excepción: la auto-recuperación de contexto según premisa_respuesta.md — restaura lectura y continuidad, no toca archivos del proyecto ni ejecuta cambios) |
@@ -32,9 +32,10 @@
 | NH21 | Usar hardcoding de valores que deberían ser configurables (constantes, variables de entorno, archivos de configuración) |
 | NH22 | Implementar lógica que pueda beneficiarse de OOP usando en su lugar código procedural, sin alertar al Director de la oportunidad |
 | NH23 | Modificar, reestructurar o "mejorar" código que no fue solicitado en la tarea. Solo se toca lo que el Director pide. Si el agente ve algo mejorable, lo menciona como propuesta pero no lo modifica |
-| NH24 | Entregar una implementación sin su script de entrega estándar (v1.5, R5/R6): hermano del update_estrategia.ps1, generado desde plantillas/plantilla_script_entrega_proyecto.ps1, que cubre de forma automática contenido (I.3a), funcionamiento en Windows (I.3b), condiciones previas (I.3c) y cierre con veredicto umbral cero que condiciona el re-clonado (I.3e), con manifiesto, sentencia y checklist embebida. Pasa el gauntlet de I.2 como cualquier archivo; si no supera el estándar: correcciones y reintento, 5 intentos (MAX_ITER); agotados, escalado al Director con el problema exacto, sin rodearlo ni reparar procesos ajenos |
+| NH24 | Entregar una implementación sin su script de entrega estándar (v1.5, R5/R6): hermano del update_estrategia.ps1, generado desde plantillas/plantilla_script_entrega_proyecto.ps1, que cubre de forma automática contenido (I.3.a), funcionamiento en Windows (I.3.b), condiciones previas (I.3.c) y cierre con veredicto umbral cero que condiciona el re-clonado (I.3.e), con manifiesto, sentencia y checklist embebida. Pasa el gauntlet de I.2 como cualquier archivo; si no supera el estándar: correcciones y reintento, 5 intentos (MAX_ITER); agotados, escalado al Director con el problema exacto, sin rodearlo ni reparar procesos ajenos |
 | NH25 | Apoyar un veredicto de validación en fallbacks o mocks (v1.5, R4): los datos de toda validación son reales si existen; si no es posible, los más reales posibles declarándolo en la evidencia; los mocks presentes quedan marcados como desarrollo, nunca como validación |
 | NH26 | Retornar información del agente a la estrategia por una vía distinta de la vía repositorios en 2 momentos (v1.5, R1): M1, documento único consolidado (desde plantillas/plantilla_documento_consolidado.md) en retorno/documento_consolidado.md del repo del proyecto, tras aprobación expresa del Director; M2, cosecha por el agente EP desde el fichero de entornos al actualizar la estrategia. Lo general viaja en el documento consolidado; lo particular, en el worklog del proyecto |
+| NH27 | No dar por terminado un elemento sin su Gauntlet, ni dar por terminada una implementación sin cumplir el baremo táctico del Gauntlet fijado en la Conciliación del ciclo y probado con datos reales antes de empaquetar (v1.6). El Gauntlet se exige en sus dos niveles — por elemento y de terminación —; sin Gauntlet no hay terminación ni entrega |
 
 ---
 
@@ -74,7 +75,7 @@ Antes de entregar cualquier archivo modificado:
 
 | Capa | Mecanismo | Reglas que intervienen |
 |---|---|---|
-| **Capa 1 — Consulta en la premisa** | El agente consulta las reglas escritas antes/durante cada intervención | NH1, NH2, NH6, NH8, NH14, NH18, NH23 (mínimo obligatorio por elemento; la tabla completa vive en premisa_respuesta.md) |
+| **Capa 1 — Consulta en la premisa** | El agente consulta las reglas escritas antes/durante cada intervención | NH1, NH2, NH6, NH8, NH14, NH18, NH23, NH27 (mínimo obligatorio por elemento; la tabla completa vive en premisa_respuesta.md) |
 | **Capa 2 — Veredicto JSON** | El Crítico emite el veredicto con schema fijo {"aprobado", "items_fallados", "motivo", "vuelve_a", "comandos_fallidos"} | Todas las NH aplicables a lo verificado |
 | **Capa 3 — Programática** | Umbral cero: `git diff --name-only`, grep de residuos = 0, exit 0; con fallo, no sale del sandbox | NH12 (entrega completa), NH18, criterios de aceptación de la E |
 

@@ -1,5 +1,28 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.6 (2026-11-06)
+
+### Motivacion
+Ciclo v1.6 del meta-proyecto EP: conciliacion C1-C5 (S75-S77), D1-D4+P1 (S78), A1/D5/P2 (S81), plantilla del baremo aprobada punto por punto (S83), re-conciliacion del veredicto del Director sobre la spec (S84: D6/D7/X1-X5) y orden P3 de notacion (S85). El Director retira la doble implementacion — UN Actuador + el agente como Critico, con la metodologia Agentic CI/CD Loop v2 como referencia —, exige el Gauntlet en dos niveles (por elemento y de terminacion, NH27) con iteracion autonoma (max. 5 intentos, bucle D7: fallas vs lo conciliado -> prompt corregido -> Actuador -> Critico re-valora y re-prueba), manda el baremo estrategico a la ESTRATEGIA con plantilla propia (D5/P2), la regla de evidencia del panel en sus sedes, la remision de arranque a dcepi §1.1 (X3) y la notacion de los sub-elementos de la I en lista numerica continua I.3.a-I.3.e (P3, barrido de 13 ficheros).
+
+### Novedades
+1. **contrato.md:** NH27 (fila nueva al final del catalogo: Gauntlet en dos niveles; baremo tactico probado con datos reales antes de empaquetar) + NH27 en la capa 1 de consulta; NH5/NH24 en notacion nueva.
+2. **dcepi.md:** §1.1 "Modo de ejecucion" nuevo (7 pasos del Actuador+Critico, descrito UNA sola vez, D6); los 5 elementos nombran su Gauntlet (una frase al final de su "Como se valora", X1); Gauntlet de terminacion al final de I.2 (prueba con datos reales ANTES del empaquetado I.3.a, bloqueo hasta verde, iteracion autonoma con bucle D7, Windows I.3.b con A1, prioridad Linux/contexto_zai); §8 corregido (D5/P2: el baremo estrategico vive y viaja en la ESTRATEGIA, plantillas/plantilla_baremo_estrategico.md; pasos de derivacion del tactico; cero menciones al DTI como sede) y §4 alineado; §5 R29 punto 8 (regla de evidencia del panel v1.6); notacion I.3.a-I.3.e en la sede canonica.
+3. **premisa_respuesta.md:** §2.4 con la regla de evidencia de cada checkmark (espejo, misma redaccion, sincronia NH20 capa 1); fila del elemento I en notacion nueva.
+4. **prompt_arranque.md:** PASO NUEVO de lectura de dcepi §1.1 (remision, sin copia, X3); 3 lineas en notacion nueva; sellos v1.6.
+5. **plantillas/plantilla_baremo_estrategico.md (NUEVO, P2):** los 5 puntos aprobados en S83 — cabecera de identidad; parte fija NO rellenable con los 4 principios (incluida la excepcion exactada de la regla REAL); tabla de derivacion de 5 columnas; las 5 reglas (X4); cierre con veredicto e iteracion A1.
+6. **Notacion P3 (lista numerica continua I.3.a-I.3.e):** barrido por TODA la cadena operativa (dcepi, contrato, premisa, prompt_arranque, comunicacion, entorno, proyecto, herramientas, plantilla_script_entrega_proyecto.ps1, plantilla_documento_consolidado.md, retorno/README.md, MANIFIESTO regenerado) + las 2 menciones cosmeticas de update_estrategia.ps1 CON EL OK DEL DIRECTOR (comentario linea 41 y mensaje linea 850; cero logica tocada, v4.1.0 sin cambios). Los registros historicos del worklog NO se reescriben.
+7. **worklog_EP.md + plantillas/worklog_template.md (P1):** sellos de cabecera "(v1.6)" y "(P1, NH20 capa 1)"; punto 5 de la Regla Conductual Minima con la regla de evidencia v1.6 (misma redaccion en ambos, sincronia NH20 capa 1).
+8. **meta/historial_versiones.md** (esta entrada); **meta/tareas_inmediatas.md** actualizado; **MANIFIESTO_ENTREGA.txt** regenerado (VERSION: 1.6).
+
+### Baremo tactico del ciclo
+13 criterios de meta/spec_estrategia_v1.6.md §3, probados en el sandbox Linux con datos reales (grep/diff/cmp sobre los ficheros reales) ANTES de empaquetar; veredicto verde, evidencia en worklog S86.
+
+### Archivos modificados
+- agent-context/dcepi.md, agent-context/contrato.md, premisa_respuesta.md, prompt_arranque.md, plantillas/plantilla_baremo_estrategico.md (NUEVO), agent-context/comunicacion.md, agent-context/entorno.md, agent-context/proyecto.md, agent-context/herramientas.md, plantillas/plantilla_script_entrega_proyecto.ps1 (solo notacion), plantillas/plantilla_documento_consolidado.md (solo notacion), retorno/README.md (solo notacion), update_estrategia.ps1 (solo 2 lineas cosmeticas con OK del Director)
+- worklog_EP.md (cabecera P1 + entrada S86), plantillas/worklog_template.md (cabecera P1), worklog_EP.backup.md (espejo byte-identico), meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md, MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.6)
+- meta/spec_estrategia_v1.6.md SIN CAMBIOS en esta fase (la I la ejecuta tal cual; ya viaja con la entrega desde su version S85)
+
 ## v1.5.4 (2026-11-05)
 
 ### Motivacion

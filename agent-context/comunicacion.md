@@ -37,7 +37,7 @@ Cuando el agente entrega una actualizacion de estrategia como `.zip` (regimen me
 3. El script pregunta con valores predeterminados (Enter acepta): carpeta del zip (Descargas; toma el mas reciente), carpeta local del repo (borra y reemplaza) y los dos repos GitHub a publicar
 4. El script verifica la integridad SHA256 contra el manifiesto (umbral cero), publica el repo **completo** y el **operativo** (paquete de siete elementos) y genera el informe DIFF en Descargas. Toda la complejidad vive dentro del script
 
-Para proyectos de aplicacion (regimen general): solo archivos modificados salvo tests E2E, mas su script de entrega (v1.5, NH24) generado desde plantillas/plantilla_script_entrega_proyecto.ps1. Ver dcepi.md I.3a.
+Para proyectos de aplicacion (regimen general): solo archivos modificados salvo tests E2E, mas su script de entrega (v1.5, NH24) generado desde plantillas/plantilla_script_entrega_proyecto.ps1. Ver dcepi.md I.3.a.
 
 ## Recuperación de contexto
 

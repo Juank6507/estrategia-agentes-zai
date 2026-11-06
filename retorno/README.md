@@ -20,7 +20,7 @@ Reglas:
 2. Lo **general** viaja en el documento consolidado; lo **particular y específico** permanece
    en el worklog del proyecto.
 3. No existe otra vía de retorno (NH26): sin push directo, sin vías laterales, sin fichas sueltas.
-4. Norma completa: `agent-context/dcepi.md` (I.3c/I.3d) y `agent-context/proyecto.md` (§6).
+4. Norma completa: `agent-context/dcepi.md` (I.3.c/I.3.d) y `agent-context/proyecto.md` (§6).
 
 *Carpeta abierta por orden del Director (2026-11-02) junto a `plantillas/` en la raíz de la
 estrategia operativa. Sin copias de cosecha todavía: la primera cosecha M2 ocurrirá con la

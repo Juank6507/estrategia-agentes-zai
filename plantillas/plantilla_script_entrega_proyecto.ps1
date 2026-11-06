@@ -6,12 +6,12 @@
 # hermano del update_estrategia.ps1 del meta-proyecto (v4.x). Cubre de forma automatica, sin
 # intervencion del Director donde sea posible y con calidad y garantia de implementacion
 # completa, los 4 aspectos del cruce:
-#   (a) CONTENIDO de la entrega segun su regimen I.3a (proyectos: solo modificados + tests +
+#   (a) CONTENIDO de la entrega segun su regimen I.3.a (proyectos: solo modificados + tests +
 #       tests E2E completos), verificado contra MANIFIESTO_ENTREGA.txt (SHA256, umbral cero).
-#   (b) FUNCIONAMIENTO EN WINDOWS (I.3b): ejecuta las sentencias de prueba y los tests E2E
+#   (b) FUNCIONAMIENTO EN WINDOWS (I.3.b): ejecuta las sentencias de prueba y los tests E2E
 #       que viajan con la entrega, con datos reales del proyecto (R4/NH25).
-#   (c) CONDICIONES PREVIAS (I.3c): comprueba las precondiciones que la entrega consume.
-#   (d) CIERRE POR CONSTRUCCION (I.3e): veredicto JSON umbral cero asentado en el registro
+#   (c) CONDICIONES PREVIAS (I.3.c): comprueba las precondiciones que la entrega consume.
+#   (d) CIERRE POR CONSTRUCCION (I.3.e): veredicto JSON umbral cero asentado en el registro
 #       de intentos; condiciona el re-clonado final. Recordatorio de retorno consolidado (R1).
 #
 # LOS 12 PASOS DEL DIRECTOR (v1.1, ampliacion ordenada en la v1.5.4; informe CZAI conciliado):
@@ -40,7 +40,7 @@
 # marcadores <<...>> de CONFIGURACION, los codigos C1-C7, el veredicto JSON y el registro de
 # intentos. Contrato de instancia R6 sin cambios: sustituir marcadores <<...>> y nada mas.
 #
-# REGLA DE GENERACION R6 (dcepi.md I.3a): el agente de proyecto instancia ESTA plantilla
+# REGLA DE GENERACION R6 (dcepi.md I.3.a): el agente de proyecto instancia ESTA plantilla
 # sustituyendo TODOS los marcadores <<...>> por datos reales del proyecto (prohibido el
 # hardcoding: los valores viven solo en la seccion CONFIGURACION). El script instanciado es
 # parte de la implementacion, pasa el gauntlet de I.2 como cualquier archivo y debe superar
@@ -74,7 +74,7 @@ $RutaLocalProyecto = "<<RUTA_LOCAL_PROYECTO>>"       # raiz local del repo del p
 $RepoGitHub        = "<<REPO_GITHUB_PROYECTO>>"      # URL del repo del proyecto (fichero de entornos)
 $RamaPrincipal     = "<<RAMA_PRINCIPAL>>"            # p. ej. main
 
-# (a) Contenido requerido de la entrega (regimen I.3a: solo modificados + tests + E2E completos)
+# (a) Contenido requerido de la entrega (regimen I.3.a: solo modificados + tests + E2E completos)
 $ArchivosRequeridos = @(
     # <<ARCHIVOS_ENTREGA: una ruta relativa por linea, tal como viajan en el .zip>>
 )
@@ -87,7 +87,7 @@ $TestsE2E = @(
     # <<TESTS_E2E: un comando por linea que ejecuta los tests E2E completos del proyecto>>
 )
 
-# (c) Condiciones previas (I.3c): cada comando debe terminar en exit 0 para cumplir
+# (c) Condiciones previas (I.3.c): cada comando debe terminar en exit 0 para cumplir
 $CondicionesPrevias = @(
     # <<CONDICIONES_PREVIAS: un comando de comprobacion por linea>>
 )
@@ -125,7 +125,7 @@ function Write-Check ($Num, $Texto, $Ok) {
 }
 
 function Get-VeredictoPath {
-    # Registro de intentos y veredicto asentado (I.3e): vive en la raiz local del proyecto
+    # Registro de intentos y veredicto asentado (I.3.e): vive en la raiz local del proyecto
     return (Join-Path $RutaLocalProyecto "entregas\registro_intentos.log")
 }
 
@@ -141,7 +141,7 @@ function Add-Registro ($Linea) {
 # ============================================================
 
 function Test-Contenido {
-    Write-Host "  (a) Contenido de la entrega (I.3a)..." -ForegroundColor White
+    Write-Host "  (a) Contenido de la entrega (I.3.a)..." -ForegroundColor White
     $fallos = @()
 
     if ($EntregaDir -eq "" -or -not (Test-Path $EntregaDir)) {
@@ -178,7 +178,7 @@ function Test-Contenido {
         $fallos += "C6: el documento consolidado de retorno no esta en $RutaRetornoConsolidado (R1/NH26)"
     }
 
-    Write-Check "C1" "archivos requeridos presentes segun regimen I.3a" (($fallos | Where-Object { $_ -like "C1*" }).Count -eq 0)
+    Write-Check "C1" "archivos requeridos presentes segun regimen I.3.a" (($fallos | Where-Object { $_ -like "C1*" }).Count -eq 0)
     Write-Check "C2" "manifiesto integro, SHA256 umbral cero y VERSION coherente" (($fallos | Where-Object { $_ -like "C2*" }).Count -eq 0)
     Write-Check "C6" "documento consolidado de retorno en el lugar determinado" (($fallos | Where-Object { $_ -like "C6*" }).Count -eq 0)
     return $fallos
@@ -189,7 +189,7 @@ function Test-Contenido {
 # ============================================================
 
 function Test-Precondiciones {
-    Write-Host "  (c) Condiciones previas (I.3c)..." -ForegroundColor White
+    Write-Host "  (c) Condiciones previas (I.3.c)..." -ForegroundColor White
     $fallos = @()
     $i = 0
     foreach ($cmd in $CondicionesPrevias) {
@@ -210,7 +210,7 @@ function Test-Precondiciones {
 # ============================================================
 
 function Test-Funcionamiento {
-    Write-Host "  (b) Funcionamiento en Windows (I.3b)..." -ForegroundColor White
+    Write-Host "  (b) Funcionamiento en Windows (I.3.b)..." -ForegroundColor White
     $fallos = @()
 
     if ($SkipTests) {
@@ -269,7 +269,7 @@ function Emit-Veredicto ($TodosLosFallos) {
         no_automatizable  = $NoAutomatizable
     }
     if (-not $aprobado) {
-        $veredicto.motivo = "Entrega NO aplicada: la entrega vuelve al DCEPI (I.3b). Escalar al Director con el problema exacto: item, evidencia y diagnostico."
+        $veredicto.motivo = "Entrega NO aplicada: la entrega vuelve al DCEPI (I.3.b). Escalar al Director con el problema exacto: item, evidencia y diagnostico."
         $veredicto.vuelve_a = "DCEPI"
     }
 
@@ -390,7 +390,7 @@ function Emit-TxtInforme ($Fallos) {
         "Fecha: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')",
         ".zip evaluado: $EntregaDir",
         "",
-        "La validacion no paso al 100%: la entrega NO se aplica y vuelve al DCEPI (I.3b, umbral cero).",
+        "La validacion no paso al 100%: la entrega NO se aplica y vuelve al DCEPI (I.3.b, umbral cero).",
         "Items fallados:",
         ($Fallos | ForEach-Object { "  - $_" }),
         "",
@@ -508,7 +508,7 @@ try {
     $fallos += Test-Contenido
     $fallos += Test-Precondiciones
     $fallos += Test-Funcionamiento
-    Write-Check "C7" "cierre por construccion: veredicto asentado y publicacion condicionada (I.3e)" $true
+    Write-Check "C7" "cierre por construccion: veredicto asentado y publicacion condicionada (I.3.e)" $true
 
     # Fase 4: Veredicto (paso 9; si no pasa al 100%, .txt con el problema y exit 1)
     $aprobado = Emit-Veredicto $fallos

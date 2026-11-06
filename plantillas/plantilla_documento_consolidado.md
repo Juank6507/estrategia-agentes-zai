@@ -1,6 +1,6 @@
 <!-- Ubicacion: estrategia/plantillas/plantilla_documento_consolidado.md (plantilla, v1.5)
      Destino instanciado en cada proyecto (NH15): <RAIZ_DEL_REPO_DEL_PROYECTO>/retorno/documento_consolidado.md
-     Regla: NH26 y dcepi.md I.3d (M1); proyecto.md §6. Lo general viaja aqui; lo particular
+     Regla: NH26 y dcepi.md I.3.d (M1); proyecto.md §6. Lo general viaja aqui; lo particular
      y especifico permanece en el worklog del proyecto. Este archivo NUNCA se edita in situ:
      el agente copia la plantilla a su destino y la instancia con datos reales. -->
 
@@ -47,5 +47,5 @@ en la estrategia. Si no hay pendientes, indicarlo expresamente: "Sin pendientes"
 Reglas del documento (NH26): (1) solo entra aquí información aprobada expresamente por el
 Director en el elemento C del proyecto; (2) lo general (aplicable a la estrategia) viaja en
 este documento; lo particular y específico queda en el worklog del proyecto; (3) el agente EP
-lo cosecha en M2 (dcepi.md I.3c) citando proyecto y documento de origen; (4) la vía de retorno
+lo cosecha en M2 (dcepi.md I.3.c) citando proyecto y documento de origen; (4) la vía de retorno
 es única: repositorios. No existe push directo ni vía lateral.

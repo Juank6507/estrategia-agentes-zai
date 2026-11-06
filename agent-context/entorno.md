@@ -22,7 +22,7 @@ Un único contenido local en la PC del Director se publica en **dos repos públi
 - **Completo** (`estrategia-agentes-zai`): todo el contenido; lo clona el agente del meta-proyecto EP.
 - **Operativo** (`estrategia-agentes-zai-operativo`): paquete de siete elementos (`agent-context/`, `agent-learn/`, `plantillas/`, `retorno/`, `worklog_protocolo.md`, `prompt_arranque.md`, `premisa_respuesta.md`); lo clonan los agentes de proyecto.
 - Sin credenciales de por medio: lo que un agente no debe ver no existe en su repo.
-- El clon local se refresca al inicio de cada sesión (clone o pull) y al cierre del ciclo se re-clona fresco desde GitHub (dcepi.md I.3e).
+- El clon local se refresca al inicio de cada sesión (clone o pull) y al cierre del ciclo se re-clona fresco desde GitHub (dcepi.md I.3.e).
 
 ## 3. Guardrails del agente (descripción)
 
@@ -45,7 +45,7 @@ El agente trabaja con el protocolo **DCEPI**: Diagnóstico → Conciliación →
 - **P (Plan):** fases ordenadas que responden a la spec; el Director prioriza el orden.
 - **I (Implementación):** intervenciones quirúrgicas con Gauntlet de verificación, veredicto JSON y entregas con verificación a umbral cero.
 
-En la I, los aprendizajes se proponen al cerrar la conciliación de la E (antes del plan) y se implementan junto a todo lo demás (dcepi.md I.3d, regla v1.4).
+En la I, los aprendizajes se proponen al cerrar la conciliación de la E (antes del plan) y se implementan junto a todo lo demás (dcepi.md I.3.d, regla v1.4).
 
 ## 5. Herramientas con que cuenta el agente
 
@@ -56,7 +56,7 @@ Inventario completo y modo de uso en `agent-context/herramientas.md` (sede canó
 - **contexto_zai:** proceso de recuperación de contexto del entorno Z.ai (documentación, pipeline, utilidades y manuales en `contexto_zai/Documentos/`). Es **infraestructura del entorno, no del proyecto**: se consulta, no se modifica como activo propio y no recibe archivos de la estrategia. Es competencia del agente CZAI; si el proceso falla, se documenta el fallo y se escala al Director (dcepi.md I.2).
 - **Capacidades de IA del backend** (si el proyecto las requiere): LLM, VLM, generación/edición de imágenes, TTS/ASR, búsqueda web, lectura de páginas, video.
 - **Desarrollo web** (si el proyecto lo requiere): Next.js 16 + TypeScript, Prisma (SQLite), shadcn/ui + Tailwind 4, dev server en puerto 3000, gateway XTransformPort, mini-servicios.
-- **Git y GitHub:** los push a GitHub los ejecuta el Director (I.3c) o su script; el agente no hace push del proyecto (NH5).
+- **Git y GitHub:** los push a GitHub los ejecuta el Director (I.3.c) o su script; el agente no hace push del proyecto (NH5).
 
 ## 6. Flujo de actualización de la estrategia (Director en Windows)
 
@@ -72,7 +72,7 @@ Inventario completo y modo de uso en `agent-context/herramientas.md` (sede canó
 ## 7. Reglas de entrega
 
 - Todo lo entregable va en `/home/z/my-project/download/` (nunca en `upload/`; NH6).
-- **Dos regímenes (dcepi.md I.3a):** meta-proyecto = SIEMPRE completo (todos los archivos); proyectos de aplicación = solo modificados, salvo tests E2E. **Toda implementación (v1.5) viaja además con su script de entrega** generado desde `plantillas/plantilla_script_entrega_proyecto.ps1` (NH24): contenido, Windows, condiciones previas y cierre con veredicto umbral cero.
+- **Dos regímenes (dcepi.md I.3.a):** meta-proyecto = SIEMPRE completo (todos los archivos); proyectos de aplicación = solo modificados, salvo tests E2E. **Toda implementación (v1.5) viaja además con su script de entrega** generado desde `plantillas/plantilla_script_entrega_proyecto.ps1` (NH24): contenido, Windows, condiciones previas y cierre con veredicto umbral cero.
 - Cada script entregado lleva en su primera línea un comentario con ubicación y nombre de destino (NH15).
 - La entrega incluye la tabla que mapea cada archivo a su destino y la sentencia de PowerShell de actualización.
 
@@ -80,7 +80,7 @@ Inventario completo y modo de uso en `agent-context/herramientas.md` (sede canó
 
 - El agente trabaja en Linux; el Director en Windows.
 - Lo sensible a plataforma (rutas, encoding, comandos) se advierte al entregar (NH17).
-- Si algo no puede probarse en el sandbox, se indica para que el Director lo valide en su entorno (baremo I.3b).
+- Si algo no puede probarse en el sandbox, se indica para que el Director lo valide en su entorno (baremo I.3.b).
 
 ## 9. Naturaleza del código del proyecto
 

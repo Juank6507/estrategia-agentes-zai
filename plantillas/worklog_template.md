@@ -1,7 +1,7 @@
 # WORKLOG
 
 <!-- ╔══════════════════════════════════════════════════════════════╗ -->
-<!-- ║  PLANTILLA DE WORKLOG (v1.5)                                 ║ -->
+<!-- ║  PLANTILLA DE WORKLOG (v1.6)                                 ║ -->
 <!-- ║  Ubicacion: estrategia/plantillas/worklog_template.md        ║ -->
 <!-- ║  (en la raiz de la estrategia hasta la v1.4.2; desde la      ║ -->
 <!-- ║  v1.5 vive en plantillas/, por orden del Director).          ║ -->
@@ -17,7 +17,7 @@
 2. **Premisa de respuesta:** la regla única de conducta vive en `premisa_respuesta.md`, en la RAÍZ de la estrategia (`premisa_respuesta.md`). Ante cualquier duda de cómo responder, léela.
 3. **Recuperación de contexto:** si pierdes el hilo (sesión desconocida, worklog que no cuadra), ejecuta la Recuperación Espontánea de `premisa_respuesta.md` (§3) y la sección "Recuperación de contexto" de `agent-context/herramientas.md`. No requiere permiso.
 4. **Verificación:** tras cada escritura en disco, read-back (número de líneas + marcador + cola). Nada se da por escrito sin evidencia.
-5. **Panel de checkmarks (R29):** toda respuesta muestra, bajo la frase de control, el panel del elemento vigente: cada punto precedido de su pregunta, con `[x]` cumplido (con evidencia en disco) o `[?]` sin respuesta conocida (se pregunta al Director, nunca se suple). Sólo se reabre lo que no tiene respuesta conocida. Los subsubelementos se colocan como checkmark a criterio del agente. Al cierre de cada elemento, la checklist íntegra con evidencias se registra en el worklog. Cada checkmark se redacta en lenguaje natural comprensible para el Director, sin jerga técnica (R29, punto 7); el detalle técnico queda en el worklog como evidencia.
+5. **Panel de checkmarks (R29):** toda respuesta muestra, bajo la frase de control, el panel del elemento vigente: cada punto precedido de su pregunta, con `[x]` cumplido (con evidencia en disco) o `[?]` sin respuesta conocida (se pregunta al Director, nunca se suple). Sólo se reabre lo que no tiene respuesta conocida. Los subsubelementos se colocan como checkmark a criterio del agente. Al cierre de cada elemento, la checklist íntegra con evidencias se registra en el worklog. Cada checkmark se redacta en lenguaje natural comprensible para el Director, sin jerga técnica (R29, punto 7); el detalle técnico queda en el worklog como evidencia. **Regla de evidencia de cada checkmark (v1.6):** la evidencia de cada checkmark es la valoración del Crítico sobre la respuesta del Actuador + el veredicto del Gauntlet; lo del Director, sus mensajes. (R29, punto 8; espejo en dcepi §5 y premisa §2.4 — misma redacción, sincronía NH20 capa 1.)
 
 Al iniciar sesión, Z.ai te indicó que leyeras este archivo. Procede así:
 

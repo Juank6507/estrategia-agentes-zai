@@ -1,4 +1,4 @@
-# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.5.1
+# PROMPT DE ARRANQUE -- Estrategia Z.ai v1.6
 
 Este archivo es el **punto de entrada unico** y fallback para el arranque del agente.
 
@@ -36,6 +36,7 @@ Leer en orden:
 3. `contrato.md` -- Que siempre haces y que nunca haces (NH + clasificacion por capas + EP)
 4. `comunicacion.md` -- Como te comunicas
 5. `dcepi.md` -- Protocolo de trabajo (D -> C -> E -> P -> I)
+   - **PASO NUEVO (v1.6):** al leer dcepi.md, leer TAMBIEN su §1.1 "Modo de ejecucion" -- el modo Actuador+Critico con el que se ejecuta cada elemento. Es una REMISION a la sede canonica, no una copia: el contenido vive SOLO en dcepi.md §1.1 (dos copias divergen con el tiempo; un puntero ensena siempre la version viva)
 6. `entorno.md` -- Donde trabajas, con que guardrails, metodo y herramientas
 7. `proyecto.md` -- Identidad, catalogo de proyectos y que repos clonar
 8. `herramientas.md` -- Que herramientas tienes y como usarlas
@@ -56,14 +57,14 @@ Al inicio de tu primera respuesta, tras la frase de control y su panel, emitir e
 > - Aprendizaje: lecciones, anti-patrones (+ patrones y preferencias a demanda)
 > - Proyecto: [nombre del proyecto]
 > - Agente: [agente]
-> - Version: v1.5.1
+> - Version: v1.6
 
 ### Paso 3: ACTUAR
 
 - Identificar si hay lecciones, patrones o anti-patrones relevantes para la tarea
 - Mencionarlos en la primera respuesta
 - Aplicarlos durante el trabajo
-- **ANTES DE EMPAQUETAR CUALQUIER ENTREGA DE PROYECTO: instancia el script de entrega desde la plantilla `plantillas/plantilla_script_entrega_proyecto.ps1`** -- localiza la plantilla en `plantillas/`, copiala y sustituye TODOS sus marcadores `<<...>>` por datos reales del proyecto (NH24, dcepi.md I.3a R5/R6). La plantilla v1.1 cubre por construccion los 12 pasos del Director del script de entrega (ampliada en la v1.5.4 con 8 funciones nuevas, sin quitar ni reducir nada de lo existente: interfaz param(), funciones, manifiesto, checklist, sentencia de lanzamiento, informe) y NO se reduce a ningun subconjunto: su invocacion es obligatoria durante la implementacion como parte del elemento I del DCEPI ENTERO, y de forma explicita en los subelementos de entrega, validacion de los scripts en el Windows del Director, actualizacion del repositorio del proyecto (solo tras veredicto APROBADO) y generacion del diff de comprobacion (dcepi.md, v1.5.4). El contrato de instancia no cambia: solo marcadores <<...>>. Prohibido escribir el script a mano o entregar sin el
+- **ANTES DE EMPAQUETAR CUALQUIER ENTREGA DE PROYECTO: instancia el script de entrega desde la plantilla `plantillas/plantilla_script_entrega_proyecto.ps1`** -- localiza la plantilla en `plantillas/`, copiala y sustituye TODOS sus marcadores `<<...>>` por datos reales del proyecto (NH24, dcepi.md I.3.a R5/R6). La plantilla v1.1 cubre por construccion los 12 pasos del Director del script de entrega (ampliada en la v1.5.4 con 8 funciones nuevas, sin quitar ni reducir nada de lo existente: interfaz param(), funciones, manifiesto, checklist, sentencia de lanzamiento, informe) y NO se reduce a ningun subconjunto: su invocacion es obligatoria durante la implementacion como parte del elemento I del DCEPI ENTERO, y de forma explicita en los subelementos de entrega, validacion de los scripts en el Windows del Director, actualizacion del repositorio del proyecto (solo tras veredicto APROBADO) y generacion del diff de comprobacion (dcepi.md, v1.5.4). El contrato de instancia no cambia: solo marcadores <<...>>. Prohibido escribir el script a mano o entregar sin el
 
 ---
 
@@ -72,7 +73,7 @@ Al inicio de tu primera respuesta, tras la frase de control y su panel, emitir e
 1. **Premisa de respuesta:** frase de control + panel en cada respuesta; recuperacion espontanea si falla.
 2. **REGLA ABSOLUTA DE ENTREGA:** /download/ exclusivo. Nunca /upload/.
 3. **DCEPI v1.5:** Diagnostico -> Conciliacion -> Especificacion -> Plan -> Implementacion (ver dcepi.md).
-4. **Entregas:** meta-proyecto = SIEMPRE completa; proyectos = solo modificados salvo tests E2E (dcepi.md I.3a).
+4. **Entregas:** meta-proyecto = SIEMPRE completa; proyectos = solo modificados salvo tests E2E (dcepi.md I.3.a).
 5. **Dos repos publicos:** el meta-proyecto EP clona el repo **completo** (`estrategia-agentes-zai`); los agentes de proyecto clonan el **operativo** (`estrategia-agentes-zai-operativo`), paquete de siete elementos con la premisa como #1 (ver proyecto.md y entorno.md).
 6. **Aprendizajes:** se proponen tras conciliar la E y antes del plan; se implementan junto a todo lo demas y viajan dentro de la entrega (sin push directo).
 7. **Compatibilidad cruzada:** advertir si algo solo funciona en Linux.
@@ -89,6 +90,6 @@ Cuando entregues cambios de estrategia (meta-proyecto: entrega SIEMPRE completa)
 3. Incluir en la entrega **la sentencia de PowerShell** que extrae el script del `.zip` y lo ejecuta (un solo paso para el Director):
    - El script pregunta con valores predeterminados: carpeta del zip (Descargas, toma el mas reciente), carpeta local (borra y reemplaza) y los dos repos GitHub a publicar
    - Verifica integridad contra el manifiesto (umbral cero), publica el repo completo y el operativo, y genera el informe DIFF en Descargas
-4. Las sentencias git/GitHub manuales quedan como alternativa de emergencia en dcepi.md I.3c (las ejecutaria el Director)
+4. Las sentencias git/GitHub manuales quedan como alternativa de emergencia en dcepi.md I.3.c (las ejecutaria el Director)
 
 Para proyectos de aplicacion: solo archivos modificados en el .zip (salvo tests E2E), con sus tests y sentencias.

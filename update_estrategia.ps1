@@ -38,7 +38,7 @@
 # ASCII-only: sin em-dash, sin smart quotes, sin caracteres Unicode especiales
 #
 # AMBITO: este script es EXCLUSIVO del meta-proyecto de estrategia (estrategia-agentes-zai).
-#         Los proyectos de aplicacion se entregan segun dcepi.md I.3a (solo archivos modificados,
+#         Los proyectos de aplicacion se entregan segun dcepi.md I.3.a (solo archivos modificados,
 #         salvo tests E2E) y NO usan este script.
 #
 # FLUJO DEL DIRECTOR (UN solo paso, orden del Director V6):
@@ -847,6 +847,6 @@ if (-not $NoPush) {
     Write-Host "  GitHub    : repo COMPLETO actualizado + paquete OPERATIVO publicado" -ForegroundColor Green
 }
 Write-Host ""
-Write-Host "  Siguiente paso del agente: re-clonado final (I.3e) al confirmarle el push." -ForegroundColor Cyan
+Write-Host "  Siguiente paso del agente: re-clonado final (I.3.e) al confirmarle el push." -ForegroundColor Cyan
 Write-Host ""
 exit 0
