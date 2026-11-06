@@ -114,3 +114,9 @@
 - **Contexto:** El flujo de actualizacion exigia al Director extraer a mano update_estrategia.ps1 del .zip antes de ejecutarlo, con tres instrucciones distintas segun el archivo que se leyera; el Director lo concilio (V6): "solo me vas a entregar la sentencia de powershell para que lo extraiga y lo ejecute; de esta forma el proceso es mas automatico y con menos errores"
 - **Leccion:** Todo paso manual del Director que se pueda automatizar sin perder control se automatiza; las entregas llevan la instruccion canonica unica (sentencia que extrae y ejecuta) y ninguna variante paralela
 - **Aplica cuando:** Diseno de entregas y protocolos de actualizacion
+
+### L017 -- La orden mas reciente del Director manda
+- **Sesion:** v1.5.4 (meta-proyecto)
+- **Contexto:** El congelamiento "LA plantilla no cambia" (v1.5.3) nacio para impedir una reduccion de la plantilla y de su invocacion; despues el Director fijo los 12 pasos del script de entrega y la plantilla quedo corta (8 brechas en el cruce de CZAI, informe conciliado). El EP no decidio por su cuenta: presento el choque (A ampliar / B instancia con deuda / C generador) y el Director concilio la A
+- **Leccion:** Ante un choque entre una norma vigente y una orden nueva del Director, el EP no decide: presenta el choque con opciones y costes, concilia con el Director, y asenta la sustitucion en el metodo; lo protegido por la norma anterior (no reducir) se conserva en la redaccion nueva
+- **Aplica cuando:** Normas que limitan cambios futuros y ordenes nuevas del Director sobre lo mismo

@@ -1,5 +1,20 @@
 # Historial de Versiones -- Estrategia Z.ai
 
+## v1.5.4 (2026-11-05)
+
+### Motivacion
+Problemas de empaquetado y de script en el proyecto contexto_zai: el agente CZAI (DCEPI de correccion de contexto_zai v6.13, elemento C) cruzo los 12 pasos del script de entrega fijados por el Director contra la plantilla plantilla_script_entrega_proyecto.ps1 y detecto 8 brechas (pasos exigidos y no cubiertos). Informe del agente CZAI al EP conciliado por el Director con la opcion A: ampliar la plantilla a v1.1 con 8 funciones nuevas que cubren los 12 pasos, SIN quitar ni reducir nada de lo existente. La ampliacion es competencia del EP (la plantilla vive en la estrategia) y precede a la instanciacion que CZAI espera para su entrega v6.13.
+
+### Novedades
+1. **plantilla_script_entrega_proyecto.ps1 v1.1 (sede: plantillas/):** 8 funciones nuevas que cubren los 12 pasos del Director -- Find-ZipInFolder (paso 2: zip de mayor version, empate por fecha), Find-RepoLocal (paso 3), Confirm-Values (pasos 4-5: predeterminados + pregunta, Enter acepta), Remove-RepoLocal (pasos 6 y 10: limpia conservando .git), Expand-Zip (pasos 7 y 10), Emit-TxtInforme (paso 9: .txt legible con el problema si la validacion no pasa al 100%), Re-CleanAndExpand (paso 10) e Invoke-GitCommit/Invoke-GitPush/Invoke-DiffCheck (pasos 11-12: commit + push a GitHub y diff de triple igualdad .zip <-> repo local <-> GitHub con informe SIEMPRE en Descargas). Las 8 funciones existentes quedan IDENTICAS (verificado byte a byte); Emit-Veredicto solo se amplia con lo sancionado: el .txt del paso 9 y el mensaje del nuevo flujo automatico. Interfaz param() ($EntregaDir, -SkipTests, -NoReport), marcadores <<...>>, codigos C1-C7, veredicto JSON y registro de intentos sin cambios; contrato de instancia R6 sin cambios (sustituir marcadores y nada mas). ASCII puro verificado (0 caracteres no-ASCII); llaves y parentesis balanceados; sin pwsh en sandbox (validacion estatica declarada, R4; la ejecucion real en Windows es I.3b).
+2. **dcepi.md I.3a:** la clausula de congelamiento de la v1.5.3 ("ninguna norma altera su contenido") queda sustituida por la orden posterior del Director: la plantilla "no se reduce ni se altera sin orden expresa del Director"; nuevo parrafo con el CONTRATO DE LA PLANTILLA v1.1 (los 12 pasos integros y su conexion con los cuatro subelementos del elemento I: los pasos 11-12 ejecutan por construccion los subelementos (3) actualizacion del repositorio y (4) diff de comprobacion; el paso 9 materializa el umbral cero del subelemento (2) validacion en Windows). La norma de invocacion obligatoria como parte del elemento I ENTERO se mantiene intangible.
+3. **prompt_arranque.md Paso 3 alineado** (plantilla v1.1 + 12 pasos + contrato de instancia sin cambios); leccion L017 (la orden mas reciente del Director manda; ante choque entre norma vigente y orden nueva: no decidir, conciliar); historial (esta entrada); tareas_inmediatas; S73 en worklog y espejo.
+
+### Archivos modificados
+- plantillas/plantilla_script_entrega_proyecto.ps1 (v1.0 -> v1.1, ampliacion sin reduccion), agent-context/dcepi.md (I.3a), prompt_arranque.md (Paso 3), agent-learn/lecciones_aprendidas.md (+L017)
+- meta/historial_versiones.md (esta entrada), meta/tareas_inmediatas.md, worklog_EP.md + worklog_EP.backup.md (S73), MANIFIESTO_ENTREGA.txt (regenerado, VERSION: 1.5.4)
+- update_estrategia.ps1 SIN CAMBIOS (v4.1.0); la plantilla anterior (v1.0) queda sustituida por la v1.1 en la estrategia
+
 ## v1.5.3 (2026-11-02)
 
 ### Motivacion
